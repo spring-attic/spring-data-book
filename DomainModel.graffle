@@ -226,8 +226,8 @@
 			<integer>53</integer>
 			<key>Points</key>
 			<array>
-				<string>{166.50266, 76.579063}</string>
-				<string>{130.49734, 80.299171}</string>
+				<string>{166.50119, 74.723969}</string>
+				<string>{130.49992, 77.206749}</string>
 			</array>
 			<key>Style</key>
 			<dict>
@@ -655,7 +655,7 @@ price}</string>
 				</dict>
 				<dict>
 					<key>Bounds</key>
-					<string>{{40, 57}, {90, 56}}</string>
+					<string>{{40, 57}, {90, 42}}</string>
 					<key>Class</key>
 					<string>ShapedGraphic</string>
 					<key>FitText</key>
@@ -686,7 +686,6 @@ price}</string>
 
 \f0\fs24 \cf0 street\
 city\
-zip\
 country}</string>
 						<key>VerticalPad</key>
 						<integer>0</integer>
@@ -842,7 +841,7 @@ addresses}</string>
 	<key>MasterSheets</key>
 	<array/>
 	<key>ModificationDate</key>
-	<string>2012-05-25 14:39:06 +0000</string>
+	<string>2012-05-25 15:23:12 +0000</string>
 	<key>Modifier</key>
 	<string>Michael Hunger</string>
 	<key>NotesVisible</key>
