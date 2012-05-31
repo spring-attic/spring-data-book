@@ -13,7 +13,8 @@ allprojects {
   }
 
   repositories {
-    maven { url "http://repo.springsource.org/libs-release" }
+    maven { url "http://repo.springsource.org/libs-milestone" }
+    mavenLocal()
   }
 
 }

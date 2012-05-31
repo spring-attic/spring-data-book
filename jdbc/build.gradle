@@ -1,0 +1,10 @@
+dependencies {
+
+  // Spring 
+  compile "org.springframework:spring-jms:$springVersion"
+  compile "org.springframework:spring-oxm:$springVersion"
+
+  // Spring Data JDBC-Extensions
+  compile "org.springframework.data:spring-data-oracle:1.0.0.RC1"
+
+}
