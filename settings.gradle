@@ -1,0 +1,3 @@
+include "redis",
+        "jpa",
+        "neo4j"

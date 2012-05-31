@@ -1,0 +1,58 @@
+apply plugin: "base"
+
+allprojects {
+  apply plugin: "idea"
+  apply plugin: "maven"
+  apply plugin: "eclipse"
+
+  group = "com.oreilly.springdata"
+  description = "Spring Data Book Samples"
+
+  configurations.all {
+    exclude group: "commons-logging"
+  }
+
+  repositories {
+    maven { url "http://repo.springsource.org/libs-release" }
+  }
+
+}
+
+configure(subprojects) { subproject ->
+  apply plugin: "java"
+
+  [compileJava, compileTestJava]*.options*.compilerArgs = ["-Xlint:all"]
+
+  project.sourceCompatibility = 1.6
+  project.targetCompatibility = 1.6
+
+  archivesBaseName = "spring-data-book-${subproject.name}"
+
+  dependencies {
+
+    // Logging
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
+    runtime "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+    runtime "ch.qos.logback:logback-classic:$logbackVersion"
+
+    // Spring
+    compile "org.springframework:spring-beans:$springVersion"
+    compile "org.springframework:spring-context:$springVersion"
+    compile "org.springframework:spring-core:$springVersion"
+
+    // Testing
+    testCompile "org.springframework:spring-test:$springVersion"
+    testCompile "org.springframework:spring-context-support:$springVersion"
+    testCompile "junit:junit:4.10"
+    testCompile "org.hamcrest:hamcrest-library:1.2.1"
+
+  }
+
+  eclipse {
+    project.natures += "org.springframework.ide.eclipse.core.springnature"
+    project.buildCommand("org.springframework.ide.eclipse.core.springbuilder")
+  }
+
+}
+
+task wrapper(type: Wrapper) { gradleVersion = "1.0-rc-3" }

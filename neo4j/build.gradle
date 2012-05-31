@@ -1,0 +1,12 @@
+dependencies {
+
+  // Spring
+  compile "org.springframework:spring-aspects:$springVersion"
+  compile "org.springframework:spring-orm:$springVersion"
+  compile "org.springframework:spring-tx:$springVersion"
+
+  // Spring Data
+  compile "org.springframework.data:spring-data-commons-core:$sdCommonsVersion"
+  compile "org.springframework.data:spring-data-neo4j:2.0.1.RELEASE"
+
+}

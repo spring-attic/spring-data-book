@@ -1,0 +1,19 @@
+dependencies {
+
+  // Spring
+  compile "org.springframework:spring-orm:$springVersion"
+  compile "org.springframework:spring-oxm:$springVersion"
+  compile "org.springframework:spring-tx:$springVersion"
+
+  // JPA
+  compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final"
+
+  // Spring Data
+  compile "org.springframework.data:spring-data-commons-core:$sdCommonsVersion"
+  compile "org.springframework.data:spring-data-jpa:$sdJpaVersion"
+
+  // Testing
+  testCompile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
+  testCompile "org.hsqldb:hsqldb:2.2.8"
+
+}

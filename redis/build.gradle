@@ -1,0 +1,10 @@
+dependencies {
+
+  // Spring 
+  compile "org.springframework:spring-tx:$springVersion"
+  compile "org.springframework:spring-web:$springVersion"
+
+  // Spring Data Redis
+  compile "org.springframework.data:spring-data-redis:1.0.0.RELEASE"
+
+}
