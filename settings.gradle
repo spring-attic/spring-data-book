@@ -1,4 +1,3 @@
 include "redis",
-        "jdbc",
         "jpa",
         "neo4j"

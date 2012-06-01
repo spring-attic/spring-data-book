@@ -2,8 +2,8 @@ dependencies {
 
   compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final"
   
-  compile "org.springframework:spring-tx:$springVersion"
-  compile "org.springframework:spring-orm:$springVersion"
+  compile("org.springframework:spring-tx:$springVersion") { force = true }
+  compile("org.springframework:spring-orm:$springVersion") { force = true }
   
   runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
   runtime "log4j:log4j:$log4jVersion"

@@ -21,6 +21,7 @@ allprojects {
 }
 
 configure(subprojects) { subproject ->
+
   apply plugin: "java"
 
   [compileJava, compileTestJava]*.options*.compilerArgs = ["-Xlint:all"]
@@ -37,14 +38,13 @@ configure(subprojects) { subproject ->
     runtime "org.slf4j:jcl-over-slf4j:$slf4jVersion"
 
     // Spring
-    compile "org.springframework:spring-beans:$springVersion"
-    compile "org.springframework:spring-context:$springVersion"
-    compile "org.springframework:spring-core:$springVersion"
-
+    compile("org.springframework:spring-beans:$springVersion") { force = true }
+    compile("org.springframework:spring-context:$springVersion") { force = true }
+    compile("org.springframework:spring-core:$springVersion") { force = true }
     compile "org.springframework.data:spring-data-commons-core:$sdCommonsVersion"
 
     // Testing
-    testCompile "org.springframework:spring-test:$springVersion"
+    testCompile("org.springframework:spring-test:$springVersion") { force = true }
     testCompile "junit:junit:4.10"
     testCompile "org.hamcrest:hamcrest-library:1.2.1"
   }
