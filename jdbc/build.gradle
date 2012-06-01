@@ -1,3 +1,9 @@
+repositories {
+  mavenCentral()
+  mavenLocal()
+  maven { url "http://repo.springsource.org/libs-milestone" }
+}
+
 dependencies {
 
   // Spring 
