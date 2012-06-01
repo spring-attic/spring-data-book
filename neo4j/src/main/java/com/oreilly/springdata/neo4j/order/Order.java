@@ -18,6 +18,8 @@ package com.oreilly.springdata.neo4j.order;
 import com.oreilly.springdata.neo4j.core.AbstractEntity;
 import com.oreilly.springdata.neo4j.core.Address;
 import com.oreilly.springdata.neo4j.core.Customer;
+import com.oreilly.springdata.neo4j.core.Product;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 import org.springframework.data.neo4j.annotation.RelatedToVia;
@@ -38,6 +40,7 @@ public class Order extends AbstractEntity {
 	private Address shippingAddress;
 
 	@RelatedToVia(type = "ITEMS")
+    @Fetch
 	private Set<LineItem> lineItems = new HashSet<LineItem>();
 
 	public Order(Customer customer) {
@@ -51,15 +54,17 @@ public class Order extends AbstractEntity {
 	public void add(LineItem lineItem) {
 		this.lineItems.add(lineItem);
 	}
-
-    public void setBillingAddress(Address billingAddress) {
+    // TODO JIRA setter was used when hydrating object from storage, don't use BeanWrapper
+    public Order withBillingAddress(Address billingAddress) {
         Assert.state(customer.hasAddress(billingAddress),"valid customer address for "+customer);
         this.billingAddress = billingAddress;
+        return this;
     }
 
-    public void setShippingAddress(Address shippingAddress) {
+    public Order withShippingAddress(Address shippingAddress) {
         Assert.state(customer.hasAddress(shippingAddress),"valid customer address for "+customer);
         this.shippingAddress = shippingAddress;
+        return this;
     }
 
     public Customer getCustomer() {
@@ -77,4 +82,8 @@ public class Order extends AbstractEntity {
 	public Set<LineItem> getLineItems() {
 		return Collections.unmodifiableSet(lineItems);
 	}
+
+    public void add(Product product, int amount) {
+        add(new LineItem(this,product,amount));
+    }
 }

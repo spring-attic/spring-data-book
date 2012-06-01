@@ -19,9 +19,12 @@ import com.oreilly.springdata.neo4j.AbstractIntegrationTest;
 import com.oreilly.springdata.neo4j.core.*;
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.neo4j.helpers.collection.IteratorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import static com.oreilly.springdata.neo4j.core.CoreMatchers.named;
 import static com.oreilly.springdata.neo4j.core.CoreMatchers.with;
@@ -44,7 +47,7 @@ public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
 	public void createOrder() {
 
 		Customer dave = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com").getEmail());
-		Product iPad = productRepository.findOne(1L);
+		Product iPad = productRepository.findByPropertyValue("name", "iPad");
 
 		Order order = new Order(dave);
 		order.add(new LineItem(order,iPad));
@@ -56,11 +59,23 @@ public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
 	@Test
 	public void readOrder() {
 
-		Customer dave = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com").getEmail());
-		List<Order> orders = repository.findByCustomer(dave);
-		Matcher<Iterable<? super Order>> hasOrderForiPad = containsOrder(with(LineItem(with(Product(named("iPad"))))));
+        final EmailAddress email = new EmailAddress("dave@dmband.com");
+        Customer dave = customerRepository.findByEmailAddress(email.getEmail());
+		// TODO JIRA List<Order> orders = repository.findByCustomer(dave);
+        List<Order> orders = repository.findByCustomerEmailAddress(email.getEmail());
 
 		assertThat(orders, hasSize(1));
-		assertThat(orders, hasOrderForiPad);
+
+        final Set<LineItem> lineItems = orders.get(0).getLineItems();
+        assertThat(lineItems, hasSize(2));
+        final Iterator<LineItem> it = lineItems.iterator();
+
+        final LineItem firstItem = it.next();
+        assertThat(firstItem.getProduct(),is(iPad));
+        assertThat(firstItem.getAmount(), is(2));
+
+        final LineItem secondItem = it.next();
+        assertThat(secondItem.getProduct(),is(mbp));
+        assertThat(secondItem.getAmount(), is(1));
 	}
 }

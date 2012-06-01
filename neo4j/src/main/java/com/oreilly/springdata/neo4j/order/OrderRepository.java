@@ -16,11 +16,13 @@
 package com.oreilly.springdata.neo4j.order;
 
 import com.oreilly.springdata.neo4j.core.Customer;
+import org.springframework.data.neo4j.repository.GraphRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface OrderRepository extends PagingAndSortingRepository<Order, Long> {
+public interface OrderRepository extends GraphRepository<Order> {
 
 	List<Order> findByCustomer(Customer customer);
+	List<Order> findByCustomerEmailAddress(String emailAddress);
 }

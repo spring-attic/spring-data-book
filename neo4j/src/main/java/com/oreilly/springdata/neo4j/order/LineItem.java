@@ -18,15 +18,17 @@ package com.oreilly.springdata.neo4j.order;
 import com.oreilly.springdata.neo4j.core.AbstractEntity;
 import com.oreilly.springdata.neo4j.core.Product;
 import org.springframework.data.neo4j.annotation.EndNode;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.RelationshipEntity;
 import org.springframework.data.neo4j.annotation.StartNode;
 import org.springframework.util.Assert;
 
-@RelationshipEntity
+@RelationshipEntity(type = "ITEMS")
 public class LineItem extends AbstractEntity {
 
 	@StartNode
 	private Order order;
+    @Fetch
     @EndNode
 	private Product product;
 

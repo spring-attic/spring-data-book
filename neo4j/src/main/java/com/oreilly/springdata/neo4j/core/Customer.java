@@ -35,13 +35,15 @@ public class Customer extends AbstractEntity {
 	@RelatedTo(type = "ADDRESS")
 	private Set<Address> addresses = new HashSet<Address>();
 
-	public Customer(String firstName, String lastName) {
+	public Customer(String firstName, String lastName, String emailAddress) {
 
-		Assert.hasText(firstName);
+        Assert.hasText(firstName);
 		Assert.hasText(lastName);
+		Assert.hasText(emailAddress);
 
 		this.firstName = firstName;
 		this.lastName = lastName;
+        this.emailAddress = emailAddress;
 	}
 
 	protected Customer() {
@@ -78,5 +80,10 @@ public class Customer extends AbstractEntity {
 
     public boolean hasAddress(Address address) {
         return addresses.contains(address);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s <%s>",firstName,lastName,emailAddress);
     }
 }

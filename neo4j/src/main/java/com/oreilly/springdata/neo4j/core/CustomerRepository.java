@@ -23,8 +23,5 @@ public interface CustomerRepository extends GraphRepository<Customer> {
 
 	Customer save(Customer customer);
 
-	/**
-	 * @return
-	 */
 	Customer findByEmailAddress(String emailAddress);
 }

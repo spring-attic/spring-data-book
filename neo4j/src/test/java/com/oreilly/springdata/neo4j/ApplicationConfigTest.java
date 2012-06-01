@@ -15,8 +15,10 @@
  */
 package com.oreilly.springdata.neo4j;
 
+import org.junit.After;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -26,17 +28,24 @@ import static org.junit.Assert.assertThat;
 
 public class ApplicationConfigTest {
 
-	@Test
+    private ConfigurableApplicationContext context;
+
+    @After
+    public void tearDown() throws Exception {
+        if (context!=null) context.close();
+    }
+
+    @Test
 	public void bootstrapAppFromJavaConfig() {
 
-		ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+        context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 		assertThat(context, is(notNullValue()));
 	}
 
 	@Test
-	public void bootsrapAppFromXml() {
+	public void bootstrapAppFromXml() {
 
-		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/application-context.xml");
+        context = new ClassPathXmlApplicationContext("META-INF/spring/application-context.xml");
 		assertThat(context, is(notNullValue()));
 	}
 }

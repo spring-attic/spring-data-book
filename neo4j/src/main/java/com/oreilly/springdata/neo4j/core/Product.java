@@ -15,6 +15,7 @@
  */
 package com.oreilly.springdata.neo4j.core;
 
+import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
@@ -29,8 +30,9 @@ import java.util.Set;
 
 @NodeEntity
 public class Product extends AbstractEntity {
-
-	private String name, description;
+    @Indexed(unique = true)
+	private String name;
+	private String description;
 	private BigDecimal price;
 
     @RelatedTo
@@ -74,4 +76,9 @@ public class Product extends AbstractEntity {
 	public BigDecimal getPrice() {
 		return price;
 	}
+
+    public Product withPrice(BigDecimal price) {
+        this.price = price;
+        return this;
+    }
 }

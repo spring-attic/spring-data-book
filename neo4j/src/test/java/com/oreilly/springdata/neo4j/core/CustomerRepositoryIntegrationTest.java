@@ -33,8 +33,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 		EmailAddress email = new EmailAddress("alicia@keys.com");
 
-		Customer alicia = new Customer("Alicia", "Keys");
-		alicia.setEmailAddress(email.getEmail()); // todo
+		Customer alicia = new Customer("Alicia", "Keys",email.getEmail()); // todo
         Country usa=new Country("US","United States");
         alicia.add(new Address("27 Broadway", "New York", usa));
 
@@ -46,8 +45,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractIntegrationTest {
 	public void readsCustomerByEmail() {
 
 		EmailAddress email = new EmailAddress("alicia@keys.com");
-		Customer alicia = new Customer("Alicia", "Keys");
-		alicia.setEmailAddress(email.getEmail()); // todo
+		Customer alicia = new Customer("Alicia", "Keys",email.getEmail());
 
 		repository.save(alicia);
 
@@ -61,9 +59,8 @@ public class CustomerRepositoryIntegrationTest extends AbstractIntegrationTest {
         final EmailAddress email = new EmailAddress("dave@dmband.com");
         Customer dave = repository.findByEmailAddress(email.getEmail());
 
-		Customer anotherDave = new Customer("Dave", "Matthews");
-		anotherDave.setEmailAddress(dave.getEmailAddress());
+		Customer anotherDave = new Customer("Dave", "Matthews",dave.getEmailAddress());
 
-		repository.save(anotherDave);
+        repository.save(anotherDave);
 	}
 }
