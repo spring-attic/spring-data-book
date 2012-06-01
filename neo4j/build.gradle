@@ -1,12 +1,20 @@
 dependencies {
 
-  // Spring
-  compile "org.springframework:spring-aspects:$springVersion"
-  compile "org.springframework:spring-orm:$springVersion"
-  compile "org.springframework:spring-tx:$springVersion"
+// Spring
+//  compile "org.springframework:spring-aspects:$springVersion"
+//  compile "org.springframework:spring-orm:$springVersion"
+//  compile "org.springframework:spring-tx:$springVersion"
 
   // Spring Data
   compile "org.springframework.data:spring-data-commons-core:$sdCommonsVersion"
-  compile "org.springframework.data:spring-data-neo4j:2.0.1.RELEASE"
+  compile "org.springframework.data:spring-data-neo4j:$sdNeo4jVersion"
 
+  runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
+  runtime "log4j:log4j:$log4jVersion"
+  runtime "cglib:cglib:2.2.2"
+
+  runtime "org.neo4j:neo4j-cypher:1.7"
+
+  // Neo4j TODO
+  // testCompile "org.neo4j:neo4j-kernel:1.7@test-jar"
 }
