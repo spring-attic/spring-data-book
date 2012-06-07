@@ -1,16 +1,52 @@
-repositories {
-  mavenCentral()
-  mavenLocal()
-  maven { url "http://repo.springsource.org/libs-milestone" }
+apply from: '../build.gradle'
+apply plugin: "java"
+
+[compileJava, compileTestJava]*.options*.compilerArgs = ["-Xlint:all"]
+
+project.sourceCompatibility = 1.6
+project.targetCompatibility = 1.6
+
+archivesBaseName = "spring-data-book-jdbc"
+
+eclipse {
+  project.natures += "org.springframework.ide.eclipse.core.springnature"
+  project.buildCommand("org.springframework.ide.eclipse.core.springbuilder")
 }
 
 dependencies {
 
-  // Spring 
-  compile "org.springframework:spring-jms:$springVersion"
-  compile "org.springframework:spring-oxm:$springVersion"
+  // Logging
+  compile "org.slf4j:slf4j-api:$slf4jVersion"
+  runtime "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+
+  // Spring
+  compile("org.springframework:spring-beans:$springVersion") { force = true }
+  compile("org.springframework:spring-context:$springVersion") { force = true }
+  compile("org.springframework:spring-core:$springVersion") { force = true }
+  compile("org.springframework:spring-jdbc:$springVersion") { force = true }
+  compile("org.springframework:spring-jms:$springVersion") { force = true }
+  compile("org.springframework:spring-oxm:$springVersion") { force = true }
 
   // Spring Data JDBC-Extensions
-  compile "org.springframework.data:spring-data-oracle:1.0.0.RC1"
+  compile "org.springframework.data:spring-data-oracle:1.0.0.RC2"
+
+  // Runtime	
+  runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
+  runtime "log4j:log4j:$log4jVersion"
+
+  // Testing
+  testCompile("org.springframework:spring-test:$springVersion") { force = true }
+  testCompile "junit:junit:4.10"
+  testCompile "org.hamcrest:hamcrest-library:1.2.1"
+
+  compile fileTree(dir: 'lib', include: '*.jar') 
 
 }
+
+task run(type: JavaExec, dependsOn: classes) {
+  main = 'com.oreilly.springdata.jdbc.HelloOracle'
+  classpath sourceSets.main.output.classesDir
+  classpath sourceSets.main.output.resourcesDir
+  classpath configurations.runtime 
+}
+
