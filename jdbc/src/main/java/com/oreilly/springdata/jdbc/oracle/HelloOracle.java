@@ -1,4 +1,4 @@
-package com.oreilly.springdata.jdbc;
+package com.oreilly.springdata.jdbc.oracle;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
