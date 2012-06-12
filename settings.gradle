@@ -1,3 +1,4 @@
 include "redis",
         "jpa",
-        "neo4j"
+        "neo4j",
+        "querydsl"

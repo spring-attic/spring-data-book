@@ -1,0 +1,4 @@
+dependencies {
+
+  compile "com.mysema.querydsl:querydsl-core:2.6.0"
+}
