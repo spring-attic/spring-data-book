@@ -1,4 +1,6 @@
 dependencies {
 
-  compile "com.mysema.querydsl:querydsl-core:2.6.0"
+  compile "com.mysema.querydsl:querydsl-core:${querydslVersion}"
+  compile "com.mysema.querydsl:querydsl-collections:${querydslVersion}"  
+  compile "com.mysema.querydsl:querydsl-apt:${querydslVersion}"
 }

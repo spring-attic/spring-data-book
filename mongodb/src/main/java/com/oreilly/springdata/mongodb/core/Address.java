@@ -13,29 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.oreilly.springdata.neo4j.order;
+package com.oreilly.springdata.mongodb.core;
 
-import static org.hamcrest.Matchers.*;
 
-import org.hamcrest.Matcher;
+/**
+ * @author Oliver Gierke
+ */
+public class Address {
 
-import com.oreilly.springdata.neo4j.core.Product;
+	private String street, city, country;
 
-public class OrderMatchers {
+	public Address(String street, String city, String country) {
 
-	public static <T> Matcher<Iterable<? super T>> containsOrder(Matcher<T> matcher) {
-		return hasItem(matcher);
+		this.street = street;
+		this.city = city;
+		this.country = country;
 	}
 
-	public static Matcher<Order> LineItem(Matcher<LineItem> matcher) {
-		return hasProperty("lineItems", hasItem(matcher));
+	public String getStreet() {
+		return street;
 	}
 
-	public static Matcher<LineItem> product(Matcher<Product> matcher) {
-		return hasProperty("product", matcher);
+	public String getCity() {
+		return city;
 	}
 
-	public static Matcher<LineItem> amount(int amount) {
-		return hasProperty("amount", is(amount));
+	public String getCountry() {
+		return country;
 	}
 }

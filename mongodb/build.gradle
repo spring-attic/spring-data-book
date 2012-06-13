@@ -1,0 +1,13 @@
+dependencies {
+
+  compile "org.springframework.data:spring-data-mongodb:$sdMongoDbVersion"
+  
+  compile("org.springframework:spring-tx:$springVersion") { force = true }
+  compile("org.springframework:spring-orm:$springVersion") { force = true }
+  
+  runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
+  runtime "log4j:log4j:$log4jVersion"
+  runtime "cglib:cglib:2.2.2"
+
+  runtime "org.mongodb:mongo-java-driver:$mongoDbVersion"
+}

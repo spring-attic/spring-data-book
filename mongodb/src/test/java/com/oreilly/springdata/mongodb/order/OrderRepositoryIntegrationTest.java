@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.oreilly.springdata.neo4j.order;
+package com.oreilly.springdata.mongodb.order;
 
-import static com.oreilly.springdata.neo4j.core.CoreMatchers.*;
-import static com.oreilly.springdata.neo4j.order.OrderMatchers.*;
+import static com.oreilly.springdata.mongodb.core.CoreMatchers.*;
+import static com.oreilly.springdata.mongodb.order.OrderMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -26,13 +26,16 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.oreilly.springdata.neo4j.AbstractIntegrationTest;
-import com.oreilly.springdata.neo4j.core.Customer;
-import com.oreilly.springdata.neo4j.core.CustomerRepository;
-import com.oreilly.springdata.neo4j.core.EmailAddress;
-import com.oreilly.springdata.neo4j.core.Product;
-import com.oreilly.springdata.neo4j.core.ProductRepository;
+import com.oreilly.springdata.mongodb.AbstractIntegrationTest;
+import com.oreilly.springdata.mongodb.core.Customer;
+import com.oreilly.springdata.mongodb.core.CustomerRepository;
+import com.oreilly.springdata.mongodb.core.EmailAddress;
+import com.oreilly.springdata.mongodb.core.Product;
+import com.oreilly.springdata.mongodb.core.ProductRepository;
 
+/**
+ * @author Oliver Gierke
+ */
 public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
@@ -46,11 +49,11 @@ public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
 	@Test
 	public void createOrder() {
 
-		Customer dave = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com").getEmail());
-		Product iPad = productRepository.findByPropertyValue("name", "iPad");
+		Customer dave = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com"));
+		Product iPad = productRepository.findAll().iterator().next();
 
 		Order order = new Order(dave);
-		order.add(new LineItem(order, iPad));
+		order.add(new LineItem(iPad));
 
 		order = repository.save(order);
 		assertThat(order.getId(), is(notNullValue()));
@@ -59,16 +62,11 @@ public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
 	@Test
 	public void readOrder() {
 
-		final EmailAddress email = new EmailAddress("dave@dmband.com");
-
-		List<Order> orders = repository.findByCustomerEmailAddress(email.getEmail());
+		Customer dave = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com"));
+		List<Order> orders = repository.findByCustomer(dave);
+		Matcher<Iterable<? super Order>> hasOrderForiPad = containsOrder(with(LineItem(with(Product(named("iPad"))))));
 
 		assertThat(orders, hasSize(1));
-
-		Matcher<LineItem> twoIPads = allOf(product(named("iPad")), amount(2));
-		Matcher<LineItem> singleMacBook = allOf(product(named("MacBook Pro")), amount(1));
-
-		assertThat(orders, containsOrder(with(LineItem(twoIPads))));
-		assertThat(orders, containsOrder(with(LineItem(singleMacBook))));
+		assertThat(orders, hasOrderForiPad);
 	}
 }

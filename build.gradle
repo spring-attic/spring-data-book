@@ -11,12 +11,11 @@ allprojects {
 
   configurations.all {
     exclude group: "commons-logging"
-    exclude group: "junit", module: "junit", version: "4.8.2"
   }
 
   repositories {
     mavenCentral()
-    maven { url "http://repo.springsource.org/libs-milestone" }
+    maven { url "http://repo.springsource.org/libs-snapshot" }
   }
 }
 
@@ -38,15 +37,16 @@ configure(subprojects) { subproject ->
     runtime "org.slf4j:jcl-over-slf4j:$slf4jVersion"
 
     // Spring
-    compile("org.springframework:spring-beans:$springVersion") { force = true }
     compile("org.springframework:spring-context:$springVersion") { force = true }
+    compile("org.springframework:spring-beans:$springVersion") { force = true }
+    compile("org.springframework:spring-expression:$springVersion") { force = true }
     compile("org.springframework:spring-core:$springVersion") { force = true }
     compile "org.springframework.data:spring-data-commons-core:$sdCommonsVersion"
 
     // Testing
     testCompile("org.springframework:spring-test:$springVersion") { force = true }
-    testCompile "junit:junit:4.10"
-    testCompile "org.hamcrest:hamcrest-library:1.2.1"
+    testCompile "org.hamcrest:hamcrest-library:${hamcrestVersion}"
+    testCompile "junit:junit-dep:${junitVersion}"
   }
 
   eclipse {
@@ -56,3 +56,5 @@ configure(subprojects) { subproject ->
 }
 
 task wrapper(type: Wrapper) { gradleVersion = "1.0" }
+
+defaultTasks 'build'

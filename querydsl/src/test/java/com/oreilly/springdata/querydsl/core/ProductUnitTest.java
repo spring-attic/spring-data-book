@@ -59,6 +59,15 @@ public class ProductUnitTest {
 	}
 
 	@Test
+	public void findsAllAppleProductNames() {
+
+		List<String> result = from($, products).where($.description.contains("Apple")).list($.name);
+
+		assertThat(result, hasSize(3));
+		assertThat(result, hasItems(macBook.getName(), iPad.getName(), iPod.getName()));
+	}
+
+	@Test
 	public void findsPlayers() {
 
 		List<Product> result = from($, products).where($.description.contains("player")).list($);

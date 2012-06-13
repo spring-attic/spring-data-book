@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.oreilly.springdata.neo4j.order;
+package com.oreilly.springdata.mongodb.order;
 
 import static org.hamcrest.Matchers.*;
 
 import org.hamcrest.Matcher;
 
-import com.oreilly.springdata.neo4j.core.Product;
+import com.oreilly.springdata.mongodb.core.Product;
+import com.oreilly.springdata.mongodb.order.LineItem;
+import com.oreilly.springdata.mongodb.order.Order;
 
+/**
+ * 
+ * @author Oliver Gierke
+ */
 public class OrderMatchers {
 
-	public static <T> Matcher<Iterable<? super T>> containsOrder(Matcher<T> matcher) {
+	public static <T> Matcher<Iterable<? super T>> containsOrder(Matcher<? super T> matcher) {
 		return hasItem(matcher);
 	}
 
@@ -31,11 +37,7 @@ public class OrderMatchers {
 		return hasProperty("lineItems", hasItem(matcher));
 	}
 
-	public static Matcher<LineItem> product(Matcher<Product> matcher) {
+	public static Matcher<LineItem> Product(Matcher<Product> matcher) {
 		return hasProperty("product", matcher);
-	}
-
-	public static Matcher<LineItem> amount(int amount) {
-		return hasProperty("amount", is(amount));
 	}
 }
