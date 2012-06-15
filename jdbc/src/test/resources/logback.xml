@@ -7,6 +7,7 @@
   </appender>
 
   <logger name="com.oreilly.springdata" level="debug"/>
+  <logger name="org.springframework.data" level="debug"/>
   <logger name="org.springframework" level="info"/>
 
   <root level="info">
