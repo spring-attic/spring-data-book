@@ -21,12 +21,13 @@ public class HelloOracle {
 		this.dataSource = dataSource;
 	}
 
-	public String getDualFromDataSource() {
+	public String getDual() {
 		JdbcTemplate db = new JdbcTemplate(dataSource);
 		String results = db.queryForObject("select dummy from dual", String.class);
 		return results;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map<String, String> getDatabaseMetaData() throws MetaDataAccessException {
 
 		final Map<String, String> metaData = new HashMap<String, String>();
@@ -40,8 +41,6 @@ public class HelloOracle {
 						 return metaData;
 					 }
 				 });
-
- }
-
+ 	}
 
 }

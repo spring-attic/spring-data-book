@@ -21,12 +21,19 @@ configurations {
   codegen
 }
 
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven { url "http://repo.springsource.org/libs-snapshot" }
+}
+
 dependencies {
 
   codegen "com.mysema.querydsl:querydsl-sql-codegen:2.6.0"
   codegen "org.hsqldb:hsqldb:2.2.8"
   codegen "org.slf4j:slf4j-simple:$slf4jVersion"
 
+  compile "commons-dbcp:commons-dbcp:1.4"
   compile "com.mysema.querydsl:querydsl-sql:2.6.0"
 
   // Logging
@@ -41,7 +48,8 @@ dependencies {
   compile("org.springframework:spring-oxm:$springVersion") { force = true }
 
   // Spring Data JDBC-Extensions
-  compile "org.springframework.data:spring-data-oracle:1.0.0.RC2"
+  compile "org.springframework.data:spring-data-jdbc-core:1.0.0.BUILD-SNAPSHOT"
+  compile "org.springframework.data:spring-data-oracle:1.0.0.BUILD-SNAPSHOT"
 
   // Database
   compile("org.hsqldb:hsqldb:2.2.8")
@@ -69,7 +77,7 @@ task codegen << {
     dbUrl: 'jdbc:hsqldb:hsql://localhost:9001/test',
     dbUserName: 'sa', schemaPattern: 'PUBLIC',
     targetSourceFolder: 'src/generated/java',
-    targetPackage: 'com.oreilly.springdata.jdbc.querydsl')
+    targetPackage: 'com.oreilly.springdata.jdbc.querydsl.domain')
 }
 
 task runHelloOracle(type: JavaExec, dependsOn: classes) {

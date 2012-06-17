@@ -27,7 +27,7 @@ public class HelloOracleTests {
 
 	@Test
 	public void testConnection() {
-		String result = helloOracle.getDualFromDataSource();
+		String result = helloOracle.getDual();
 		assertThat(result, is(notNullValue()));
 		assertThat(result, is("X"));
 	}

@@ -9,7 +9,9 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<orcl:pooling-datasource id="dataSource" connection-properties-prefix="orcl"/>
+	<orcl:pooling-datasource id="dataSource"
+        properties-location="classpath:orcl.properties"
+        connection-properties-prefix="orcl"/>
 
     <bean class="com.oreilly.springdata.jdbc.oracle.HelloOracle"/>
 
