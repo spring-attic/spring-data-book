@@ -1,6 +1,5 @@
 package com.oreilly.springdata.jdbc.querydsl.repository;
 
-import com.mysema.query.sql.SQLQuery;
 import com.mysema.query.sql.dml.SQLDeleteClause;
 import com.mysema.query.sql.dml.SQLInsertClause;
 import com.mysema.query.sql.dml.SQLUpdateClause;
@@ -12,15 +11,14 @@ import com.oreilly.springdata.jdbc.querydsl.domain.Customer;
 import com.oreilly.springdata.jdbc.querydsl.domain.EmailAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jdbc.core.ChildRowMapper;
 import org.springframework.data.jdbc.core.OneToManyResultSetExtractor;
-import org.springframework.data.jdbc.core.RootRowMapper;
 import org.springframework.data.jdbc.query.QueryDslJdbcTemplate;
 import org.springframework.data.jdbc.query.SqlDeleteCallback;
 import org.springframework.data.jdbc.query.SqlInsertCallback;
 import org.springframework.data.jdbc.query.SqlInsertWithKeyCallback;
 import org.springframework.data.jdbc.query.SqlUpdateCallback;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -171,18 +169,44 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 
 	private static class CustomerListExtractor extends OneToManyResultSetExtractor<Customer, Address, Integer> {
 
+		private static final QCustomer qCustomer = QCustomer.customer;
+
+		private final QAddress qAddress = QAddress.address;
+
 		public CustomerListExtractor() {
 			super(new CustomerMapper(), new AddressMapper());
 		}
 
+		public CustomerListExtractor(ExpectedResults expectedResults) {
+			super(new CustomerMapper(), new AddressMapper(), expectedResults);
+		}
+
+		@Override
+		protected Integer mapPrimaryKey(ResultSet rs) throws SQLException {
+			return rs.getInt(qCustomer.id.toString());
+		}
+
+		@Override
+		protected Integer mapForeignKey(ResultSet rs) throws SQLException {
+			String columnName = qAddress.addressCustomerRef.getLocalColumns().get(0).toString();
+			if (rs.getObject(columnName) != null) {
+				return rs.getInt(columnName);
+			}
+			else {
+				return null;
+			}
+		}
+
+		@Override
+		protected void addChild(Customer root, Address child) {
+			root.addAddress(child);
+		}
 	}
 
 	private static class CustomerExtractor implements ResultSetExtractor<Customer> {
 
-		OneToManyResultSetExtractor<Customer, Address, Integer> customerListExtractor =
-				new OneToManyResultSetExtractor<Customer, Address, Integer>(
-						new CustomerMapper(), new AddressMapper(),
-						OneToManyResultSetExtractor.ExpectedResults.ONE_OR_NONE);
+		CustomerListExtractor customerListExtractor =
+				new CustomerListExtractor(OneToManyResultSetExtractor.ExpectedResults.ONE_OR_NONE);
 
 		@Override
 		public Customer extractData(ResultSet rs) throws SQLException, DataAccessException {
@@ -191,7 +215,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 		}
 	}
 
-	private static class CustomerMapper implements RootRowMapper<Customer, Integer> {
+	private static class CustomerMapper implements RowMapper<Customer> {
 
 		private static final QCustomer qCustomer = QCustomer.customer;
 
@@ -206,14 +230,9 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 			}
 			return c;
 		}
-
-		@Override
-		public Integer getPrimaryKey(Customer c) {
-			return c.getId();
-		}
 	}
 
-	private static class AddressMapper implements ChildRowMapper<Customer, Address, Integer> {
+	private static class AddressMapper implements RowMapper<Address> {
 
 		private final QAddress qAddress = QAddress.address;
 
@@ -225,22 +244,6 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 			Address a = new Address(street, city, country);
 			a.setId(rs.getInt(qAddress.id.toString()));
 			return a;
-		}
-
-		@Override
-		public void mapChildRow(ResultSet rs, int rowNum, Customer c) throws SQLException {
-		    c.addAddress(mapRow(rs, rowNum));
-		}
-
-		@Override
-		public Integer mapForeignKey(ResultSet rs, int rowNum) throws SQLException {
-			String columnName = qAddress.addressCustomerRef.getLocalColumns().get(0).toString();
-			if (rs.getObject(columnName) != null) {
-				return rs.getInt(columnName);
-			}
-			else {
-				return null;
-			}
 		}
 	}
 }

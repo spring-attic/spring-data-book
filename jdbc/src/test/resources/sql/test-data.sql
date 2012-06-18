@@ -5,5 +5,3 @@ ALTER TABLE customer ALTER COLUMN id RESTART WITH 200;
 INSERT INTO address(customer_id, street, city, country) VALUES(100, '6 Main St', 'Newtown', 'USA');
 INSERT INTO address(customer_id, street, city, country) VALUES(100, '128 N. South St', 'Middletown', 'USA');
 INSERT INTO address(customer_id, street, city, country) VALUES(102, '512 North St', 'London', 'UK');
-INSERT INTO product(name, description, price) VALUES('Widget', 'A general widget', 25.99);
-INSERT INTO product(name, description, price) VALUES('Thing', 'Just a regular thing', 12.50);
