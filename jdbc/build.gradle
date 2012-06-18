@@ -1,72 +1,9 @@
-apply from: '../build.gradle'
-apply plugin: "java"
-
-[compileJava, compileTestJava]*.options*.compilerArgs = ["-Xlint:all"]
-
-project.sourceCompatibility = 1.6
-project.targetCompatibility = 1.6
-
-archivesBaseName = "spring-data-book-jdbc"
-
-eclipse {
-  project.natures += "org.springframework.ide.eclipse.core.springnature"
-  project.buildCommand("org.springframework.ide.eclipse.core.springbuilder")
-}
-
 compileJava {
     source = ['src/main/java', 'src/generated/java']
 }
 
 configurations {
   codegen
-}
-
-repositories {
-  mavenLocal()
-  mavenCentral()
-  maven { url "http://repo.springsource.org/libs-snapshot" }
-}
-
-dependencies {
-
-  codegen "com.mysema.querydsl:querydsl-sql-codegen:2.6.0"
-  codegen "org.hsqldb:hsqldb:2.2.8"
-  codegen "org.slf4j:slf4j-simple:$slf4jVersion"
-
-  compile "commons-dbcp:commons-dbcp:1.4"
-  compile "com.mysema.querydsl:querydsl-sql:2.6.0"
-
-  // Logging
-  compile "org.slf4j:slf4j-api:$slf4jVersion"
-
-  // Spring
-  compile("org.springframework:spring-beans:$springVersion") { force = true }
-  compile("org.springframework:spring-context:$springVersion") { force = true }
-  compile("org.springframework:spring-core:$springVersion") { force = true }
-  compile("org.springframework:spring-jdbc:$springVersion") { force = true }
-  compile("org.springframework:spring-jms:$springVersion") { force = true }
-  compile("org.springframework:spring-oxm:$springVersion") { force = true }
-
-  // Spring Data JDBC-Extensions
-  compile "org.springframework.data:spring-data-jdbc-core:1.0.0.BUILD-SNAPSHOT"
-  compile "org.springframework.data:spring-data-oracle:1.0.0.BUILD-SNAPSHOT"
-
-  // Database
-  compile("org.hsqldb:hsqldb:2.2.8")
-
-  // Runtime	
-  runtime "org.slf4j:jcl-over-slf4j:$slf4jVersion"
-  runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
-  runtime "log4j:log4j:$log4jVersion"
-
-  // Testing
-  testCompile("org.springframework:spring-test:$springVersion") { force = true }
-  testCompile "junit:junit:4.10"
-  testCompile "org.hamcrest:hamcrest-library:1.2.1"
-
-  // proprietary jars
-  compile fileTree(dir: 'lib', include: '*.jar')
-
 }
 
 task codegen << {
@@ -80,16 +17,21 @@ task codegen << {
     targetPackage: 'com.oreilly.springdata.jdbc.querydsl.domain')
 }
 
-task runHelloOracle(type: JavaExec, dependsOn: classes) {
-  main = 'com.oreilly.springdata.jdbc.oracle.HelloOracle'
-  classpath sourceSets.main.output.classesDir
-  classpath sourceSets.main.output.resourcesDir
-  classpath configurations.runtime 
-}
+dependencies {
 
-task runHelloQueryDSL(type: JavaExec, dependsOn: classes) {
-  main = 'com.oreilly.springdata.jdbc.querydsl.HelloQueryDsl'
-  classpath sourceSets.main.output.classesDir
-  classpath sourceSets.main.output.resourcesDir
-  classpath configurations.runtime
+  codegen "com.mysema.querydsl:querydsl-sql-codegen:2.6.0"
+  codegen "org.hsqldb:hsqldb:2.2.8"
+  codegen "org.slf4j:slf4j-simple:$slf4jVersion"
+
+  compile "com.mysema.querydsl:querydsl-sql:2.6.0"
+  compile "org.springframework.data:spring-data-jdbc-core:1.0.0.BUILD-SNAPSHOT"
+  
+  compile("org.springframework:spring-tx:$springVersion") { force = true }
+  
+  compile "commons-dbcp:commons-dbcp:1.4"
+  compile("org.hsqldb:hsqldb:2.2.8")
+
+  runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
+  runtime "log4j:log4j:$log4jVersion"
+  runtime "cglib:cglib:2.2.2"
 }
