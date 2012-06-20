@@ -1,7 +1,7 @@
-package com.oreilly.springdata.jdbc.querydsl.repository;
+package com.oreilly.springdata.jdbc.repository;
 
-import com.oreilly.springdata.jdbc.querydsl.domain.Customer;
-import com.oreilly.springdata.jdbc.querydsl.domain.EmailAddress;
+import com.oreilly.springdata.jdbc.domain.Customer;
+import com.oreilly.springdata.jdbc.domain.EmailAddress;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface CustomerRepository {
 
-	Customer findOne(Integer id);
+	Customer findOne(Long id);
 
 	List<Customer> findAll();
 

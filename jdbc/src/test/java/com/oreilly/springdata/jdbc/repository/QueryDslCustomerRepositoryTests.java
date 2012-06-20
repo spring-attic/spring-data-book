@@ -1,9 +1,10 @@
-package com.oreilly.springdata.jdbc.querydsl.repository;
+package com.oreilly.springdata.jdbc.repository;
 
-import com.oreilly.springdata.jdbc.querydsl.TestConfig;
-import com.oreilly.springdata.jdbc.querydsl.domain.Address;
-import com.oreilly.springdata.jdbc.querydsl.domain.Customer;
-import com.oreilly.springdata.jdbc.querydsl.domain.EmailAddress;
+import com.oreilly.springdata.jdbc.TestConfig;
+import com.oreilly.springdata.jdbc.domain.Address;
+import com.oreilly.springdata.jdbc.domain.Customer;
+import com.oreilly.springdata.jdbc.domain.EmailAddress;
+import com.oreilly.springdata.jdbc.repository.CustomerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class QueryDslCustomerRepositoryTests {
 
 	@Test
 	public void testFindOne() {
-		Customer result = repository.findOne(100);
+		Customer result = repository.findOne(100L);
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getFirstName(), is("John"));
 	}
@@ -83,9 +84,9 @@ public class QueryDslCustomerRepositoryTests {
 
 	@Test
 	public void deleteCustomer() {
-		Customer c = repository.findOne(100);
+		Customer c = repository.findOne(100L);
 		repository.delete(c);
-		Customer result = repository.findOne(100);
+		Customer result = repository.findOne(100L);
 		assertThat(result, is(nullValue()));
 	}
 }

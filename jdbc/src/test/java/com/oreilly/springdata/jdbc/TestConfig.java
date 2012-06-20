@@ -1,14 +1,12 @@
-package com.oreilly.springdata.jdbc.querydsl;
+package com.oreilly.springdata.jdbc;
 
-import com.oreilly.springdata.jdbc.querydsl.repository.CustomerRepository;
-import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.oreilly.springdata.jdbc.repository.CustomerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -21,19 +19,15 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackageClasses = CustomerRepository.class)
-@PropertySource("classpath:jdbc.properties")
-public class ApplicationConfig {
-	@Autowired
-	Environment env;
+public class TestConfig {
 
 	@Bean
 	public DataSource dataSource() {
-		BasicDataSource ds = new BasicDataSource();
-		ds.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-		ds.setUrl(env.getProperty("jdbc.url"));
-		ds.setUsername(env.getProperty("jdbc.username"));
-		ds.setPassword(env.getProperty("jdbc.password"));
-		return ds;
+		return new EmbeddedDatabaseBuilder()
+		            .setType(EmbeddedDatabaseType.HSQL)
+		            .addScript("classpath:sql/schema.sql")
+		            .addScript("classpath:sql/test-data.sql")
+		            .build();
 	}
 
 	@Bean

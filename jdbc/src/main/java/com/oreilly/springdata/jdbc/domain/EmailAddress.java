@@ -1,4 +1,4 @@
-package com.oreilly.springdata.jdbc.querydsl.domain;
+package com.oreilly.springdata.jdbc.domain;
 
 import org.springframework.util.Assert;
 

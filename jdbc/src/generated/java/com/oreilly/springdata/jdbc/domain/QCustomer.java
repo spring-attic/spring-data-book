@@ -1,4 +1,4 @@
-package com.oreilly.springdata.jdbc.querydsl.domain;
+package com.oreilly.springdata.jdbc.domain;
 
 import static com.mysema.query.types.PathMetadataFactory.*;
 
@@ -14,7 +14,7 @@ import javax.annotation.Generated;
 @Generated("com.mysema.query.sql.codegen.MetaDataSerializer")
 public class QCustomer extends com.mysema.query.sql.RelationalPathBase<QCustomer> {
 
-    private static final long serialVersionUID = 841622937;
+    private static final long serialVersionUID = -325328342;
 
     public static final QCustomer customer = new QCustomer("CUSTOMER");
 
@@ -22,11 +22,11 @@ public class QCustomer extends com.mysema.query.sql.RelationalPathBase<QCustomer
 
     public final StringPath firstName = createString("FIRST_NAME");
 
-    public final NumberPath<Integer> id = createNumber("ID", Integer.class);
+    public final NumberPath<Long> id = createNumber("ID", Long.class);
 
     public final StringPath lastName = createString("LAST_NAME");
 
-    public final com.mysema.query.sql.PrimaryKey<QCustomer> sysPk10028 = createPrimaryKey(id);
+    public final com.mysema.query.sql.PrimaryKey<QCustomer> sysPk10053 = createPrimaryKey(id);
 
     public final com.mysema.query.sql.ForeignKey<QAddress> _addressCustomerRef = createInvForeignKey(id, "CUSTOMER_ID");
 

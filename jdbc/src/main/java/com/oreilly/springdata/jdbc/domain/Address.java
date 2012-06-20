@@ -1,23 +1,14 @@
-package com.oreilly.springdata.jdbc.querydsl.domain;
+package com.oreilly.springdata.jdbc.domain;
 
 /**
  */
-public class Address {
-	private Integer id;
+public class Address extends AbstractEntity {
 	private String street, city, country;
 
 	public Address(String street, String city, String country) {
 		this.street = street;
 		this.city = city;
 		this.country = country;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getStreet() {

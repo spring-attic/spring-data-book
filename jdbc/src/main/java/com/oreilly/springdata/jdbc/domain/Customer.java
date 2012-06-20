@@ -1,4 +1,4 @@
-package com.oreilly.springdata.jdbc.querydsl.domain;
+package com.oreilly.springdata.jdbc.domain;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -6,21 +6,12 @@ import java.util.Set;
 
 /**
  */
-public class Customer {
+public class Customer extends AbstractEntity {
 
-	private Integer id;
 	private String firstName;
 	private String lastName;
 	private EmailAddress emailAddress;
 	private Set<Address> addresses = new HashSet<Address>();
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -60,6 +51,6 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Customer: [" + id + "] " + firstName + " " + lastName + " " + emailAddress + " " + addresses;
+		return "Customer: [" + getId() + "] " + firstName + " " + lastName + " " + emailAddress + " " + addresses;
 	}
 }

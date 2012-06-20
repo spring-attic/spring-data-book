@@ -1,14 +1,14 @@
-package com.oreilly.springdata.jdbc.querydsl.repository;
+package com.oreilly.springdata.jdbc.repository;
 
 import com.mysema.query.sql.dml.SQLDeleteClause;
 import com.mysema.query.sql.dml.SQLInsertClause;
 import com.mysema.query.sql.dml.SQLUpdateClause;
 import com.mysema.query.types.Path;
-import com.oreilly.springdata.jdbc.querydsl.domain.QAddress;
-import com.oreilly.springdata.jdbc.querydsl.domain.QCustomer;
-import com.oreilly.springdata.jdbc.querydsl.domain.Address;
-import com.oreilly.springdata.jdbc.querydsl.domain.Customer;
-import com.oreilly.springdata.jdbc.querydsl.domain.EmailAddress;
+import com.oreilly.springdata.jdbc.domain.Address;
+import com.oreilly.springdata.jdbc.domain.Customer;
+import com.oreilly.springdata.jdbc.domain.EmailAddress;
+import com.oreilly.springdata.jdbc.domain.QAddress;
+import com.oreilly.springdata.jdbc.domain.QCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jdbc.core.OneToManyResultSetExtractor;
@@ -52,7 +52,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Customer findOne(Integer id) {
+	public Customer findOne(Long id) {
 		return template.queryForObject(
 				template.newSqlQuery()
 						.from(qCustomer)
@@ -76,9 +76,9 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 	@Override
 	public void save(final Customer customer) {
 		if (customer.getId() == null) {
-			Integer generatedKey = template.insertWithKey(qCustomer, new SqlInsertWithKeyCallback<Integer>() {
+			Long generatedKey = template.insertWithKey(qCustomer, new SqlInsertWithKeyCallback<Long>() {
 				@Override
-				public Integer doInSqlInsertWithKeyClause(SQLInsertClause insert) throws SQLException {
+				public Long doInSqlInsertWithKeyClause(SQLInsertClause insert) throws SQLException {
 					return insert.columns(qCustomer.firstName, qCustomer.lastName, qCustomer.emailAddress)
 							.values(customer.getFirstName(), customer.getLastName(),
 									customer.getEmailAddress() == null ? null : customer.getEmailAddress().toString())
@@ -101,7 +101,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 			});
 		}
 		// save address data
-		final List<Integer> ids = new ArrayList<Integer>();
+		final List<Long> ids = new ArrayList<Long>();
 		for (Address a : customer.getAddresses()) {
 			if (a.getId() != null) {
 				ids.add(a.getId());
@@ -222,7 +222,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 		@Override
 		public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Customer c = new Customer();
-			c.setId(rs.getInt(qCustomer.id.toString()));
+			c.setId(rs.getLong(qCustomer.id.toString()));
 			c.setFirstName(rs.getString(qCustomer.firstName.toString()));
 			c.setLastName(rs.getString(qCustomer.lastName.toString()));
 			if (rs.getString(qCustomer.emailAddress.toString()) != null) {
@@ -242,7 +242,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 			String city = rs.getString(qAddress.city.toString());
 			String country = rs.getString(qAddress.country.toString());
 			Address a = new Address(street, city, country);
-			a.setId(rs.getInt(qAddress.id.toString()));
+			a.setId(rs.getLong(qAddress.id.toString()));
 			return a;
 		}
 	}

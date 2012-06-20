@@ -14,7 +14,7 @@ task codegen << {
     dbUrl: 'jdbc:hsqldb:hsql://localhost:9001/test',
     dbUserName: 'sa', schemaPattern: 'PUBLIC',
     targetSourceFolder: 'src/generated/java',
-    targetPackage: 'com.oreilly.springdata.jdbc.querydsl.domain')
+    targetPackage: 'com.oreilly.springdata.jdbc.domain')
 }
 
 dependencies {
