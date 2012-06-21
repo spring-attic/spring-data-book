@@ -23,6 +23,7 @@ import javax.persistence.Embeddable;
 import org.springframework.util.Assert;
 
 /**
+ * A value object abstraction of an email address.
  * 
  * @author Oliver Gierke
  */
@@ -35,17 +36,29 @@ public class EmailAddress {
 	@Column(name = "email")
 	private String value;
 
+	/**
+	 * Creates a new {@link EmailAddress} from the given string source.
+	 * 
+	 * @param emailAddress must not be {@literal null} or empty.
+	 */
 	public EmailAddress(String emailAddress) {
 		Assert.isTrue(isValid(emailAddress), "Invalid email address!");
 		this.value = emailAddress;
 	}
 
-	public static boolean isValid(String source) {
-		return PATTERN.matcher(source).matches();
-	}
-
 	protected EmailAddress() {
 
+	}
+
+	/**
+	 * Returns whether the given {@link String} is a valid {@link EmailAddress} which means you can safely instantiate the
+	 * class.
+	 * 
+	 * @param source
+	 * @return
+	 */
+	public static boolean isValid(String source) {
+		return PATTERN.matcher(source).matches();
 	}
 
 	/* 

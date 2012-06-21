@@ -23,7 +23,6 @@ import org.hamcrest.TypeSafeMatcher;
 import com.oreilly.springdata.jpa.order.LineItem;
 
 /**
- * 
  * @author Oliver Gierke
  */
 public class LineItemMatcher extends TypeSafeMatcher<LineItem> {
@@ -34,16 +33,17 @@ public class LineItemMatcher extends TypeSafeMatcher<LineItem> {
 		this.name = name;
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.hamcrest.SelfDescribing#describeTo(org.hamcrest.Description)
 	 */
 	@Override
 	public void describeTo(Description description) {
-		// TODO Auto-generated method stub
-
+		description.appendText("a line item for a product with name '").appendValue(name).appendText("'");
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.hamcrest.TypeSafeMatcher#matchesSafely(java.lang.Object)
 	 */
 	@Override
@@ -60,5 +60,4 @@ public class LineItemMatcher extends TypeSafeMatcher<LineItem> {
 	public static <T> Matcher<LineItem> lineItemWithName(String name) {
 		return new LineItemMatcher(name);
 	}
-
 }

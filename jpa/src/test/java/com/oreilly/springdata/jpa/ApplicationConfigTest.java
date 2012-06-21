@@ -24,6 +24,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
+ * Test case bootstrapping both JavaConfig an XML configuration to validate configuration.
  * 
  * @author Oliver Gierke
  */

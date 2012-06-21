@@ -6,5 +6,5 @@ build
 .gradle
 target/
 .settings/
+.springBeans
 bin/
-/out/

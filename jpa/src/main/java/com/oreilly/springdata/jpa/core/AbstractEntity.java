@@ -21,6 +21,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
+ * Base class to derive entity classes from.
+ * 
  * @author Oliver Gierke
  */
 @MappedSuperclass
@@ -31,6 +33,8 @@ public class AbstractEntity {
 	private Long id;
 
 	/**
+	 * Returns the identifier of the entity.
+	 * 
 	 * @return the id
 	 */
 	public Long getId() {

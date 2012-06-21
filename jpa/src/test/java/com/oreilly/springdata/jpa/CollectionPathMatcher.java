@@ -24,7 +24,6 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
 /**
- * 
  * @author Oliver Gierke
  */
 public class CollectionPathMatcher extends TypeSafeMatcher<Collection<Object>> {
@@ -37,16 +36,17 @@ public class CollectionPathMatcher extends TypeSafeMatcher<Collection<Object>> {
 		this.propertyMatcher = delegate;
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.hamcrest.SelfDescribing#describeTo(org.hamcrest.Description)
 	 */
 	@Override
 	public void describeTo(Description description) {
-		// TODO Auto-generated method stub
-
+		description.appendDescriptionOf(propertyMatcher);
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * (non-Javadoc)
 	 * @see org.hamcrest.TypeSafeMatcher#matchesSafely(java.lang.Object)
 	 */
 	@Override

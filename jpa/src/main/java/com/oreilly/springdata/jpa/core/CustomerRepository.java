@@ -18,16 +18,31 @@ package com.oreilly.springdata.jpa.core;
 import org.springframework.data.repository.Repository;
 
 /**
+ * {@link Repository} to access {@link Customer} instances.
  * 
  * @author Oliver Gierke
  */
 public interface CustomerRepository extends Repository<Customer, Long> {
 
+	/**
+	 * Returns the {@link Customer} with the given identifier.
+	 * 
+	 * @param id
+	 * @return
+	 */
 	Customer findOne(Long id);
 
+	/**
+	 * Saves the given {@link Customer}.
+	 * 
+	 * @param customer
+	 * @return
+	 */
 	Customer save(Customer customer);
 
 	/**
+	 * Returns the customer with the given {@link EmailAddress}.
+	 * 
 	 * @param string
 	 * @return
 	 */

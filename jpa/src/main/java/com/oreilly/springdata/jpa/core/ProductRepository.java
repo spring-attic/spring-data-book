@@ -22,12 +22,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 /**
+ * Repository to access {@link Product} instances.
  * 
  * @author Oliver Gierke
  */
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
+	/**
+	 * Returns a {@link Page} of {@link Product}s having a description which contains the given snippet.
+	 * 
+	 * @param description
+	 * @param pageable
+	 * @return
+	 */
 	Page<Product> findByDescriptionContaining(String description, Pageable pageable);
 
+	/**
+	 * Returns all {@link Product}s having the given attribute.
+	 * 
+	 * @param attribute
+	 * @return
+	 */
 	List<Product> findByAttributesContains(String attribute);
 }

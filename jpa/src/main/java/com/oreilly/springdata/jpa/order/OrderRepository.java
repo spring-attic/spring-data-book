@@ -22,10 +22,17 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import com.oreilly.springdata.jpa.core.Customer;
 
 /**
+ * Repository to access {@link Order}s.
  * 
  * @author Oliver Gierke
  */
 public interface OrderRepository extends PagingAndSortingRepository<Order, Long> {
 
+	/**
+	 * Returns all {@link Order}s of the given {@link Customer}.
+	 * 
+	 * @param customer
+	 * @return
+	 */
 	List<Order> findByCustomer(Customer customer);
 }

@@ -23,6 +23,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 /**
+ * Plain JPA based implementation of {@link CustomerRepository}.
+ * 
  * @author Oliver Gierke
  */
 @Repository

@@ -31,6 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Base class for integration tests.
  * 
  * @author Oliver Gierke
  */
@@ -42,6 +43,11 @@ public abstract class AbstractIntegrationTest {
 	@Autowired
 	DataSource dataSource;
 
+	/**
+	 * Populates the configured {@link DataSource} with data from {@code data.sql}.
+	 * 
+	 * @throws SQLException
+	 */
 	@Before
 	public void populateDatabase() throws SQLException {
 
