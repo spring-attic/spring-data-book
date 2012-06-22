@@ -9,5 +9,5 @@ insert into Product (id, name, description, price) values (1, 'iPad', 'Apple tab
 insert into Product (id, name, description, price) values (2, 'MacBook Pro', 'Apple notebook', 1299.0);
 
 insert into Orders (id, customer_id, shippingaddress_id) values (1, 1, 2);
-insert into LineItem (id, product_id, amount, order_id) values (1, 1, 2, 1);
-insert into LineItem (id, product_id, amount, order_id) values (2, 2, 1, 1);
+insert into LineItem (id, product_id, amount, order_id, price) values (1, 1, 2, 1, 499.0);
+insert into LineItem (id, product_id, amount, order_id, price) values (2, 2, 1, 1, 1299.0);

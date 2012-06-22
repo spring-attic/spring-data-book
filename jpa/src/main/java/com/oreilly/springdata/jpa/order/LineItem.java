@@ -17,6 +17,7 @@ package com.oreilly.springdata.jpa.order;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -35,8 +36,10 @@ public class LineItem extends AbstractEntity {
 
 	@ManyToOne
 	private Product product;
-	private int amount;
+
+	@Column(nullable = false)
 	private BigDecimal price;
+	private int amount;
 
 	/**
 	 * Creates a new {@link LineItem} for the given {@link Product}.
