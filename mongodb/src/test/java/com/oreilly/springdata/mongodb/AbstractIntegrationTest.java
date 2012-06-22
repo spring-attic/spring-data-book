@@ -28,9 +28,10 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import com.mongodb.Mongo;
-import com.mongodb.WriteResult;
 
 /**
+ * Base class for integration tests adding some sample data through the MongoDB Java driver.
+ * 
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,14 +48,23 @@ public abstract class AbstractIntegrationTest {
 
 		// Customers
 
-		DBCollection collection = database.getCollection("customer");
-		collection.drop();
+		DBCollection customers = database.getCollection("customer");
+		customers.drop();
+
+		BasicDBObject address = new BasicDBObject();
+		address.put("city", "New York");
+		address.put("street", "Broadway");
+		address.put("country", "United States");
+
+		BasicDBList addresses = new BasicDBList();
+		addresses.add(address);
 
 		DBObject dave = new BasicDBObject("firstname", "Dave");
 		dave.put("lastname", "Matthews");
 		dave.put("email", "dave@dmband.com");
+		dave.put("addresses", addresses);
 
-		WriteResult result = collection.insert(dave);
+		customers.insert(dave);
 
 		// Products
 
@@ -73,10 +83,6 @@ public abstract class AbstractIntegrationTest {
 
 		// Orders
 
-		// insert into Orders (id, customer_id) values (1, 1);
-		// insert into LineItem (id, product_id, amount, order_id) values (1, 1, 2, 1);
-		// insert into LineItem (id, product_id, amount, order_id) values (2, 2, 1, 1);
-
 		DBCollection orders = database.getCollection("order");
 		orders.drop();
 
@@ -94,6 +100,7 @@ public abstract class AbstractIntegrationTest {
 
 		DBObject order = new BasicDBObject("customer", new DBRef(database, "customer", dave.get("_id")));
 		order.put("lineItems", lineItems);
+		order.put("shippingAddress", address);
 
 		orders.insert(order);
 	}

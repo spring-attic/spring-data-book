@@ -22,12 +22,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.oreilly.springdata.mongodb.AbstractIntegrationTest;
-import com.oreilly.springdata.mongodb.core.Address;
-import com.oreilly.springdata.mongodb.core.Customer;
-import com.oreilly.springdata.mongodb.core.CustomerRepository;
-import com.oreilly.springdata.mongodb.core.EmailAddress;
 
 /**
+ * Integration tests for {@link CustomerRepository}.
  * 
  * @author Oliver Gierke
  */

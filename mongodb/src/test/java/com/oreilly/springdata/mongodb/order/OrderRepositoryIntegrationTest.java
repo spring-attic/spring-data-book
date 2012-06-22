@@ -34,6 +34,8 @@ import com.oreilly.springdata.mongodb.core.Product;
 import com.oreilly.springdata.mongodb.core.ProductRepository;
 
 /**
+ * Integration tests for {@link OrderRepository}.
+ * 
  * @author Oliver Gierke
  */
 public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
@@ -52,7 +54,7 @@ public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
 		Customer dave = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com"));
 		Product iPad = productRepository.findAll().iterator().next();
 
-		Order order = new Order(dave);
+		Order order = new Order(dave, dave.getAddresses().iterator().next());
 		order.add(new LineItem(iPad));
 
 		order = repository.save(order);

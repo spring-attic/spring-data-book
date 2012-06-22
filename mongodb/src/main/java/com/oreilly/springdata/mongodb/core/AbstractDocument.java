@@ -20,6 +20,8 @@ import java.math.BigInteger;
 import org.springframework.data.annotation.Id;
 
 /**
+ * Base class for document classes.
+ * 
  * @author Oliver Gierke
  */
 public class AbstractDocument {
@@ -28,6 +30,8 @@ public class AbstractDocument {
 	private BigInteger id;
 
 	/**
+	 * Returns the identifier of the document.
+	 * 
 	 * @return the id
 	 */
 	public BigInteger getId() {

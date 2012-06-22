@@ -23,9 +23,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.oreilly.springdata.mongodb.ApplicationConfig;
-
 /**
+ * Integration test bootstrapping an {@link ApplicationContext} from both XML and JavaConfig to assure the general setup
+ * is working.
  * 
  * @author Oliver Gierke
  */

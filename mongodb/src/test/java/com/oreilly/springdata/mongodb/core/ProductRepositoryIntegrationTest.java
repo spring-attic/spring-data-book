@@ -19,6 +19,8 @@ import static com.oreilly.springdata.mongodb.core.CoreMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
+
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +30,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 
 import com.oreilly.springdata.mongodb.AbstractIntegrationTest;
-import com.oreilly.springdata.mongodb.core.Product;
-import com.oreilly.springdata.mongodb.core.ProductRepository;
 
 /**
  * Integration tests for {@link ProductRepository}.
@@ -44,7 +44,7 @@ public class ProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 	@Test
 	public void createProduct() {
 
-		Product product = new Product("Camera bag");
+		Product product = new Product("Camera bag", new BigDecimal(49.99));
 		product = repository.save(product);
 	}
 
