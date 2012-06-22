@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface CustomerRepository {
 
-	Customer findOne(Long id);
+	Customer findById(Long id);
 
 	List<Customer> findAll();
 

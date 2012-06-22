@@ -4,6 +4,7 @@ import com.mysema.query.sql.dml.SQLDeleteClause;
 import com.mysema.query.sql.dml.SQLInsertClause;
 import com.mysema.query.sql.dml.SQLUpdateClause;
 import com.mysema.query.types.Path;
+import com.mysema.query.types.Predicate;
 import com.oreilly.springdata.jdbc.domain.Address;
 import com.oreilly.springdata.jdbc.domain.Customer;
 import com.oreilly.springdata.jdbc.domain.EmailAddress;
@@ -52,14 +53,11 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Customer findOne(Long id) {
-		return template.queryForObject(
-				template.newSqlQuery()
-						.from(qCustomer)
-						.leftJoin(qCustomer._addressCustomerRef, qAddress)
-						.where(qCustomer.id.eq(id)),
-				new CustomerExtractor(),
-				customerAddressProjection);
+	public Customer findById(Long id) {
+		if (id == null) {
+			return null;
+		}
+		return findOne(qCustomer.id.eq(id));
 	}
 
 	@Override
@@ -70,6 +68,25 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 						.from(qCustomer)
 						.leftJoin(qCustomer._addressCustomerRef, qAddress),
 				new CustomerListExtractor(),
+				customerAddressProjection);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Customer findByEmailAddress(EmailAddress emailAddress) {
+		if (emailAddress == null) {
+			return null;
+		}
+		return findOne(qCustomer.emailAddress.eq(emailAddress.toString()));
+	}
+
+	private Customer findOne(Predicate predicate) {
+		return template.queryForObject(
+				template.newSqlQuery()
+						.from(qCustomer)
+						.leftJoin(qCustomer._addressCustomerRef, qAddress)
+						.where(predicate),
+				new CustomerExtractor(),
 				customerAddressProjection);
 	}
 
@@ -161,10 +178,8 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 		});
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public Customer findByEmailAddress(EmailAddress emailAddress) {
-		return null;
+	private static String path(Path<?> path) {
+		return path.toString();
 	}
 
 	private static class CustomerListExtractor extends OneToManyResultSetExtractor<Customer, Address, Integer> {
@@ -183,14 +198,14 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 
 		@Override
 		protected Integer mapPrimaryKey(ResultSet rs) throws SQLException {
-			return rs.getInt(qCustomer.id.toString());
+			return rs.getInt(path(qCustomer.id));
 		}
 
 		@Override
 		protected Integer mapForeignKey(ResultSet rs) throws SQLException {
-			String columnName = qAddress.addressCustomerRef.getLocalColumns().get(0).toString();
-			if (rs.getObject(columnName) != null) {
-				return rs.getInt(columnName);
+			String fkPath = path(qAddress.addressCustomerRef.getLocalColumns().get(0));
+			if (rs.getObject(fkPath) != null) {
+				return rs.getInt(fkPath);
 			}
 			else {
 				return null;
@@ -222,11 +237,11 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 		@Override
 		public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Customer c = new Customer();
-			c.setId(rs.getLong(qCustomer.id.toString()));
-			c.setFirstName(rs.getString(qCustomer.firstName.toString()));
-			c.setLastName(rs.getString(qCustomer.lastName.toString()));
-			if (rs.getString(qCustomer.emailAddress.toString()) != null) {
-				c.setEmailAddress(new EmailAddress(rs.getString(qCustomer.emailAddress.toString())));
+			c.setId(rs.getLong(path(qCustomer.id)));
+			c.setFirstName(rs.getString(path(qCustomer.firstName)));
+			c.setLastName(rs.getString(path(qCustomer.lastName)));
+			if (rs.getString(path(qCustomer.emailAddress)) != null) {
+				c.setEmailAddress(new EmailAddress(rs.getString(path(qCustomer.emailAddress))));
 			}
 			return c;
 		}
@@ -238,11 +253,11 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 
 		@Override
 		public Address mapRow(ResultSet rs, int rowNum) throws SQLException {
-			String street = rs.getString(qAddress.street.toString());
-			String city = rs.getString(qAddress.city.toString());
-			String country = rs.getString(qAddress.country.toString());
+			String street = rs.getString(path(qAddress.street));
+			String city = rs.getString(path(qAddress.city));
+			String country = rs.getString(path(qAddress.country));
 			Address a = new Address(street, city, country);
-			a.setId(rs.getLong(qAddress.id.toString()));
+			a.setId(rs.getLong(path(qAddress.id)));
 			return a;
 		}
 	}
