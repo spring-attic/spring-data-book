@@ -1,5 +1,6 @@
 package com.oreilly.springdata.jdbc.repository;
 
+import com.mysema.query.sql.SQLQuery;
 import com.mysema.query.sql.dml.SQLDeleteClause;
 import com.mysema.query.sql.dml.SQLInsertClause;
 import com.mysema.query.sql.dml.SQLUpdateClause;
@@ -39,13 +40,13 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 
 	private final QAddress qAddress = QAddress.address;
 
-	private QueryDslJdbcTemplate template;
+	private QueryDslJdbcTemplate qdslTemplate;
 
 	private Path[] customerAddressProjection;
 
 	@Autowired
 	public void setDataSource(DataSource dataSource) {
-		this.template = new QueryDslJdbcTemplate(dataSource);
+		this.qdslTemplate = new QueryDslJdbcTemplate(dataSource);
 		customerAddressProjection = new Path[] {
 				qCustomer.id, qCustomer.firstName, qCustomer.lastName, qCustomer.emailAddress,
 				qAddress.id, qAddress.customerId, qAddress.street, qAddress.city, qAddress.country};
@@ -63,10 +64,11 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Customer> findAll() {
-		return template.query(
-				template.newSqlQuery()
-						.from(qCustomer)
-						.leftJoin(qCustomer._addressCustomerRef, qAddress),
+		SQLQuery allCustomersQuery = qdslTemplate.newSqlQuery()
+				.from(qCustomer)
+				.leftJoin(qCustomer._addressCustomerRef, qAddress);
+		return qdslTemplate.query(
+				allCustomersQuery,
 				new CustomerListExtractor(),
 				customerAddressProjection);
 	}
@@ -81,11 +83,12 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 	}
 
 	private Customer findOne(Predicate predicate) {
-		return template.queryForObject(
-				template.newSqlQuery()
-						.from(qCustomer)
-						.leftJoin(qCustomer._addressCustomerRef, qAddress)
-						.where(predicate),
+		SQLQuery oneCustomerQuery = qdslTemplate.newSqlQuery()
+				.from(qCustomer)
+				.leftJoin(qCustomer._addressCustomerRef, qAddress)
+				.where(predicate);
+		return qdslTemplate.queryForObject(
+				oneCustomerQuery,
 				new CustomerExtractor(),
 				customerAddressProjection);
 	}
@@ -93,7 +96,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 	@Override
 	public void save(final Customer customer) {
 		if (customer.getId() == null) {
-			Long generatedKey = template.insertWithKey(qCustomer, new SqlInsertWithKeyCallback<Long>() {
+			Long generatedKey = qdslTemplate.insertWithKey(qCustomer, new SqlInsertWithKeyCallback<Long>() {
 				@Override
 				public Long doInSqlInsertWithKeyClause(SQLInsertClause insert) throws SQLException {
 					return insert.columns(qCustomer.firstName, qCustomer.lastName, qCustomer.emailAddress)
@@ -105,15 +108,15 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 			customer.setId(generatedKey);
 		}
 		else {
-			template.update(qCustomer, new SqlUpdateCallback() {
+			qdslTemplate.update(qCustomer, new SqlUpdateCallback() {
 				@Override
 				public long doInSqlUpdateClause(SQLUpdateClause update) {
 					return update.where(qCustomer.id.eq(customer.getId()))
-						.set(qCustomer.firstName, customer.getFirstName())
-						.set(qCustomer.lastName, customer.getLastName())
-						.set(qCustomer.emailAddress,
-								customer.getEmailAddress() == null ? null : customer.getEmailAddress().toString())
-						.execute();
+							.set(qCustomer.firstName, customer.getFirstName())
+							.set(qCustomer.lastName, customer.getLastName())
+							.set(qCustomer.emailAddress,
+									customer.getEmailAddress() == null ? null : customer.getEmailAddress().toString())
+							.execute();
 				}
 			});
 		}
@@ -126,7 +129,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 		}
 		// first delete any potentially removed addresses
 		if (ids.size() > 0) {
-			template.delete(qAddress, new SqlDeleteCallback() {
+			qdslTemplate.delete(qAddress, new SqlDeleteCallback() {
 				@Override
 				public long doInSqlDeleteClause(SQLDeleteClause delete) {
 					return delete.where(qAddress.customerId.eq(customer.getId())
@@ -137,7 +140,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 		// then update existing ones and add new ones
 		for(final Address a : customer.getAddresses()) {
 			if (a.getId() != null) {
-				template.update(qAddress, new SqlUpdateCallback() {
+				qdslTemplate.update(qAddress, new SqlUpdateCallback() {
 					@Override
 					public long doInSqlUpdateClause(SQLUpdateClause update) {
 						return update.where(qAddress.id.eq(a.getId()))
@@ -150,7 +153,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 				});
 			}
 			else {
-				template.insert(qAddress, new SqlInsertCallback() {
+				qdslTemplate.insert(qAddress, new SqlInsertCallback() {
 					@Override
 					public long doInSqlInsertClause(SQLInsertClause insert) {
 						return insert.columns(qAddress.customerId, qAddress.street, qAddress.city, qAddress.country)
@@ -164,13 +167,13 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 
 	@Override
 	public void delete(final Customer customer) {
-		template.delete(qAddress, new SqlDeleteCallback() {
+		qdslTemplate.delete(qAddress, new SqlDeleteCallback() {
 			@Override
 			public long doInSqlDeleteClause(SQLDeleteClause delete) {
 				return delete.where(qAddress.customerId.eq(customer.getId())).execute();
 			}
 		});
-		template.delete(qCustomer, new SqlDeleteCallback() {
+		qdslTemplate.delete(qCustomer, new SqlDeleteCallback() {
 			@Override
 			public long doInSqlDeleteClause(SQLDeleteClause delete) {
 				return delete.where(qCustomer.id.eq(customer.getId())).execute();
@@ -178,7 +181,7 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 		});
 	}
 
-	private static String path(Path<?> path) {
+	private static String columnLabel(Path<?> path) {
 		return path.toString();
 	}
 
@@ -198,12 +201,12 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 
 		@Override
 		protected Integer mapPrimaryKey(ResultSet rs) throws SQLException {
-			return rs.getInt(path(qCustomer.id));
+			return rs.getInt(columnLabel(qCustomer.id));
 		}
 
 		@Override
 		protected Integer mapForeignKey(ResultSet rs) throws SQLException {
-			String fkPath = path(qAddress.addressCustomerRef.getLocalColumns().get(0));
+			String fkPath = columnLabel(qAddress.addressCustomerRef.getLocalColumns().get(0));
 			if (rs.getObject(fkPath) != null) {
 				return rs.getInt(fkPath);
 			}
@@ -237,11 +240,11 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 		@Override
 		public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Customer c = new Customer();
-			c.setId(rs.getLong(path(qCustomer.id)));
-			c.setFirstName(rs.getString(path(qCustomer.firstName)));
-			c.setLastName(rs.getString(path(qCustomer.lastName)));
-			if (rs.getString(path(qCustomer.emailAddress)) != null) {
-				c.setEmailAddress(new EmailAddress(rs.getString(path(qCustomer.emailAddress))));
+			c.setId(rs.getLong(columnLabel(qCustomer.id)));
+			c.setFirstName(rs.getString(columnLabel(qCustomer.firstName)));
+			c.setLastName(rs.getString(columnLabel(qCustomer.lastName)));
+			if (rs.getString(columnLabel(qCustomer.emailAddress)) != null) {
+				c.setEmailAddress(new EmailAddress(rs.getString(columnLabel(qCustomer.emailAddress))));
 			}
 			return c;
 		}
@@ -253,11 +256,11 @@ public class QueryDslCustomerRepository implements CustomerRepository {
 
 		@Override
 		public Address mapRow(ResultSet rs, int rowNum) throws SQLException {
-			String street = rs.getString(path(qAddress.street));
-			String city = rs.getString(path(qAddress.city));
-			String country = rs.getString(path(qAddress.country));
+			String street = rs.getString(columnLabel(qAddress.street));
+			String city = rs.getString(columnLabel(qAddress.city));
+			String country = rs.getString(columnLabel(qAddress.country));
 			Address a = new Address(street, city, country);
-			a.setId(rs.getLong(path(qAddress.id)));
+			a.setId(rs.getLong(columnLabel(qAddress.id)));
 			return a;
 		}
 	}

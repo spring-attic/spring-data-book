@@ -1,6 +1,5 @@
 package com.oreilly.springdata.jdbc.repository;
 
-import com.mysema.commons.lang.CloseableIterator;
 import com.mysema.query.Tuple;
 import com.mysema.query.sql.HSQLDBTemplates;
 import com.mysema.query.sql.SQLQuery;
@@ -18,8 +17,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jdbc.query.QueryDslJdbcTemplate;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,6 +110,22 @@ public class QueryDslCustomerRepositoryTests {
 		assertThat(result.getEmailAddress(), is(nullValue()));
 	}
 
+	@Test(expected=SQLIntegrityConstraintViolationException.class)
+	public void saveNewCustomerWithDuplicateEmail() {
+		Customer c = new Customer();
+		c.setFirstName("Bob");
+		c.setLastName("Doe");
+		c.setEmailAddress(new EmailAddress("bob@doe.com"));
+		Address a = new Address("Storgaten 6", "Trosa", "Sweden");
+		c.addAddress(a);
+		repository.save(c);
+//		System.out.println(repository.findAll());
+//		Customer result = repository.findById(c.getId());
+//		assertThat(result, is(notNullValue()));
+//		assertThat(result.getFirstName(), is("Sven"));
+//		assertThat(result.getEmailAddress(), is(nullValue()));
+	}
+
 	@Test
 	public void deleteCustomer() {
 		Customer c = repository.findById(100L);
@@ -122,10 +140,11 @@ public class QueryDslCustomerRepositoryTests {
 		Connection connection = DataSourceUtils.getConnection(dataSource);
 		QAddress qAddress = QAddress.address;
 		SQLTemplates dialect = new HSQLDBTemplates();
-		SQLQuery query = new SQLQueryImpl(connection, dialect);
-		List<Address> results = query.from(qAddress)
-		    .where(qAddress.city.eq("London"))
-			.list(new QBean<Address>(Address.class, qAddress.street,
+		SQLQuery query = new SQLQueryImpl(connection, dialect)
+				.from(qAddress)
+				.where(qAddress.city.eq("London"));
+		List<Address> results = query.list(
+				new QBean<Address>(Address.class, qAddress.street,
 					qAddress.city, qAddress.country));
 		DataSourceUtils.releaseConnection(connection, dataSource);
 		assertThat(results, is(notNullValue()));
@@ -152,6 +171,23 @@ public class QueryDslCustomerRepositoryTests {
 					rs.getString(qAddress.country.toString())));
 		}
 		DataSourceUtils.releaseConnection(connection, dataSource);
+		assertThat(results, is(notNullValue()));
+		assertThat(results, hasSize(1));
+		assertThat(results.get(0), notNullValue());
+		assertThat(results.get(0).getCity(), is("London"));
+	}
+
+	@Test
+	public void templateWithMappingExample() {
+		QueryDslJdbcTemplate qdslTemplate = new QueryDslJdbcTemplate(dataSource);
+		final QAddress qAddress = QAddress.address;
+		SQLQuery addressQuery = qdslTemplate.newSqlQuery()
+				.from(qAddress)
+				.where(qAddress.city.eq("London"));
+		List<Address> results = qdslTemplate.query(
+				addressQuery,
+				BeanPropertyRowMapper.newInstance(Address.class),
+				qAddress.street, qAddress.city, qAddress.country);
 		assertThat(results, is(notNullValue()));
 		assertThat(results, hasSize(1));
 		assertThat(results.get(0), notNullValue());
