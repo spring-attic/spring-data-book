@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { ApplicationConfig.class })
+@ContextConfiguration(classes = ApplicationConfig.class)
 @Transactional
 public abstract class AbstractIntegrationTest {
 

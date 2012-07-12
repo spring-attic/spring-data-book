@@ -34,6 +34,8 @@ import com.oreilly.springdata.jpa.core.Product;
 import com.oreilly.springdata.jpa.core.ProductRepository;
 
 /**
+ * Integration tests for {@link OrderRepository}.
+ * 
  * @author Oliver Gierke
  */
 public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {

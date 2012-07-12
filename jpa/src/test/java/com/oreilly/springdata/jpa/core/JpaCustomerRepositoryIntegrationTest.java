@@ -26,6 +26,9 @@ import org.springframework.test.context.ActiveProfiles;
 import com.oreilly.springdata.jpa.AbstractIntegrationTest;
 
 /**
+ * Integration test for the manual implementation ({@link JpaCustomerRepository}) of the {@link CustomerRepository}
+ * interface.
+ * 
  * @author Oliver Gierke
  */
 @ActiveProfiles("jpa")

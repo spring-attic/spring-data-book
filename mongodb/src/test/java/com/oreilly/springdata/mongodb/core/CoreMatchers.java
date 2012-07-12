@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.*;
 import org.hamcrest.Matcher;
 
 /**
- * Custom matchers to eas assertions on our domain classes.
+ * Custom matchers to ease assertions on our domain classes.
  * 
  * @author Oliver Gierke
  */

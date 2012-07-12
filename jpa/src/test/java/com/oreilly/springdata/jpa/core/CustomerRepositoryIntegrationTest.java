@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.oreilly.springdata.jpa.AbstractIntegrationTest;
 
 /**
+ * Integration tests for {@link CustomerRepository}.
  * 
  * @author Oliver Gierke
  */
