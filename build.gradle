@@ -17,6 +17,8 @@ allprojects {
     mavenCentral()
     maven { url "http://repo.springsource.org/libs-snapshot" }
   }
+
+  defaultTasks 'build'
 }
 
 configure(subprojects) { subproject ->
@@ -56,5 +58,3 @@ configure(subprojects) { subproject ->
 }
 
 task wrapper(type: Wrapper) { gradleVersion = "1.0" }
-
-defaultTasks 'build'
