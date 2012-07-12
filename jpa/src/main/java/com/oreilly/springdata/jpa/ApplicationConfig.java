@@ -40,7 +40,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @ComponentScan(basePackageClasses = ApplicationConfig.class)
-@EnableJpaRepositories(basePackageClasses = ApplicationConfig.class)
+@EnableJpaRepositories
 @EnableTransactionManagement
 class ApplicationConfig {
 
