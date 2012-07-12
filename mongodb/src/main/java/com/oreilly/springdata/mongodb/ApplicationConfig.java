@@ -22,10 +22,10 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.core.convert.CustomConversions;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.mongodb.Mongo;
@@ -38,7 +38,7 @@ import com.mongodb.Mongo;
  */
 @Configuration
 @ComponentScan(basePackageClasses = ApplicationConfig.class)
-@ImportResource("classpath:META-INF/spring/spring-data-context.xml")
+@EnableMongoRepositories
 class ApplicationConfig extends AbstractMongoConfiguration {
 
 	@Autowired
