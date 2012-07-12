@@ -1,5 +1,7 @@
 dependencies {
 
+  compile "org.springframework.data:spring-data-jpa:$sdJpaVersion"
+
   compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final"
   
   compile("org.springframework:spring-tx:$springVersion") { force = true }
@@ -8,8 +10,6 @@ dependencies {
   runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
   runtime "log4j:log4j:$log4jVersion"
   runtime "cglib:cglib:2.2.2"
-
-  runtime "org.springframework.data:spring-data-jpa:$sdJpaVersion"
 
   // Testing
   testCompile "org.hibernate:hibernate-entitymanager:$hibernateVersion"
