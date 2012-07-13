@@ -214,5 +214,6 @@ public class QueryDslCustomerRepositoryTests {
 		assertThat(results, hasSize(1));
 		assertThat(results.get(0), notNullValue());
 		assertThat(results.get(0).getFirstName(), is("John"));
+		assertThat(results.get(0).getEmailAddress().toString(), is("john@doe.com"));
 	}
 }

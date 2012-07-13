@@ -25,11 +25,23 @@ public class EmailAddress {
 		return PATTERN.matcher(source).matches();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+		EmailAddress that = (EmailAddress) o;
+
+		if (value != null ? !value.equals(that.value) : that.value != null) return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return value != null ? value.hashCode() : 0;
+	}
+
 	@Override
 	public String toString() {
 		return value;
