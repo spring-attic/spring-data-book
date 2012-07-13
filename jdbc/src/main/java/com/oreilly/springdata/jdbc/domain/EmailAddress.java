@@ -13,6 +13,9 @@ public class EmailAddress {
 
 	private String value;
 
+	protected EmailAddress() {
+	}
+
 	public EmailAddress(String emailAddress) {
 		Assert.isTrue(isValid(emailAddress), "Invalid email address!");
 		this.value = emailAddress;
@@ -22,8 +25,6 @@ public class EmailAddress {
 		return PATTERN.matcher(source).matches();
 	}
 
-	protected EmailAddress() {
-	}
 
 	/*
 	 * (non-Javadoc)

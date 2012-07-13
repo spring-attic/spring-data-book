@@ -15,13 +15,10 @@
  */
 package com.oreilly.springdata.jdbc.domain;
 
-import com.mysema.query.annotations.QuerySupertype;
-
 /**
  * @author Oliver Gierke
  * @author Thomas Risberg
  */
-@QuerySupertype
 public class AbstractEntity {
 
 	private Long id;

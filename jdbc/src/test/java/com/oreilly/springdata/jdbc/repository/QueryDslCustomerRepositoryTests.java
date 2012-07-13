@@ -16,11 +16,11 @@ import com.oreilly.springdata.jdbc.domain.QCustomer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.jdbc.query.QueryDslJdbcTemplate;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +29,6 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,20 +109,15 @@ public class QueryDslCustomerRepositoryTests {
 		assertThat(result.getEmailAddress(), is(nullValue()));
 	}
 
-	@Test(expected=SQLIntegrityConstraintViolationException.class)
+	@Test(expected=DuplicateKeyException.class)
 	public void saveNewCustomerWithDuplicateEmail() {
 		Customer c = new Customer();
 		c.setFirstName("Bob");
 		c.setLastName("Doe");
 		c.setEmailAddress(new EmailAddress("bob@doe.com"));
-		Address a = new Address("Storgaten 6", "Trosa", "Sweden");
+		Address a = new Address("66 Main St", "Middletown", "USA");
 		c.addAddress(a);
 		repository.save(c);
-//		System.out.println(repository.findAll());
-//		Customer result = repository.findById(c.getId());
-//		assertThat(result, is(notNullValue()));
-//		assertThat(result.getFirstName(), is("Sven"));
-//		assertThat(result.getEmailAddress(), is(nullValue()));
 	}
 
 	@Test
