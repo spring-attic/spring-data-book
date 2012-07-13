@@ -34,14 +34,14 @@ public class ApplicationConfigTest {
 	@Test
 	public void bootstrapAppFromJavaConfig() {
 
-		ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+		ApplicationContext context = new AnnotationConfigApplicationContext(TestConfig.class);
 		assertThat(context, is(notNullValue()));
 	}
 
 	@Test
-	public void bootsrapAppFromXml() {
+	public void bootstrapAppFromXml() {
 
-		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/application-context.xml");
+		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/test-context.xml");
 		assertThat(context, is(notNullValue()));
 	}
 }

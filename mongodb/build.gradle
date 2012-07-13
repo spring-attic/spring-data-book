@@ -4,6 +4,8 @@ dependencies {
   
   compile("org.springframework:spring-tx:$springVersion") { force = true }
   compile("org.springframework:spring-orm:$springVersion") { force = true }
+
+  testCompile "de.flapdoodle.embedmongo:de.flapdoodle.embedmongo:1.16"
   
   runtime "org.slf4j:slf4j-log4j12:$slf4jVersion"
   runtime "log4j:log4j:$log4jVersion"
@@ -11,3 +13,5 @@ dependencies {
 
   runtime "org.mongodb:mongo-java-driver:$mongoDbVersion"
 }
+
+test.forkEvery = 1

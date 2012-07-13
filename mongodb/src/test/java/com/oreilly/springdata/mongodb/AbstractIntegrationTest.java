@@ -35,7 +35,7 @@ import com.mongodb.Mongo;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { ApplicationConfig.class })
+@ContextConfiguration(classes = { TestConfig.class })
 public abstract class AbstractIntegrationTest {
 
 	@Autowired
