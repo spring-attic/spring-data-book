@@ -21,7 +21,7 @@ public interface CustomerRepository extends GraphRepository<Customer> {
 
 	Customer findOne(Long id);
 
-	Customer save(Customer customer);
+	<C extends Customer> C save(C customer);
 
 	Customer findByEmailAddress(String emailAddress);
 }
