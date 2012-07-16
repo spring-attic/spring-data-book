@@ -19,4 +19,6 @@ public interface CustomerRepository {
 	void delete(Customer customer);
 
 	Customer findByEmailAddress(EmailAddress emailAddress);
+
+	void saveAddresses(Customer customer);
 }

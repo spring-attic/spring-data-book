@@ -14,8 +14,9 @@ eclipse {
 }
 
 repositories {
+  mavenLocal()
   mavenCentral()
-  maven { url "http://repo.springsource.org/libs-snapshot" }
+  maven { url "http://repo.springsource.org/libs-milestone" }
 }
 
 dependencies {

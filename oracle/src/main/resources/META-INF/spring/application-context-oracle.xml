@@ -15,6 +15,6 @@
 
     <bean class="com.oreilly.springdata.jdbc.oracle.HelloOracle"/>
 
-    <bean id="structCustomerRepository" class="com.oreilly.springdata.jdbc.oracle.StructCustomerRepository"/>
+    <bean id="structCustomerRepository" class="com.oreilly.springdata.jdbc.oracle.JdbcCallCustomerRepository"/>
 
 </beans>
