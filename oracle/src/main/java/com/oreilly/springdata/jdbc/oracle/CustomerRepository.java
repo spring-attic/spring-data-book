@@ -1,4 +1,4 @@
-package com.oreilly.springdata.jdbc.repository;
+package com.oreilly.springdata.jdbc.oracle;
 
 import com.oreilly.springdata.jdbc.domain.Customer;
 import com.oreilly.springdata.jdbc.domain.EmailAddress;
@@ -19,4 +19,6 @@ public interface CustomerRepository {
 	void delete(Customer customer);
 
 	Customer findByEmailAddress(EmailAddress emailAddress);
+
+	void saveAddresses(Customer customer);
 }

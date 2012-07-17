@@ -2,7 +2,7 @@ package com.oreilly.springdata.jdbc.domain;
 
 /**
  */
-public class Address extends AbstractEntity {
+public class Address {
 	private String street, city, country;
 
 	public Address() {

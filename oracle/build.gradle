@@ -14,8 +14,9 @@ eclipse {
 }
 
 repositories {
+  mavenLocal()
   mavenCentral()
-  maven { url "http://repo.springsource.org/libs-snapshot" }
+  maven { url "http://repo.springsource.org/libs-milestone" }
 }
 
 dependencies {
@@ -32,7 +33,7 @@ dependencies {
   compile("org.springframework:spring-oxm:$springVersion") { force = true }
 
   // Spring Data JDBC-Extensions
-  compile "org.springframework.data:spring-data-oracle:1.0.0.BUILD-SNAPSHOT"
+  compile "org.springframework.data:spring-data-oracle:$sdJdbcVersion"
 
   // Runtime	
   runtime "org.slf4j:jcl-over-slf4j:$slf4jVersion"
