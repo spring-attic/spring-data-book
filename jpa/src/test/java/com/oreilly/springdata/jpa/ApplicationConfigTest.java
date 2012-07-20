@@ -23,6 +23,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.oreilly.springdata.jpa.core.CustomerRepository;
+
 /**
  * Test case bootstrapping both JavaConfig and XML configuration to validate configuration.
  * 
@@ -35,12 +37,14 @@ public class ApplicationConfigTest {
 
 		ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 		assertThat(context, is(notNullValue()));
+		assertThat(context.getBean(CustomerRepository.class), is(notNullValue()));
 	}
 
 	@Test
-	public void bootsrapAppFromXml() {
+	public void bootstrapAppFromXml() {
 
 		ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/spring/application-context.xml");
 		assertThat(context, is(notNullValue()));
+		assertThat(context.getBean(CustomerRepository.class), is(notNullValue()));
 	}
 }
