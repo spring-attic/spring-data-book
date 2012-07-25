@@ -1,4 +1,4 @@
-package com.oreilly.springdata.jdbc.domain;
+package com.oreilly.springdata.jdbc.domain.generated;
 
 import static com.mysema.query.types.PathMetadataFactory.*;
 

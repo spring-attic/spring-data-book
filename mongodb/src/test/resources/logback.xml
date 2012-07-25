@@ -10,8 +10,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.springframework.data" level="debug" />
-	<logger name="com.oreilly.springdata" level="debug" />
+	<logger name="org.springframework.data.mongodb" level="debug" />
 
 	<root level="info">
 		<appender-ref ref="console" />

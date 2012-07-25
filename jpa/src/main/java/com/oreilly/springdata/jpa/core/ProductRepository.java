@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -43,5 +44,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	 * @param attribute
 	 * @return
 	 */
-	List<Product> findByAttributesContains(String attribute);
+	@Query("select p from Product p where p.attributes[?1] = ?2")
+	List<Product> findByAttributeAndValue(String attribute, String value);
 }

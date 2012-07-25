@@ -1,39 +1,31 @@
 package com.oreilly.springdata.jdbc;
 
-import com.oreilly.springdata.jdbc.repository.CustomerRepository;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import javax.sql.DataSource;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 /**
- *
+ * Additional configuration for integration tests. Overriding the bean definition for the {@link DataSource}.
+ * 
  * @author Thomas Risberg
+ * @author Oliver Gierke
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackageClasses = CustomerRepository.class)
-public class TestConfig {
+public class TestConfig extends ApplicationConfig {
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.oreilly.springdata.jdbc.ApplicationConfig#dataSource()
+	 */
 	@Bean
+	@Override
 	public DataSource dataSource() {
-		return new EmbeddedDatabaseBuilder()
-		            .setType(EmbeddedDatabaseType.HSQL)
-		            .addScript("classpath:sql/schema.sql")
-		            .addScript("classpath:sql/test-data.sql")
-		            .build();
-	}
-
-	@Bean
-	public PlatformTransactionManager transactionManager() {
-		DataSourceTransactionManager txManager = new DataSourceTransactionManager();
-		txManager.setDataSource(dataSource());
-		return txManager;
+		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).addScript("classpath:sql/schema.sql")
+				.addScript("classpath:sql/test-data.sql").build();
 	}
 }

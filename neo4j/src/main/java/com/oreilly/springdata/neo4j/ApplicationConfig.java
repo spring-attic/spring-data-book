@@ -17,14 +17,11 @@ package com.oreilly.springdata.neo4j;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
-import org.neo4j.kernel.impl.util.FileUtils;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import java.io.File;
-import java.io.IOException;
-
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
 /**
  * Spring JavaConfig configuration class to setup a Spring container and infrastructure components.
@@ -34,9 +31,9 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 @ImportResource("classpath:META-INF/spring/spring-data-context.xml")
 @EnableTransactionManagement
 class ApplicationConfig {
-    @Bean(destroyMethod = "shutdown")
-    public GraphDatabaseService graphDatabaseService() {
-        return new EmbeddedGraphDatabase("target/graph.db");
-    }
 
+	@Bean(destroyMethod = "shutdown")
+	public GraphDatabaseService graphDatabaseService() {
+		return new EmbeddedGraphDatabase("target/graph.db");
+	}
 }

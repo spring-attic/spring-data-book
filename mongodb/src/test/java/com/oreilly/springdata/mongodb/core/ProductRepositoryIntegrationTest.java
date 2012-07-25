@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -60,5 +61,14 @@ public class ProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 		assertThat(page.isFirstPage(), is(true));
 		assertThat(page.isLastPage(), is(false));
 		assertThat(page.hasNextPage(), is(true));
+	}
+
+	@Test
+	@SuppressWarnings("unchecked")
+	public void findsProductsByAttributes() {
+
+		List<Product> products = repository.findByAttributes("attributes.connector", "plug");
+
+		assertThat(products, Matchers.<Product> hasItems(named("Dock")));
 	}
 }

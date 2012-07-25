@@ -9,8 +9,9 @@ import com.mysema.query.types.Predicate;
 import com.oreilly.springdata.jdbc.domain.Address;
 import com.oreilly.springdata.jdbc.domain.Customer;
 import com.oreilly.springdata.jdbc.domain.EmailAddress;
-import com.oreilly.springdata.jdbc.domain.QAddress;
-import com.oreilly.springdata.jdbc.domain.QCustomer;
+import com.oreilly.springdata.jdbc.domain.generated.QAddress;
+import com.oreilly.springdata.jdbc.domain.generated.QCustomer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jdbc.core.OneToManyResultSetExtractor;

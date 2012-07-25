@@ -1,6 +1,24 @@
+compileJava {
+    source = ['src/main/java', 'build/generated/java']
+    options.compilerArgs = [
+		'-proc:only',
+		'-processor',
+		'com.mysema.query.apt.QuerydslAnnotationProcessor',
+		'-s',
+		'build/generated/java'
+	]
+}
+
+configurations {
+  codegen
+}
+
 dependencies {
 
+  codegen "com.mysema.querydsl:querydsl-apt:${querydslVersion}"
+  
   compile "com.mysema.querydsl:querydsl-core:${querydslVersion}"
   compile "com.mysema.querydsl:querydsl-collections:${querydslVersion}"  
-  compile "com.mysema.querydsl:querydsl-apt:${querydslVersion}"
 }
+
+// Querydsl meta-model generation

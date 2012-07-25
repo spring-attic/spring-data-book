@@ -1,6 +1,7 @@
 package com.oreilly.springdata.jdbc;
 
-import com.oreilly.springdata.jdbc.repository.CustomerRepository;
+import javax.sql.DataSource;
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,10 +13,9 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
+import com.oreilly.springdata.jdbc.repository.CustomerRepository;
 
 /**
- *
  * @author Thomas Risberg
  */
 @Configuration
@@ -23,6 +23,7 @@ import javax.sql.DataSource;
 @ComponentScan(basePackageClasses = CustomerRepository.class)
 @PropertySource("classpath:jdbc.properties")
 public class ApplicationConfig {
+
 	@Autowired
 	Environment env;
 

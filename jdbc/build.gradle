@@ -13,8 +13,8 @@ task codegen << {
   ant.codegen(jdbcDriverClass: 'org.hsqldb.jdbc.JDBCDriver',
     dbUrl: 'jdbc:hsqldb:hsql://localhost:9001/test',
     dbUserName: 'sa', schemaPattern: 'PUBLIC',
-    targetSourceFolder: 'src/generated/java',
-    targetPackage: 'com.oreilly.springdata.jdbc.domain')
+    targetSourceFolder: 'src/main/java',
+    targetPackage: 'com.oreilly.springdata.jdbc.domain.generated')
 }
 
 dependencies {

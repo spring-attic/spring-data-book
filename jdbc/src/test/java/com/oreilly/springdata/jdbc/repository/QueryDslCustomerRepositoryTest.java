@@ -1,18 +1,16 @@
 package com.oreilly.springdata.jdbc.repository;
 
-import com.mysema.query.Tuple;
-import com.mysema.query.sql.HSQLDBTemplates;
-import com.mysema.query.sql.SQLQuery;
-import com.mysema.query.sql.SQLQueryImpl;
-import com.mysema.query.sql.SQLTemplates;
-import com.mysema.query.types.MappingProjection;
-import com.mysema.query.types.QBean;
-import com.oreilly.springdata.jdbc.TestConfig;
-import com.oreilly.springdata.jdbc.domain.Address;
-import com.oreilly.springdata.jdbc.domain.Customer;
-import com.oreilly.springdata.jdbc.domain.EmailAddress;
-import com.oreilly.springdata.jdbc.domain.QAddress;
-import com.oreilly.springdata.jdbc.domain.QCustomer;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,28 +23,28 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import com.mysema.query.Tuple;
+import com.mysema.query.sql.HSQLDBTemplates;
+import com.mysema.query.sql.SQLQuery;
+import com.mysema.query.sql.SQLQueryImpl;
+import com.mysema.query.sql.SQLTemplates;
+import com.mysema.query.types.MappingProjection;
+import com.mysema.query.types.QBean;
+import com.oreilly.springdata.jdbc.TestConfig;
+import com.oreilly.springdata.jdbc.domain.Address;
+import com.oreilly.springdata.jdbc.domain.Customer;
+import com.oreilly.springdata.jdbc.domain.EmailAddress;
+import com.oreilly.springdata.jdbc.domain.generated.QAddress;
+import com.oreilly.springdata.jdbc.domain.generated.QCustomer;
 
 /**
- *
  * @author Thomas Risberg
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={TestConfig.class})
+@ContextConfiguration(classes = { TestConfig.class })
 @Transactional
 @DirtiesContext
-public class QueryDslCustomerRepositoryTests {
+public class QueryDslCustomerRepositoryTest {
 
 	@Autowired
 	CustomerRepository repository;
@@ -109,7 +107,7 @@ public class QueryDslCustomerRepositoryTests {
 		assertThat(result.getEmailAddress(), is(nullValue()));
 	}
 
-	@Test(expected=DuplicateKeyException.class)
+	@Test(expected = DuplicateKeyException.class)
 	public void saveNewCustomerWithDuplicateEmail() {
 		Customer c = new Customer();
 		c.setFirstName("Bob");
@@ -134,12 +132,9 @@ public class QueryDslCustomerRepositoryTests {
 		Connection connection = DataSourceUtils.getConnection(dataSource);
 		QAddress qAddress = QAddress.address;
 		SQLTemplates dialect = new HSQLDBTemplates();
-		SQLQuery query = new SQLQueryImpl(connection, dialect)
-				.from(qAddress)
-				.where(qAddress.city.eq("London"));
-		List<Address> results = query.list(
-				new QBean<Address>(Address.class, qAddress.street,
-					qAddress.city, qAddress.country));
+		SQLQuery query = new SQLQueryImpl(connection, dialect).from(qAddress).where(qAddress.city.eq("London"));
+		List<Address> results = query.list(new QBean<Address>(Address.class, qAddress.street, qAddress.city,
+				qAddress.country));
 		DataSourceUtils.releaseConnection(connection, dataSource);
 		assertThat(results, is(notNullValue()));
 		assertThat(results, hasSize(1));
@@ -154,15 +149,12 @@ public class QueryDslCustomerRepositoryTests {
 		final QAddress qAddress = QAddress.address;
 		SQLTemplates dialect = new HSQLDBTemplates();
 		SQLQuery query = new SQLQueryImpl(connection, dialect);
-		ResultSet rs = query.from(qAddress)
-		    .where(qAddress.city.eq("London"))
-			.getResults(qAddress.street, qAddress.city, qAddress.country);
+		ResultSet rs = query.from(qAddress).where(qAddress.city.eq("London"))
+				.getResults(qAddress.street, qAddress.city, qAddress.country);
 		List<Address> results = new ArrayList<Address>();
 		while (rs.next()) {
-			results.add(new Address(
-					rs.getString(qAddress.street.toString()),
-					rs.getString(qAddress.city.toString()),
-					rs.getString(qAddress.country.toString())));
+			results.add(new Address(rs.getString(qAddress.street.toString()), rs.getString(qAddress.city.toString()), rs
+					.getString(qAddress.country.toString())));
 		}
 		DataSourceUtils.releaseConnection(connection, dataSource);
 		assertThat(results, is(notNullValue()));
@@ -175,12 +167,8 @@ public class QueryDslCustomerRepositoryTests {
 	public void templateWithMappingExample() {
 		QueryDslJdbcTemplate qdslTemplate = new QueryDslJdbcTemplate(dataSource);
 		final QAddress qAddress = QAddress.address;
-		SQLQuery addressQuery = qdslTemplate.newSqlQuery()
-				.from(qAddress)
-				.where(qAddress.city.eq("London"));
-		List<Address> results = qdslTemplate.query(
-				addressQuery,
-				BeanPropertyRowMapper.newInstance(Address.class),
+		SQLQuery addressQuery = qdslTemplate.newSqlQuery().from(qAddress).where(qAddress.city.eq("London"));
+		List<Address> results = qdslTemplate.query(addressQuery, BeanPropertyRowMapper.newInstance(Address.class),
 				qAddress.street, qAddress.city, qAddress.country);
 		assertThat(results, is(notNullValue()));
 		assertThat(results, hasSize(1));
@@ -193,10 +181,7 @@ public class QueryDslCustomerRepositoryTests {
 		final QCustomer customer = new QCustomer("c");
 
 		QueryDslJdbcTemplate template = new QueryDslJdbcTemplate(dataSource);
-		List<Customer> results = template.query(
-				template.newSqlQuery()
-						.from(customer)
-						.where(customer.id.eq(100L)),
+		List<Customer> results = template.query(template.newSqlQuery().from(customer).where(customer.id.eq(100L)),
 				new MappingProjection<Customer>(Customer.class, customer.all()) {
 					@Override
 					protected Customer map(Tuple row) {
