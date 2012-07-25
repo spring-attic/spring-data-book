@@ -93,7 +93,10 @@ public class JdbcCallCustomerRepository implements CustomerRepository {
 		Map<String, Object> in = new HashMap<String, Object>();
 	 	in.put("in_customer_id", customer.getId());
 	 	in.put("in_addresses",
-				 new SqlStructArrayValue<Address>(customer.getAddresses().toArray(new Address[0]), addressMapper));
+				 new SqlStructArrayValue<Address>(
+						 customer.getAddresses().toArray(new Address[0]),
+						 addressMapper,
+						 "ADDRESS_TYPE"));
      	saveAddressesCall.execute(in);
 	}
 
@@ -146,7 +149,7 @@ public class JdbcCallCustomerRepository implements CustomerRepository {
 
 		@Override
 		public STRUCT toStruct(Address source, Connection conn, String typeName) throws SQLException {
-			StructDescriptor descriptor = new StructDescriptor("ADDRESS_TYPE", conn);
+			StructDescriptor descriptor = new StructDescriptor(typeName, conn);
 			Object[] values = new Object[3];
 			values[0] = source.getStreet();
 			values[1] = source.getCity();
