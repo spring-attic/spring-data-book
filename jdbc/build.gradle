@@ -13,17 +13,17 @@ task codegen << {
   ant.codegen(jdbcDriverClass: 'org.hsqldb.jdbc.JDBCDriver',
     dbUrl: 'jdbc:hsqldb:hsql://localhost:9001/test',
     dbUserName: 'sa', schemaPattern: 'PUBLIC',
-    targetSourceFolder: 'src/main/java',
-    targetPackage: 'com.oreilly.springdata.jdbc.domain.generated')
+    targetSourceFolder: 'src/generated/java',
+    targetPackage: 'com.oreilly.springdata.jdbc.domain')
 }
 
 dependencies {
 
-  codegen "com.mysema.querydsl:querydsl-sql-codegen:2.6.0"
+  codegen "com.mysema.querydsl:querydsl-sql-codegen:$querydslVersion"
   codegen "org.hsqldb:hsqldb:2.2.8"
   codegen "org.slf4j:slf4j-simple:$slf4jVersion"
 
-  compile "com.mysema.querydsl:querydsl-sql:2.6.0"
+  compile "com.mysema.querydsl:querydsl-sql:$querydslVersion"
   compile "org.springframework.data:spring-data-jdbc-core:$sdJdbcVersion"
   
   compile("org.springframework:spring-tx:$springVersion") { force = true }

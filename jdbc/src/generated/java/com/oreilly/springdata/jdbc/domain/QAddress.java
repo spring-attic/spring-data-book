@@ -1,4 +1,4 @@
-package com.oreilly.springdata.jdbc.domain.generated;
+package com.oreilly.springdata.jdbc.domain;
 
 import static com.mysema.query.types.PathMetadataFactory.*;
 
@@ -28,7 +28,7 @@ public class QAddress extends com.mysema.query.sql.RelationalPathBase<QAddress> 
 
     public final StringPath street = createString("STREET");
 
-    public final com.mysema.query.sql.PrimaryKey<QAddress> sysPk10055 = createPrimaryKey(id);
+    public final com.mysema.query.sql.PrimaryKey<QAddress> sysPk10033 = createPrimaryKey(id);
 
     public final com.mysema.query.sql.ForeignKey<QCustomer> addressCustomerRef = createForeignKey(customerId, "ID");
 

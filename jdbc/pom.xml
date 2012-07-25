@@ -61,6 +61,26 @@
 	<build>
 	
 		<plugins>
+		
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/src/generated/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 	
 			<plugin>
 				<groupId>com.mysema.querydsl</groupId>
@@ -71,8 +91,8 @@
 					<jdbcUrl>jdbc:hsqldb:hsql://localhost:9001/test</jdbcUrl>
 					<jdbcUser>sa</jdbcUser>
 					<schemaPattern>PUBLIC</schemaPattern>
-					<packageName>com.oreilly.springdata.jdbc.domain.generated</packageName>
-					<targetFolder>${project.basedir}/src/main/java</targetFolder>
+					<packageName>com.oreilly.springdata.jdbc.domain</packageName>
+					<targetFolder>${project.basedir}/src/generated/java</targetFolder>
 				</configuration>
 				<dependencies>
 					<dependency>

@@ -34,8 +34,8 @@ import com.oreilly.springdata.jdbc.TestConfig;
 import com.oreilly.springdata.jdbc.domain.Address;
 import com.oreilly.springdata.jdbc.domain.Customer;
 import com.oreilly.springdata.jdbc.domain.EmailAddress;
-import com.oreilly.springdata.jdbc.domain.generated.QAddress;
-import com.oreilly.springdata.jdbc.domain.generated.QCustomer;
+import com.oreilly.springdata.jdbc.domain.QAddress;
+import com.oreilly.springdata.jdbc.domain.QCustomer;
 
 /**
  * @author Thomas Risberg
