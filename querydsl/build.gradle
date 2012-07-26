@@ -1,5 +1,11 @@
+ext {
+	querydslVersion = "2.7.0"
+}
+
 compileJava {
     source = ['src/main/java', 'build/generated/java']
+    
+    // Querydsl meta-model generation
     options.compilerArgs = [
 		'-proc:only',
 		'-processor',
@@ -20,5 +26,3 @@ dependencies {
   compile "com.mysema.querydsl:querydsl-core:${querydslVersion}"
   compile "com.mysema.querydsl:querydsl-collections:${querydslVersion}"  
 }
-
-// Querydsl meta-model generation

@@ -1,6 +1,7 @@
-include "redis",
-        "jdbc",
+include "jdbc",
         "jpa",
         "neo4j",
         "mongodb",
-	"querydsl"
+//        "redis",
+//        "querydsl",
+        "rest-exporter"

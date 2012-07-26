@@ -1,5 +1,23 @@
 apply plugin: "base"
 
+// Dependency versions
+ext {
+
+	// Logging
+	slf4jVersion = "1.6.6"
+	logbackVersion = "1.0.6"
+
+	// Core libraries
+	springVersion = "3.1.2.RELEASE"
+	sdCommonsVersion = "1.3.1.RELEASE"
+	junitVersion = "4.10"
+	hamcrestVersion = "1.2.1"
+	cglibVersion = "2.2.2"
+
+	groovyVersion = "1.8.6"
+	version = "1.0.0.BUILD-SNAPSHOT"
+}
+
 allprojects {
 
   apply plugin: "idea"
@@ -37,6 +55,7 @@ configure(subprojects) { subproject ->
     // Logging
     compile "org.slf4j:slf4j-api:$slf4jVersion"
     runtime "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+    runtime "ch.qos.logback:logback-classic:$logbackVersion"
 
     // Spring
     compile("org.springframework:spring-context:$springVersion") { force = true }
@@ -44,6 +63,7 @@ configure(subprojects) { subproject ->
     compile("org.springframework:spring-expression:$springVersion") { force = true }
     compile("org.springframework:spring-core:$springVersion") { force = true }
     compile "org.springframework.data:spring-data-commons-core:$sdCommonsVersion"
+    compile "cglib:cglib:$cglibVersion"
 
     // Testing
     testCompile("org.springframework:spring-test:$springVersion") { force = true }
