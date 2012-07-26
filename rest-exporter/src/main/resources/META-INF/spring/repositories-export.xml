@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+  <import resource="shared.xml"/>
+
+  <jpa:repositories base-package="com.oreilly.springdata.rest.core"/>
+
+  <!--
+    This validator will be picked up automatically. The default configuration is to look at the bean name
+    and figure out what event you're interested in. This validator is interested in 'beforeSave' events
+    because the word 'beforeSave' appears in the first part of the bean name. It recognizes:
+
+      - beforeSave
+      - afterSave
+      - beforeDelete
+      - afterDelete
+      - beforeLinkSave
+      - afterLinkSave
+
+    What you put after that doesn't matter, you just need to make the bean name unique, of course.
+  -->
+  <bean id="beforeSavePersonValidator" class="com.oreilly.springdata.rest.core.PersonValidator"/>
+
+  <!--
+    The manual configuration (which doesn't look at the bean name) can be done by declaring the
+    event listener instance yourself. It's significantly more XML, but if you need more control:
+  -->
+  <!--
+  <bean class="org.springframework.data.rest.repository.context.ValidatingRepositoryEventListener">
+    <property name="validators">
+      <map>
+        <entry key="beforeSave">
+          <list>
+            <bean class="org.springframework.data.rest.test.webmvc.PersonValidator"/>
+          </list>
+        </entry>
+      </map>
+    </property>
+  </bean>
+  -->
+  
+  <context:component-scan base-package="com.oreilly.springdata.util" />
+
+</beans>

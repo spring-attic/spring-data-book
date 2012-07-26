@@ -1,0 +1,31 @@
+apply plugin: "java"
+apply plugin: "war"
+apply plugin: "jetty"
+apply plugin: "idea"
+apply plugin: "maven"
+
+sdJpaVersion = "1.2.0.M1"
+hibernateVersion = "4.1.1.Final"
+sdRestVersion = "1.0.0.RC1"
+hsqlVersion = "2.2.8"
+
+jettyRun {
+	contextPath = "data"
+}
+
+dependencies {
+
+  // Spring Data
+  compile "org.springframework.data:spring-data-jpa:$sdJpaVersion"
+
+  // JPA
+  compile "org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final"
+  runtime "org.hibernate:hibernate-entitymanager:$hibernateVersion"
+  runtime "org.hsqldb:hsqldb:$hsqlVersion"
+
+  // Spring Data REST
+  compile("org.springframework.data:spring-data-rest-webmvc:$sdRestVersion") { exclude group: "javax.servlet" } 
+  compile "javax.servlet:javax.servlet-api:3.0.1"
+}
+
+defaultTasks 'jettyRun'
