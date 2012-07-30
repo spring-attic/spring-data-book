@@ -127,10 +127,10 @@
 	
 	<repositories>
 		<repository>
-			<id>spring-milestones</id>
-			<url>http://repo.springsource.org/libs-milestone</url>
+			<id>spring-snapshots</id>
+			<url>http://repo.springsource.org/libs-snapshot</url>
 			<snapshots>
-				<enabled>false</enabled>	
+				<enabled>true</enabled>	
 			</snapshots>
 		</repository>
 	</repositories>
