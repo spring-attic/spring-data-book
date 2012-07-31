@@ -64,15 +64,6 @@ class ApplicationConfig extends AbstractMongoConfiguration {
 
 	/* 
 	 * (non-Javadoc)
-	 * @see org.springframework.data.mongodb.config.AbstractMongoConfiguration#getMappingBasePackage()
-	 */
-	@Override
-	protected String getMappingBasePackage() {
-		return getClass().getPackage().getName();
-	}
-
-	/* 
-	 * (non-Javadoc)
 	 * @see org.springframework.data.mongodb.config.AbstractMongoConfiguration#customConversions()
 	 */
 	@Override
