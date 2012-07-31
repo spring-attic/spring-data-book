@@ -17,6 +17,7 @@ package com.oreilly.springdata.rest.core;
 
 import javax.persistence.Entity;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.util.Assert;
 
 /**
@@ -56,6 +57,7 @@ public class Address extends AbstractEntity {
 	 * 
 	 * @return
 	 */
+	@JsonIgnore
 	public Address getCopy() {
 		return new Address(this.street, this.city, this.country);
 	}
