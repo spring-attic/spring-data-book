@@ -26,7 +26,7 @@ public class QCustomer extends com.mysema.query.sql.RelationalPathBase<QCustomer
 
     public final StringPath lastName = createString("LAST_NAME");
 
-    public final com.mysema.query.sql.PrimaryKey<QCustomer> sysPk10027 = createPrimaryKey(id);
+    public final com.mysema.query.sql.PrimaryKey<QCustomer> sysPk10026 = createPrimaryKey(id);
 
     public final com.mysema.query.sql.ForeignKey<QAddress> _addressCustomerRef = createInvForeignKey(id, "CUSTOMER_ID");
 

@@ -28,7 +28,7 @@ public class QAddress extends com.mysema.query.sql.RelationalPathBase<QAddress> 
 
     public final StringPath street = createString("STREET");
 
-    public final com.mysema.query.sql.PrimaryKey<QAddress> sysPk10033 = createPrimaryKey(id);
+    public final com.mysema.query.sql.PrimaryKey<QAddress> sysPk10029 = createPrimaryKey(id);
 
     public final com.mysema.query.sql.ForeignKey<QCustomer> addressCustomerRef = createForeignKey(customerId, "ID");
 
