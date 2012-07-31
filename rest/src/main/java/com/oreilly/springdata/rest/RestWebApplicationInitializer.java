@@ -53,6 +53,6 @@ public class RestWebApplicationInitializer implements WebApplicationInitializer 
 		DispatcherServlet servlet = new RepositoryRestExporterServlet();
 		ServletRegistration.Dynamic dispatcher = container.addServlet("dispatcher", servlet);
 		dispatcher.setLoadOnStartup(1);
-		dispatcher.addMapping("/*");
+		dispatcher.addMapping("/");
 	}
 }

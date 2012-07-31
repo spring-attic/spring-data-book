@@ -32,6 +32,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 /**
+ * Spring component to populate the configured {@link DataSource} with the sample data SQL file (see
+ * {@code src/main/resources/data.sql}) if the application is started with the {@code with-data} profile being active.
+ * 
  * @author Oliver Gierke
  */
 @Component
@@ -41,6 +44,11 @@ class SampleDataProvider implements ApplicationListener<ContextRefreshedEvent>, 
 	private final DataSource dataSource;
 	private ApplicationContext applicationContext;
 
+	/**
+	 * Creates a new {@link SampleDataProvider} to populate the given {@link DataSource}.
+	 * 
+	 * @param dataSource must not be {@literal null}.
+	 */
 	@Autowired
 	public SampleDataProvider(DataSource dataSource) {
 
