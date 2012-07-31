@@ -29,7 +29,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 	/**
 	 * Returns the customer with the given {@link EmailAddress}.
 	 * 
-	 * @param string
+	 * @param emailAddress the {@link EmailAddress} to search for.
 	 * @return
 	 */
 	Customer findByEmailAddress(@Param("emailAddress") EmailAddress emailAddress);

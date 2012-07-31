@@ -44,6 +44,7 @@ public class Order extends AbstractEntity {
 
 	@ManyToOne(optional = false)
 	private Customer customer;
+
 	@ManyToOne
 	private Address billingAddress;
 

@@ -27,7 +27,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	/**
 	 * Returns the {@link Customer} with the given identifier.
 	 * 
-	 * @param id
+	 * @param id the id to search for.
 	 * @return
 	 */
 	Customer findOne(Long id);
@@ -35,7 +35,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	/**
 	 * Saves the given {@link Customer}.
 	 * 
-	 * @param customer
+	 * @param customer the {@link Customer} to search for.
 	 * @return
 	 */
 	Customer save(Customer customer);
@@ -43,7 +43,7 @@ public interface CustomerRepository extends Repository<Customer, Long> {
 	/**
 	 * Returns the customer with the given {@link EmailAddress}.
 	 * 
-	 * @param string
+	 * @param emailAddress the {@link EmailAddress} to search for.
 	 * @return
 	 */
 	Customer findByEmailAddress(EmailAddress emailAddress);
