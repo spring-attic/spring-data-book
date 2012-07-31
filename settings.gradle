@@ -1,7 +1,0 @@
-include "jdbc",
-        "jpa",
-        "neo4j",
-        "mongodb",
-//        "redis",
-//        "querydsl",
-        "rest"
