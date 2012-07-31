@@ -4,4 +4,4 @@ include "jdbc",
         "mongodb",
 //        "redis",
 //        "querydsl",
-        "rest-exporter"
+        "rest"
