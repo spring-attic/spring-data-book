@@ -24,13 +24,6 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-rest-webmvc</artifactId>
 			<version>1.0.0.BUILD-SNAPSHOT</version>
-			<!-- Until https://jira.springsource.org/browse/DATAREST-24 gets resolved -->
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	
 		<!-- Spring Data JPA -->
