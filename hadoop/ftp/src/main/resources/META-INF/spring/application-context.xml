@@ -39,23 +39,7 @@
 				local-directory="file:${java.io.tmpdir}/ftp/input">
 			<int:poller fixed-rate="1000"/>
 	</int-ftp:inbound-channel-adapter>
-		
-	<!-- 
-	<int:channel id="ftpChannel">
-		<int:queue/>
-		<int:interceptors>
-			<int:wire-tap channel="logger"/>
-		</int:interceptors>
-	</int:channel>	
-	<int:logging-channel-adapter id="logger" level="INFO"/>
-	
-	<file:inbound-channel-adapter id="filesIn" 
-	                              directory="file:${java.io.tmpdir}/ftp/input"
-	                              filename-pattern="*.txt">
-		<int:poller id="poller" fixed-delay="5000" />
-	</file:inbound-channel-adapter>
-	-->
-	
+
 	<int:service-activator input-channel="filesIn"
 		                   output-channel="filesOut"
                            ref="handler"/>
