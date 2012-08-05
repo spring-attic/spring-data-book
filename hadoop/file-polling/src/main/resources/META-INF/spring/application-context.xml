@@ -26,11 +26,6 @@
 						   output-channel="filesOut"
 	                       ref="handler"/>
 
-	<!-- 
-	<file:outbound-channel-adapter id="filesOut"
-								   directory="file:${java.io.tmpdir}/hadoop/output"
-								   delete-source-files="true"/>
-	-->
 	<bean id="handler" class="com.oreilly.springdata.hadoop.filepolling.CustomFileHandler"/>
 	
 	<int:outbound-channel-adapter id="filesOut" 
@@ -39,6 +34,7 @@
 	<bean id="fsShellWritingMessagingHandler" class="com.oreilly.springdata.hadoop.filepolling.FsShellWritingMessageHandler">
 		<constructor-arg value="/user/mpollack/tmp/output"/>
 		<constructor-arg ref="hadoopConfiguration"/>
+		<!-- an output Channel is required -->
 		<property name="outputChannel" ref="nullChannel"/>
 	</bean>
 	
