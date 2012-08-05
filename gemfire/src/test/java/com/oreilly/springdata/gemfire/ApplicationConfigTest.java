@@ -13,31 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.oreilly.springdata.mongodb;
+package com.oreilly.springdata.gemfire;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+
 /**
  * Integration test bootstrapping an {@link ApplicationContext} from both XML and JavaConfig to assure the general setup
  * is working.
  * 
  * @author Oliver Gierke
+ * @author David Turanski
  */
 public class ApplicationConfigTest {
-
 	@Test
 	public void bootstrapAppFromJavaConfig() {
 
 		ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 		assertThat(context, is(notNullValue()));
 	}
-
+	
 	@Test
 	public void bootstrapAppFromXml() {
 
