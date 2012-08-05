@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:integration="http://www.springframework.org/schema/integration"
+	xmlns:int="http://www.springframework.org/schema/integration"
 	xmlns:file="http://www.springframework.org/schema/integration/file"
 	xmlns:hdp="http://www.springframework.org/schema/hadoop"
 	xmlns:context="http://www.springframework.org/schema/context"
@@ -18,18 +18,37 @@
 	<file:inbound-channel-adapter id="filesIn" 
 	                              directory="file:${java.io.tmpdir}/hadoop/input"
 	                              filename-pattern="*.txt">
-		<integration:poller id="poller" fixed-delay="5000" />
+		<int:poller id="poller" fixed-delay="5000" />
 	</file:inbound-channel-adapter>
 
-	<integration:service-activator input-channel="filesIn"
-	                               output-channel="filesOut"
-                                   ref="handler"/>
+	
+	<int:service-activator input-channel="filesIn"
+						   output-channel="filesOut"
+	                       ref="handler"/>
 
+	<!-- 
 	<file:outbound-channel-adapter id="filesOut"
 								   directory="file:${java.io.tmpdir}/hadoop/output"
 								   delete-source-files="true"/>
-
+	-->
 	<bean id="handler" class="com.oreilly.springdata.hadoop.filepolling.CustomFileHandler"/>
-
-
+	
+	<int:outbound-channel-adapter id="filesOut" 
+								  ref="fsShellWritingMessagingHandler" method="handleMessage"/>
+	
+	<bean id="fsShellWritingMessagingHandler" class="com.oreilly.springdata.hadoop.filepolling.FsShellWritingMessageHandler">
+		<constructor-arg value="/user/mpollack/tmp/output"/>
+		<constructor-arg ref="hadoopConfiguration"/>
+		<property name="outputChannel" ref="nullChannel"/>
+	</bean>
+	
+	
+	<int:channel id="loggingChannel">
+		<int:queue/>
+		<int:interceptors>
+			<int:wire-tap channel="logger"/>
+		</int:interceptors>
+	</int:channel>	
+	<int:logging-channel-adapter id="logger" level="INFO"/>
+	
 </beans>
