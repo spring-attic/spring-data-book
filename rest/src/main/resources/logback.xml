@@ -10,11 +10,10 @@
 		</encoder>
 	</appender>
 
-	<!-- 
-	<logger name="org.springframework" level="debug" />
-	 -->
+	<logger name="com.oreilly.springdata" level="info" />
+	<logger name="org.springframework.data" level="info" />
 
-	<root level="info">
+	<root level="warn">
 		<appender-ref ref="console" />
 	</root>
 
