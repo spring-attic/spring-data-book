@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+	
 	<groupId>com.oreilly.springdata</groupId>
 	<artifactId>spring-data-book</artifactId>
 	<version>1.0.0.BUILD-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
+	
 	<name>Spring Data Book</name>
 
 	<properties>
@@ -15,7 +15,7 @@
 		<logback.version>1.0.6</logback.version>
 		<querydsl.version>2.6.0</querydsl.version>
 	</properties>
-
+	
 	<modules>
 		<module>jpa</module>
 		<module>mongodb</module>
@@ -24,10 +24,11 @@
 		<module>jdbc</module>
 		<module>redis</module>
 		<module>rest</module>
+	<module>gemfire</module>
 	</modules>
-
+	
 	<dependencies>
-
+	
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -39,26 +40,26 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib</artifactId>
 			<version>2.2.2</version>
 			<scope>runtime</scope>
 		</dependency>
-
+		
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -71,14 +72,14 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		
 		<!-- Test -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -87,7 +88,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
+                <dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-core</artifactId>
 			<version>1.2.1</version>
@@ -100,19 +101,19 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
-
+		
 	</dependencies>
 
 	<build>
 		<plugins>
-
+		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -122,35 +123,35 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.12</version>
 			</plugin>
-
+			
 		</plugins>
 	</build>
-
+	
 	<repositories>
-		<repository>
+                 <repository>
 			<id>spring-milestones</id>
 			<url>http://repo.springsource.org/libs-milestone</url>
 			<snapshots>
-				<enabled>false</enabled>
+				<enabled>false</enabled>	
 			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
+                        <releases>
+                                <enabled>true</enabled>
+                        </releases>
 		</repository>
 		<repository>
 			<id>spring-snapshots</id>
 			<url>http://repo.springsource.org/libs-snapshot</url>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>true</enabled>	
 			</snapshots>
 		</repository>
-
+              
 	</repositories>
 
 </project>
