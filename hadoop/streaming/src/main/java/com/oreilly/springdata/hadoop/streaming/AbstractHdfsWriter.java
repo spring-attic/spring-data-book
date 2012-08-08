@@ -13,10 +13,13 @@ public abstract class AbstractHdfsWriter implements HdfsWriter {
 	//TODO need to initialize the counter based on directory contents.
 	private final AtomicLong counter = new AtomicLong(0L);
 	
-	private long rolloverThresholdInBytes = 99999;
+	private long rolloverThresholdInBytes = 500;//10*1024*1024; //10MB
+	
+	private final AtomicLong bytesWritten = new AtomicLong(0L);
 	
 	private String baseFilename = HdfsTextFileWriterFactory.DEFAULT_BASE_FILENAME;
 	private String basePath = HdfsTextFileWriterFactory.DEFAULT_BASE_PATH;
+	private String fileSuffix = HdfsTextFileWriterFactory.DEFAULT_FILE_SUFFIX;
 	
 	
 	public long getRolloverThresholdInBytes() {
@@ -27,6 +30,14 @@ public abstract class AbstractHdfsWriter implements HdfsWriter {
 		this.rolloverThresholdInBytes = rolloverThresholdInBytes;
 	}
 
+
+	public String getFileSuffix() {
+		return fileSuffix;
+	}
+
+	public void setFileSuffix(String fileSuffix) {
+		this.fileSuffix = fileSuffix;
+	}
 
 	
 	public String getBaseFilename() {
@@ -49,13 +60,29 @@ public abstract class AbstractHdfsWriter implements HdfsWriter {
 		return counter.get();
 	}
 	
+	public void setCounter(long value) {
+		counter.set(value);
+	}
+	
 	public void incrementCounter() {
 		counter.incrementAndGet();
 	}
 	
-	public String getPathName() {
+	public void incrementBytesWritten(long bytesWritten) {
+		this.bytesWritten.addAndGet(bytesWritten);
+	}
+	
+	public void resetBytesWritten() {
+		this.bytesWritten.set(0L);
+	}
+	
+	public long getBytesWritten() {
+		return bytesWritten.get();
+	}
+	
+	public String getFileName() {
 		//TODO configure file suffix
-		return basePath + baseFilename + "-" + getCounter() + ".log";
+		return basePath + baseFilename + "-" + getCounter() + "." + fileSuffix;
 	}
 	
 }
