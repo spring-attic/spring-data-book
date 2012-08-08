@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:hdp="http://www.springframework.org/schema/hadoop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
+
+
+	<context:property-placeholder location="hadoop.properties"/>
+
+	<hdp:configuration>
+		fs.default.name=${hd.fs}
+	</hdp:configuration>
+
+	<hdp:job id="wordcount-job" validate-paths="false"
+	    input-path="${wordcount.input.path}" output-path="${wordcount.output.path}" 
+		mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
+		reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"/>
+
+
+  	<hdp:script id="setup-script" location="cp-data.js" >
+        <hdp:property name="inputPath" value="${wordcount.input.path}" />
+        <hdp:property name="outputPath" value="${wordcount.output.path}" />
+        <hdp:property name="localResource" value="${local.data}" />
+  	</hdp:script>
+	
+	<!-- simple job runner -->
+	<bean id="runner" class="org.springframework.data.hadoop.mapreduce.JobRunner" depends-on="setup-script" p:jobs-ref="wordcount-job"/>
+	
+</beans>
