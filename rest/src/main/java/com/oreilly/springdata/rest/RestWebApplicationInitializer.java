@@ -15,16 +15,33 @@
  */
 package com.oreilly.springdata.rest;
 
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration.Dynamic;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.repository.support.DomainClassConverter;
 import org.springframework.data.rest.webmvc.RepositoryRestExporterServlet;
+import org.springframework.data.rest.webmvc.RepositoryRestMvcConfiguration;
+import org.springframework.data.rest.webmvc.ResourceProcessorInvokingHandlerAdapter;
+import org.springframework.format.support.FormattingConversionService;
+import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+
+import com.oreilly.springdata.rest.order.web.CustomerOrdersController;
 
 /**
  * Servlet 3.0 {@link WebApplicationInitializer} to setup both a root {@link WebApplicationContext} using the
@@ -42,6 +59,9 @@ public class RestWebApplicationInitializer implements WebApplicationInitializer 
 	 */
 	public void onStartup(ServletContext container) throws ServletException {
 
+		Dynamic filter = container.addFilter("oemivf", OpenEntityManagerInViewFilter.class);
+		filter.addMappingForServletNames(EnumSet.of(DispatcherType.REQUEST), false, "dispatcher");
+
 		// Create the 'root' Spring application context
 		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
 		rootContext.register(ApplicationConfig.class);
@@ -50,9 +70,30 @@ public class RestWebApplicationInitializer implements WebApplicationInitializer 
 		container.addListener(new ContextLoaderListener(rootContext));
 
 		// Register and map the dispatcher servlet
-		DispatcherServlet servlet = new RepositoryRestExporterServlet();
+		AnnotationConfigWebApplicationContext servletContext = new AnnotationConfigWebApplicationContext();
+		servletContext.register(RepositoryRestMvcConfiguration.class, WebConfiguration.class);
+
+		DispatcherServlet servlet = new DispatcherServlet(servletContext);
 		ServletRegistration.Dynamic dispatcher = container.addServlet("dispatcher", servlet);
 		dispatcher.setLoadOnStartup(1);
 		dispatcher.addMapping("/");
+	}
+
+	@Configuration
+	@EnableWebMvc
+	@ComponentScan(basePackageClasses = CustomerOrdersController.class)
+	public static class WebConfiguration extends WebMvcConfigurationSupport {
+
+		@Bean
+		@Override
+		public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
+			RequestMappingHandlerAdapter original = super.requestMappingHandlerAdapter();
+			return new ResourceProcessorInvokingHandlerAdapter(original);
+		}
+
+		@Bean
+		public DomainClassConverter<?> domainClassConverter() {
+			return new DomainClassConverter<FormattingConversionService>(mvcConversionService());
+		}
 	}
 }
