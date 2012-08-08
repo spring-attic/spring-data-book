@@ -15,8 +15,6 @@
  */
 package com.oreilly.springdata.gemfire.customer;
 
-import java.util.List;
-
 import org.springframework.data.repository.CrudRepository;
 
 import com.oreilly.springdata.gemfire.core.EmailAddress;
@@ -30,7 +28,5 @@ import com.oreilly.springdata.gemfire.core.EmailAddress;
  */
 
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
-
-	 List<Customer> findByEmailAddress(EmailAddress emailAddress);
-	
+	Customer findByEmailAddress(EmailAddress emailAddress);
 }

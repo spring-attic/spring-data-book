@@ -25,16 +25,16 @@ import org.springframework.data.repository.CrudRepository;
  * Repository interface to access {@link Product}s.
  * 
  * @author Oliver Gierke
- * @author David Turanski
+ * @author David TuranskiGem
  */
 public interface ProductRepository extends CrudRepository<Product, Long> {
 
 	/**
 	 * Returns a list of {@link Product}s having a description which contains the given snippet.
-	 * @param description must include the '%' prefix and or suffix
+	 * @param the search string
 	 * @return
 	 */
-	@Query("SELECT * FROM /Product  WHERE description LIKE $1")
+	
 	List<Product> findByDescriptionContaining(String description);
 
 	/**

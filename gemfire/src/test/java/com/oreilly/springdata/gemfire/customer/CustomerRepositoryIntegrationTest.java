@@ -15,10 +15,7 @@
  */
 package com.oreilly.springdata.gemfire.customer;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
 
 import org.junit.Test;
 
@@ -36,8 +33,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractIntegrationTest {
 	
 	@Test
 	public void testFind() {
-		List<Customer> results = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com"));
-		assertNotNull(results);
-		assertEquals(1,results.size());
+		Customer result = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com"));
+		assertNotNull(result);
 	}
 }

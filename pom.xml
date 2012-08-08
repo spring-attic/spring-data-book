@@ -23,6 +23,7 @@
 		<module>neo4j</module>
 		<module>jdbc</module>
 		<module>redis</module>
+		<module>gemfire</module>
 		<module>rest</module>
 	</modules>
 

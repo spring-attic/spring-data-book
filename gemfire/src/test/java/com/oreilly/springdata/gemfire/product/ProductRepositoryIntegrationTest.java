@@ -47,7 +47,7 @@ public class ProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 	public void lookupProductsByDescription() {
 
 		 
-		List<Product> products = productRepository.findByDescriptionContaining("%Apple%");
+		List<Product> products = productRepository.findByDescriptionContaining("Apple");
 		assertThat(products, hasSize(2));
 		assertThat(products, Matchers.<Product> hasItems(named("iPad")));
 	}
