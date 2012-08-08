@@ -2,17 +2,11 @@ package com.oreilly.springdata.hadoop.streaming;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
-import org.springframework.data.hadoop.fs.FsShell;
 import org.springframework.integration.Message;
 import org.springframework.integration.MessageHandlingException;
 import org.springframework.util.Assert;
@@ -21,15 +15,12 @@ public class HdfsTextFileWriter extends AbstractHdfsWriter implements HdfsWriter
 
 	private FileSystem fileSystem;
 	private FSDataOutputStream fsDataOutputStream;
-	private FsShell fsShell;
-	private volatile boolean initialized;
 
 	private volatile String charset = "UTF-8";
 	
 	public HdfsTextFileWriter(FileSystem fileSystem) {
 		Assert.notNull(fileSystem, "Hadoop FileSystem must not be null.");
 		this.fileSystem = fileSystem;
-		fsShell = new FsShell(fileSystem.getConf(), this.fileSystem);
 	}
 	
 
@@ -40,34 +31,6 @@ public class HdfsTextFileWriter extends AbstractHdfsWriter implements HdfsWriter
 		copy(getPayloadAsBytes(message), this.fsDataOutputStream);
 	}
 	
-	private void initializeCounterIfNecessary() {
-		if (!initialized) {
-			int maxCounter = 0;
-			Collection<FileStatus> fileStats = fsShell.ls(this.getBasePath());
-			for (FileStatus fileStatus : fileStats) {
-				String shortName = fileStatus.getPath().getName();
-				int counterFromName = getCounterFromName(shortName);
-				if (counterFromName > maxCounter) {
-					maxCounter = counterFromName;
-				}
-			}
-			if (maxCounter != 0) {
-				this.setCounter(maxCounter+1);
-			}
-			initialized = true;
-		}
-	}
-
-
-	private int getCounterFromName(String shortName) {
-		Pattern pattern = Pattern.compile("([\\d+]{1,})");
-		Matcher matcher = pattern.matcher(shortName);
-		if (matcher.find()) {
-			return Integer.parseInt(matcher.group());
-		} 
-		return 0;			
-	}
-
 
 	private void prepareOutputStream() throws IOException {
 		boolean found = false;
@@ -77,10 +40,10 @@ public class HdfsTextFileWriter extends AbstractHdfsWriter implements HdfsWriter
 		while (!found) {
 			name = new Path(getFileName());
 			// If it doesn't exist, create it.  If it exists, return false
-			if (fileSystem.createNewFile(name)) {	
+			if (getFileSystem().createNewFile(name)) {	
 				found = true;
 				this.resetBytesWritten();
-				this.fsDataOutputStream = this.fileSystem.append(name);
+				this.fsDataOutputStream = this.getFileSystem().append(name);
 			}
 			else {
 				if (this.getBytesWritten() >= getRolloverThresholdInBytes()) {
@@ -92,6 +55,10 @@ public class HdfsTextFileWriter extends AbstractHdfsWriter implements HdfsWriter
 				}
 			}
 		}
+	}
+	
+	public FileSystem getFileSystem() {
+		return this.fileSystem;
 	}
 	
 	/**

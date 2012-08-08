@@ -1,6 +1,13 @@
 package com.oreilly.springdata.hadoop.streaming;
 
+import java.util.Collection;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.springframework.data.hadoop.fs.FsShell;
 
 
 /**
@@ -17,10 +24,42 @@ public abstract class AbstractHdfsWriter implements HdfsWriter {
 	
 	private final AtomicLong bytesWritten = new AtomicLong(0L);
 	
+	private volatile boolean initialized;
+	
 	private String baseFilename = HdfsTextFileWriterFactory.DEFAULT_BASE_FILENAME;
 	private String basePath = HdfsTextFileWriterFactory.DEFAULT_BASE_PATH;
 	private String fileSuffix = HdfsTextFileWriterFactory.DEFAULT_FILE_SUFFIX;
 	
+	public abstract FileSystem getFileSystem();
+	
+	protected void initializeCounterIfNecessary() {
+		if (!initialized) {
+			FsShell fsShell = new FsShell(getFileSystem().getConf(), getFileSystem());
+			int maxCounter = 0;
+			Collection<FileStatus> fileStats = fsShell.ls(this.getBasePath());
+			for (FileStatus fileStatus : fileStats) {
+				String shortName = fileStatus.getPath().getName();
+				int counterFromName = getCounterFromName(shortName);
+				if (counterFromName > maxCounter) {
+					maxCounter = counterFromName;
+				}
+			}
+			if (maxCounter != 0) {
+				this.setCounter(maxCounter+1);
+			}
+			initialized = true;
+		}
+	}
+
+
+	protected int getCounterFromName(String shortName) {
+		Pattern pattern = Pattern.compile("([\\d+]{1,})");
+		Matcher matcher = pattern.matcher(shortName);
+		if (matcher.find()) {
+			return Integer.parseInt(matcher.group());
+		} 
+		return 0;			
+	}
 	
 	public long getRolloverThresholdInBytes() {
 		return rolloverThresholdInBytes;

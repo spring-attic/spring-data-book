@@ -43,6 +43,7 @@ public class HdfsTextFileWriterFactory implements HdfsWriterFactory {
 	public void setBasePath(String basePath) {
 		this.basePath = basePath;
 	}
+	
 
 	@Override
 	public HdfsWriter createWriter() {
