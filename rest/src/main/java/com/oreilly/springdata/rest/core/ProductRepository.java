@@ -21,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Repository to access {@link Product} instances.
@@ -36,7 +37,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	 * @param pageable
 	 * @return
 	 */
-	Page<Product> findByDescriptionContaining(String description, Pageable pageable);
+	Page<Product> findByDescriptionContaining(@Param("description") String description, Pageable pageable);
 
 	/**
 	 * Returns all {@link Product}s having the given attribute.
@@ -44,6 +45,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 	 * @param attribute
 	 * @return
 	 */
-	@Query("select p from Product p where p.attributes[?1] = ?2")
-	List<Product> findByAttributeAndValue(String attribute, String value);
+	@Query("select p from Product p where p.attributes[:attribute] = :value")
+	List<Product> findByAttributeAndValue(@Param("attribute") String attribute, @Param("value") String value);
 }

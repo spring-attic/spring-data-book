@@ -18,6 +18,7 @@ package com.oreilly.springdata.rest.order;
 import java.util.List;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import com.oreilly.springdata.rest.core.Customer;
 
@@ -34,5 +35,5 @@ public interface OrderRepository extends PagingAndSortingRepository<Order, Long>
 	 * @param customer
 	 * @return
 	 */
-	List<Order> findByCustomer(Customer customer);
+	List<Order> findByCustomer(@Param("customer") Customer customer);
 }

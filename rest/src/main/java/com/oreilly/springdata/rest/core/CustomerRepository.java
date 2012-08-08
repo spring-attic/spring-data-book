@@ -15,7 +15,7 @@
  */
 package com.oreilly.springdata.rest.core;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
@@ -24,7 +24,7 @@ import org.springframework.data.repository.query.Param;
  * 
  * @author Oliver Gierke
  */
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
+public interface CustomerRepository extends PagingAndSortingRepository<Customer, Long> {
 
 	/**
 	 * Returns the customer with the given {@link EmailAddress}.

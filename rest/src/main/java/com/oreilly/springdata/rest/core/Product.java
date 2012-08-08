@@ -16,7 +16,6 @@
 package com.oreilly.springdata.rest.core;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -116,7 +115,7 @@ public class Product extends AbstractEntity {
 	 * @return
 	 */
 	public Map<String, String> getAttributes() {
-		return Collections.unmodifiableMap(attributes);
+		return attributes;
 	}
 
 	/**

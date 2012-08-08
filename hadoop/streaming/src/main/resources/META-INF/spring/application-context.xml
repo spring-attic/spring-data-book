@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:hdp="http://www.springframework.org/schema/hadoop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
+	xmlns:int-ip="http://www.springframework.org/schema/integration/ip"	
+	xmlns:int-jmx="http://www.springframework.org/schema/integration/jmx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream-2.1.xsd
+		 http://www.springframework.org/schema/integration/jmx http://www.springframework.org/schema/integration/jmx/spring-integration-jmx.xsd
+		http://www.springframework.org/schema/integration/ip http://www.springframework.org/schema/integration/ip/spring-integration-ip.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+<!-- 
+	<int-jmx:mbean-export default-domain="demo"/>
+
+	<context:mbean-server/>
+-->
+	
+	<context:property-placeholder location="hadoop.properties"/>
+
+	
+	<bean id="hadoopFs" class="org.springframework.data.hadoop.fs.FileSystemFactoryBean" p:configuration-ref="hadoopConfiguration"/>
+	
+	<hdp:resource-loader file-system-ref="hadoopFs"/>	
+	
+	<hdp:configuration register-url-handler="false">
+		fs.default.name=${hd.fs}
+	</hdp:configuration>
+
+	
+     <int-ip:udp-inbound-channel-adapter id="udpReceiver"
+         channel="input"
+         port="1513" />
+
+     <int:transformer input-channel="input" output-channel="transformChannel" 
+     				  ref="syslogTransformer"/>
+
+     <bean id="syslogTransformer" class="com.oreilly.springdata.integration.ip.syslog.SyslogTransformer" />
+
+	     
+     <int:channel id="transformChannel" />
+
+	<int:object-to-string-transformer input-channel="transformChannel" output-channel="out"/>
+	 <!-- 
+     <int-stream:stdout-channel-adapter channel="out" append-newline="true"/>
+     -->
+     
+     <int:outbound-channel-adapter id="out" 
+								   ref="hdfsWritingMessageHandler" method="handleMessage"/>
+	
+	<bean id="hdfsWritingMessageHandler" class="com.oreilly.springdata.hadoop.streaming.HdfsWritingMessageHandler">
+		<constructor-arg ref="hdfsWriterFactory"/>
+	</bean>
+	
+	<bean id="hdfsWriterFactory" class="com.oreilly.springdata.hadoop.streaming.HdfsTextFileWriterFactory">
+		<constructor-arg ref="hadoopFs"/>
+	</bean>
+     
+
+
+	
+
+
+</beans>
