@@ -18,13 +18,11 @@ import org.springframework.integration.MessageHandlingException;
 import org.springframework.integration.file.DefaultFileNameGenerator;
 import org.springframework.integration.file.FileHeaders;
 import org.springframework.integration.file.FileNameGenerator;
-import org.springframework.integration.handler.AbstractReplyProducingMessageHandler;
-import org.springframework.integration.support.MessageBuilder;
+import org.springframework.integration.handler.AbstractMessageHandler;
 import org.springframework.integration.util.LockRegistry;
 import org.springframework.util.Assert;
 
-public class FsShellWritingMessageHandler extends
-		AbstractReplyProducingMessageHandler {
+public class FsShellWritingMessageHandler extends AbstractMessageHandler {
 
 	private volatile FileExistsMode fileExistsMode = FileExistsMode.REPLACE;
 
@@ -40,8 +38,6 @@ public class FsShellWritingMessageHandler extends
 	private volatile boolean autoCreateDirectory = true;
 
 	private volatile boolean deleteSourceFiles;
-
-	private volatile boolean expectReply = true;
 
 	private Configuration configuration;
 
@@ -126,15 +122,6 @@ public class FsShellWritingMessageHandler extends
 		this.fileExistsMode = fileExistsMode;
 	}
 
-	/**
-	 * Specify whether a reply Message is expected. If not, this handler will
-	 * simply return null for a successful response or throw an Exception for a
-	 * non-successful response. The default is true.
-	 */
-	public void setExpectReply(boolean expectReply) {
-		this.expectReply = expectReply;
-	}
-
 	@Override
 	public final void onInit() {
 
@@ -166,7 +153,7 @@ public class FsShellWritingMessageHandler extends
 	}
 
 	@Override
-	protected Object handleRequestMessage(Message<?> requestMessage) {
+	public void handleMessageInternal(Message<?> requestMessage) {
 		Assert.notNull(requestMessage, "message must not be null");
 		Object payload = requestMessage.getPayload();
 		Assert.notNull(payload, "message payload must not be null");
@@ -206,17 +193,6 @@ public class FsShellWritingMessageHandler extends
 			}
 		}
 
-		if (!this.expectReply) {
-			return null;
-		}
-
-		if (resultFile != null) {
-			if (originalFileFromHeader == null && payload instanceof File) {
-				return MessageBuilder.withPayload(resultFile).setHeader(
-						FileHeaders.ORIGINAL_FILE, payload);
-			}
-		}
-		return resultFile;
 	}
 
 	/**

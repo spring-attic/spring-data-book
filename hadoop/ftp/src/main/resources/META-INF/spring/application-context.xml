@@ -40,20 +40,20 @@
 			<int:poller fixed-rate="1000"/>
 	</int-ftp:inbound-channel-adapter>
 
+	<int:outbound-channel-adapter id="ftpInbound" ref="fsShellWritingMessagingHandler"/>
+	
+	<bean id="fsShellWritingMessagingHandler" class="com.oreilly.springdata.hadoop.ftp.FsShellWritingMessageHandler">
+		<constructor-arg value="/user/mpollack/tmp/output"/>
+		<constructor-arg ref="hadoopConfiguration"/>
+	</bean>
+	
+	
+	<!-- 
 	<int:service-activator input-channel="filesIn"
 		                   output-channel="filesOut"
                            ref="handler"/>
 	
 	<bean id="handler" class="com.oreilly.springdata.hadoop.ftp.CustomFileHandler"/>
-
-	<int:outbound-channel-adapter id="filesOut" 
-								  ref="fsShellWritingMessagingHandler" method="handleMessage"/>
-	
-	<bean id="fsShellWritingMessagingHandler" class="com.oreilly.springdata.hadoop.ftp.FsShellWritingMessageHandler">
-		<constructor-arg value="/user/mpollack/tmp/output"/>
-		<constructor-arg ref="hadoopConfiguration"/>
-		<!-- an output Channel is required -->
-		<property name="outputChannel" ref="nullChannel"/>
-	</bean>
+	-->
 
 </beans>

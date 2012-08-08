@@ -83,7 +83,7 @@
 		<programs>
 		  <program>
 		    <mainClass>com.oreilly.springdata.hadoop.ftp.Ftp</mainClass>
-		    <name>wordcount</name>
+		    <name>ftp</name>
 		  </program>
 		</programs>
               </configuration>

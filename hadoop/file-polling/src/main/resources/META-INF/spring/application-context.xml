@@ -21,14 +21,15 @@
 		<int:poller id="poller" fixed-delay="5000" />
 	</file:inbound-channel-adapter>
 
-	
+	<!-- 
 	<int:service-activator input-channel="filesIn"
 						   output-channel="filesOut"
 	                       ref="handler"/>
 
 	<bean id="handler" class="com.oreilly.springdata.hadoop.filepolling.CustomFileHandler"/>
+	-->
 	
-	<int:outbound-channel-adapter id="filesOut" 
+	<int:outbound-channel-adapter id="filesIn" 
 								  ref="fsShellWritingMessagingHandler" method="handleMessage"/>
 	
 	<bean id="fsShellWritingMessagingHandler" class="com.oreilly.springdata.hadoop.filepolling.FsShellWritingMessageHandler">
