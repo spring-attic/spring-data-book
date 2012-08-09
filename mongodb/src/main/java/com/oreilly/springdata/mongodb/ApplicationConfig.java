@@ -29,6 +29,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.mongodb.Mongo;
+import com.mongodb.WriteConcern;
 
 /**
  * Spring JavaConfig configuration class to setup a Spring container and infrastructure components like a
@@ -39,7 +40,7 @@ import com.mongodb.Mongo;
 @Configuration
 @ComponentScan(basePackageClasses = ApplicationConfig.class)
 @EnableMongoRepositories
-class ApplicationConfig extends AbstractMongoConfiguration {
+public class ApplicationConfig extends AbstractMongoConfiguration {
 
 	@Autowired
 	private List<Converter<?, ?>> converters;
@@ -59,7 +60,11 @@ class ApplicationConfig extends AbstractMongoConfiguration {
 	 */
 	@Override
 	public Mongo mongo() throws Exception {
-		return new Mongo();
+
+		Mongo mongo = new Mongo();
+		mongo.setWriteConcern(WriteConcern.SAFE);
+
+		return mongo;
 	}
 
 	/* 

@@ -49,7 +49,7 @@ public abstract class AbstractIntegrationTest {
 		// Customers
 
 		DBCollection customers = database.getCollection("customer");
-		customers.drop();
+		customers.remove(new BasicDBObject());
 
 		BasicDBObject address = new BasicDBObject();
 		address.put("city", "New York");

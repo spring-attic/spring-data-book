@@ -14,6 +14,7 @@
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg ref="mongoDbFactory" />
 		<constructor-arg ref="mongoConverter" />
+		<property name="writeConcern" value="SAFE" />
 	</bean>
 	
 	<mongo:repositories base-package="com.oreilly.springdata.mongodb" />

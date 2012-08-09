@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 
 import com.oreilly.springdata.mongodb.AbstractIntegrationTest;
 
@@ -59,7 +60,7 @@ public class CustomerRepositoryIntegrationTest extends AbstractIntegrationTest {
 		assertThat(result, is(alicia));
 	}
 
-	@Test
+	@Test(expected = DuplicateKeyException.class)
 	public void preventsDuplicateEmail() {
 
 		Customer dave = repository.findByEmailAddress(new EmailAddress("dave@dmband.com"));
