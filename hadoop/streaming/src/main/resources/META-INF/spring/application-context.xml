@@ -22,29 +22,50 @@
 	<context:mbean-server/>
 -->
 	
-	<context:property-placeholder location="hadoop.properties"/>
+	<context:property-placeholder location="hadoop.properties,syslog.properties"/>
 
 	
 	<bean id="hadoopFs" class="org.springframework.data.hadoop.fs.FileSystemFactoryBean" p:configuration-ref="hadoopConfiguration"/>
 	
+	<!-- 
 	<hdp:resource-loader file-system-ref="hadoopFs"/>	
+	-->
 	
 	<hdp:configuration register-url-handler="false">
 		fs.default.name=${hd.fs}
 	</hdp:configuration>
-	
-	<int-ip:udp-inbound-channel-adapter id="udpReceiver" channel="udpInput" port="1513" />
-	
-	<int:chain input-channel="udpInput">
+
+ 	<int-ip:tcp-connection-factory id="syslogListener" 
+  								   type="server"
+  								   port="${syslog.tcp.port}"
+  								   deserializer="lfDeserializer" />
+
+    <int-ip:tcp-inbound-channel-adapter channel="syslogChannel" connection-factory="syslogListener" />
+
+ 	<bean id="lfDeserializer" class="com.oreilly.springdata.integration.ip.syslog.ByteArrayLfSerializer"/>
+		
+	<int:chain input-channel="syslogChannel">
 	  <int:transformer ref="sysLogTransformer"/>
       <int:object-to-string-transformer/>
-      <int:outbound-channel-adapter ref="hdfsWritingMessageHandler" method="handleMessage"/>
+      <int:outbound-channel-adapter ref="hdfsWritingMessageHandler"/>
 	</int:chain>
-
+	
+	
     <bean id="sysLogTransformer" class="com.oreilly.springdata.integration.ip.syslog.SyslogTransformer" />
-	<!-- 
-	 <int:channel id="udpInput" />
-     <int-ip:udp-inbound-channel-adapter id="udpReceiver" channel="udpInput" port="1513" />
+	 
+	<bean id="hdfsWritingMessageHandler" class="com.oreilly.springdata.hadoop.streaming.HdfsWritingMessageHandler">
+		<constructor-arg ref="hdfsWriterFactory"/>
+	</bean>
+	
+	<bean id="hdfsWriterFactory" class="com.oreilly.springdata.hadoop.streaming.HdfsTextFileWriterFactory">
+		<constructor-arg ref="hadoopFs"/>
+	    <property name="basePath" value="${syslog.hdfs.basePath}"/>
+		<property name="baseFilename" value="${syslog.hdfs.baseFilename}"/>
+		<property name="fileSuffix" value="${syslog.hdfs.fileSuffix}"/>
+	</bean>
+
+<!-- 
+     <int-ip:udp-inbound-channel-adapter id="udpReceiver" channel="udpInput" port="${syslog.udp.port}" />
 
      <int:transformer input-channel="udpInput" output-channel="sysLogData">
      	<bean class="com.oreilly.springdata.integration.ip.syslog.SyslogTransformer" />
@@ -57,15 +78,9 @@
      
      <int:outbound-channel-adapter id="hfdsOutput" 
 								   ref="hdfsWritingMessageHandler" method="handleMessage"/>
-	-->
 	
-	<bean id="hdfsWritingMessageHandler" class="com.oreilly.springdata.hadoop.streaming.HdfsWritingMessageHandler">
-		<constructor-arg ref="hdfsWriterFactory"/>
-	</bean>
-	
-	<bean id="hdfsWriterFactory" class="com.oreilly.springdata.hadoop.streaming.HdfsTextFileWriterFactory">
-		<constructor-arg ref="hadoopFs"/>
-	</bean>
+-->
+
      
 
 

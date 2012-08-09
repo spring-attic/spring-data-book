@@ -9,8 +9,7 @@
   </appender>
 
 
-  <logger name="org.springframework.integration.ftp" level="DEBUG"/>
-  <logger name="org.springframework.integration.file" level="DEBUG"/>
+  <logger name="org.springframework.integration" level="DEBUG"/>
   
   <root level="info">
     <appender-ref ref="STDOUT" />

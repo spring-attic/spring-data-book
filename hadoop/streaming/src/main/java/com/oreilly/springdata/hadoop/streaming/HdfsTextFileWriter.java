@@ -101,7 +101,9 @@ public class HdfsTextFileWriter extends AbstractHdfsWriter implements HdfsWriter
 
 	@Override
 	public void close() {
-		IOUtils.closeStream(fsDataOutputStream);
+		if (fsDataOutputStream != null) {
+			IOUtils.closeStream(fsDataOutputStream);
+		}
 	}
 
 }
