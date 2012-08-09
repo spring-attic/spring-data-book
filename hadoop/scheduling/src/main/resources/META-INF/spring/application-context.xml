@@ -32,7 +32,7 @@
 	
 	<!-- simple job runner -->
 	<bean id="runner" class="com.oreilly.springdata.hadoop.wordcount.SimpleJobRunner">
-		<property name="preJobscripts" ref="&amp;setupScript"/>
+		<property name="preJobScripts" ref="&amp;setupScript"/>
 		<property name="jobs" ref="wordcountJob"/>
 	</bean>
 

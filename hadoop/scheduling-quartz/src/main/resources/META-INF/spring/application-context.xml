@@ -34,7 +34,6 @@
 	<bean id="runner" class="com.oreilly.springdata.hadoop.wordcount.SimpleJobRunner">
 		<property name="preJobScripts" ref="&amp;setup-script"/>
 		<property name="jobs" ref="wordcount-job"/>
-		<property name="runAtStartup" value="false"/>
 	</bean>
 
 	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
