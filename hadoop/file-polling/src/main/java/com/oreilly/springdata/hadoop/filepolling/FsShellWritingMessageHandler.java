@@ -10,6 +10,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.expression.BeanFactoryResolver;
 import org.springframework.context.expression.MapAccessor;
 import org.springframework.data.hadoop.fs.FsShell;
+import org.springframework.data.hadoop.util.PathUtils;
 import org.springframework.expression.Expression;
 import org.springframework.expression.common.LiteralExpression;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
@@ -41,11 +42,15 @@ public class FsShellWritingMessageHandler extends
 
 	private volatile boolean deleteSourceFiles;
 
-	private volatile boolean expectReply = true;
+	private volatile boolean expectReply = false;
 
 	private Configuration configuration;
 
 	private FsShell fsShell;
+	
+	private volatile boolean generateDestinationDirectory = true;
+	
+	private volatile String destinationDirectoryFormat = "%1$tY/%1$tm/%1$td/%1$tH/%1$tM/%1$tS";
 
 	/**
 	 * Constructor which sets the {@link #destinationDirectoryExpression} using
@@ -58,7 +63,7 @@ public class FsShellWritingMessageHandler extends
 	public FsShellWritingMessageHandler(String destinationDirectory,
 			Configuration configuration) {
 		Assert.notNull(destinationDirectory,
-				"Destination directory must not be null.");
+				"Destination directory must not be null.");		
 		this.destinationDirectoryExpression = new LiteralExpression(
 				destinationDirectory);
 		createFsShell(configuration);
@@ -133,6 +138,14 @@ public class FsShellWritingMessageHandler extends
 	 */
 	public void setExpectReply(boolean expectReply) {
 		this.expectReply = expectReply;
+	}
+	
+	public void setGenerateDestinationDirectory(boolean generateDestinationDirectory) {
+		this.generateDestinationDirectory = generateDestinationDirectory;
+	}
+
+	public void setDestinationDirectoryFormat(String destinationDirectoryFormat) {
+		this.destinationDirectoryFormat = destinationDirectoryFormat;
 	}
 
 	@Override
@@ -273,7 +286,7 @@ public class FsShellWritingMessageHandler extends
 									.getExpressionString()));
 		} else if (destinationDirectoryToUse instanceof String) {
 
-			final String destinationDirectoryPath = (String) destinationDirectoryToUse;
+			String destinationDirectoryPath = (String) destinationDirectoryToUse;
 
 			Assert.hasText(
 					destinationDirectoryPath,
@@ -281,6 +294,9 @@ public class FsShellWritingMessageHandler extends
 							"Unable to resolve destination directory name for the provided Expression '%s'.",
 							this.destinationDirectoryExpression
 									.getExpressionString()));
+			if (this.generateDestinationDirectory) {
+				destinationDirectoryPath = destinationDirectoryPath + "/" + PathUtils.format(this.destinationDirectoryFormat);
+			}
 			destinationDirectory = new Path(destinationDirectoryPath);
 		} else if (destinationDirectoryToUse instanceof Path) {
 			destinationDirectory = (Path) destinationDirectoryToUse;

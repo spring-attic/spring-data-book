@@ -1,6 +1,8 @@
 package com.oreilly.springdata.hadoop.ftp;
 
 
+import java.util.Scanner;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -18,6 +20,8 @@ public class Ftp {
 				"/META-INF/spring/application-context.xml", Ftp.class);
 		log.info("Ftp Application Running");
 		context.registerShutdownHook();
+		Scanner scanIn = new Scanner(System.in);
+	    scanIn.nextLine();
 		
 		/*
 		PollableChannel ftpChannel = context.getBean("ftpChannel", PollableChannel.class);

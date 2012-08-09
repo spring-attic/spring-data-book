@@ -72,7 +72,7 @@
 		<programs>
 		  <program>
 		    <mainClass>com.oreilly.springdata.hadoop.filepolling.FilePolling</mainClass>
-		    <name>wordcount</name>
+		    <name>filepolling</name>
 		  </program>
 		</programs>
               </configuration>

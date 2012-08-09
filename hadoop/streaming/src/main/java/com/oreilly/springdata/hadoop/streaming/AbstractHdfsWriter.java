@@ -36,17 +36,22 @@ public abstract class AbstractHdfsWriter implements HdfsWriter {
 		if (!initialized) {
 			FsShell fsShell = new FsShell(getFileSystem().getConf(), getFileSystem());
 			int maxCounter = 0;
+			boolean foundFile = false;
 			Collection<FileStatus> fileStats = fsShell.ls(this.getBasePath());
 			for (FileStatus fileStatus : fileStats) {
 				String shortName = fileStatus.getPath().getName();
 				int counterFromName = getCounterFromName(shortName);
+				if (counterFromName != -1) {
+					foundFile = true;
+				}
 				if (counterFromName > maxCounter) {
 					maxCounter = counterFromName;
 				}
 			}
-			if (maxCounter != 0) {
-				this.setCounter(maxCounter+1);
+			if (foundFile) {
+				this.setCounter(maxCounter+1);				
 			}
+			
 			initialized = true;
 		}
 	}
@@ -58,7 +63,7 @@ public abstract class AbstractHdfsWriter implements HdfsWriter {
 		if (matcher.find()) {
 			return Integer.parseInt(matcher.group());
 		} 
-		return 0;			
+		return -1;			
 	}
 	
 	public long getRolloverThresholdInBytes() {

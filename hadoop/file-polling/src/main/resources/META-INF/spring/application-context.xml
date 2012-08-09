@@ -13,13 +13,34 @@
 		http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/integration
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<import resource="hadoop-context.xml"/>
 
-	<file:inbound-channel-adapter id="filesIn" 
-	                              directory="file:${java.io.tmpdir}/hadoop/input"
-	                              filename-pattern="*.txt">
-		<int:poller id="poller" fixed-delay="5000" />
+	<context:property-placeholder location="hadoop.properties,polling.properties"/>
+
+	<hdp:configuration id="hadoopConfiguration">
+		fs.default.name=${hd.fs}
+	</hdp:configuration>
+	
+	<int:channel id="filesIn"/>
+	
+	<file:inbound-channel-adapter id="inFileAdapter"
+								  channel="filesIn"
+	                              directory="${polling.directory}" 
+	                              filename-pattern="${polling.fileNamePattern}">
+	                              
+		<int:poller id="poller" fixed-delay="${polling.fixedDelay}"  />
 	</file:inbound-channel-adapter>
+
+
+	<int:outbound-channel-adapter id="outHdfsAdapter" 
+								  channel="filesIn"
+								  ref="fsShellWritingMessagingHandler"/>
+	
+	<bean id="fsShellWritingMessagingHandler" 
+	      class="com.oreilly.springdata.hadoop.filepolling.FsShellWritingMessageHandler">
+		<constructor-arg value="${polling.destinationHdfsDirectory}"/>
+		<constructor-arg ref="hadoopConfiguration"/>
+	</bean>
+	
 
 	<!-- 
 	<int:service-activator input-channel="filesIn"
@@ -29,16 +50,8 @@
 	<bean id="handler" class="com.oreilly.springdata.hadoop.filepolling.CustomFileHandler"/>
 	-->
 	
-	<int:outbound-channel-adapter id="filesIn" 
-								  ref="fsShellWritingMessagingHandler" method="handleMessage"/>
-	
-	<bean id="fsShellWritingMessagingHandler" class="com.oreilly.springdata.hadoop.filepolling.FsShellWritingMessageHandler">
-		<constructor-arg value="/user/mpollack/tmp/output"/>
-		<constructor-arg ref="hadoopConfiguration"/>
-		<!-- an output Channel is required -->
-		<property name="outputChannel" ref="nullChannel"/>
-	</bean>
-	
+		
+
 	
 	<int:channel id="loggingChannel">
 		<int:queue/>
@@ -47,5 +60,7 @@
 		</int:interceptors>
 	</int:channel>	
 	<int:logging-channel-adapter id="logger" level="INFO"/>
+	
+	
 	
 </beans>

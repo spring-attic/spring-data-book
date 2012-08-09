@@ -1,5 +1,7 @@
 package com.oreilly.springdata.hadoop.filepolling;
 
+import java.util.Scanner;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -14,6 +16,7 @@ public class FilePolling {
 				"/META-INF/spring/application-context.xml", FilePolling.class);
 		log.info("File Polling Application Running");
 		context.registerShutdownHook();
-
+		Scanner scanIn = new Scanner(System.in);
+	    scanIn.nextLine();
 	}
 }
