@@ -17,14 +17,14 @@
 		fs.default.name=${hd.fs}
 	</hdp:configuration>
 
-	<hdp:job id="wordcount-job" validate-paths="false"
+	<hdp:job id="wordcountJob" 
 	    input-path="${wordcount.input.path}" 
 	    output-path="${wordcount.output.path}" 
 		mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
 		reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"/>
 
 
-  	<hdp:script id="setup-script" location="cp-data.js">
+  	<hdp:script id="setupScript" location="copy-data.js">
         <hdp:property name="inputPath" value="${wordcount.input.path}" />
         <hdp:property name="outputPath" value="${wordcount.output.path}" />
         <hdp:property name="localResource" value="${local.data}" />
@@ -32,9 +32,8 @@
 	
 	<!-- simple job runner -->
 	<bean id="runner" class="com.oreilly.springdata.hadoop.wordcount.SimpleJobRunner">
-		<property name="preJobscripts" ref="&amp;setup-script"/>
-		<property name="jobs" ref="wordcount-job"/>
-		<property name="runAtStartup" value="false"/>
+		<property name="preJobscripts" ref="&amp;setupScript"/>
+		<property name="jobs" ref="wordcountJob"/>
 	</bean>
 
 	<task:scheduled-tasks>

@@ -26,7 +26,7 @@ public class SimpleJobRunner implements InitializingBean, DisposableBean {
 
 	private static final Log log = LogFactory.getLog(SimpleJobRunner.class);
 
-	private boolean runAtStartup = true;
+	private boolean runAtStartup = false;
 	private boolean waitForJobs = true;
 	private Collection<Job> jobs;
 	private Collection<HdfsScriptFactoryBean> preJobScripts;
