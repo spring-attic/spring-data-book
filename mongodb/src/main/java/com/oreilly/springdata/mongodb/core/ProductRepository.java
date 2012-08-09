@@ -20,6 +20,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -27,7 +28,7 @@ import org.springframework.data.repository.CrudRepository;
  * 
  * @author Oliver Gierke
  */
-public interface ProductRepository extends CrudRepository<Product, Long> {
+public interface ProductRepository extends CrudRepository<Product, Long>, QueryDslPredicateExecutor<Product> {
 
 	/**
 	 * Returns a {@link Page} of {@link Product}s having a description which contains the given snippet.
