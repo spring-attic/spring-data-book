@@ -20,8 +20,6 @@ public abstract class AbstractHdfsWriter implements HdfsWriter {
 	//TODO need to initialize the counter based on directory contents.
 	private final AtomicLong counter = new AtomicLong(0L);
 	
-	private long rolloverThresholdInBytes = 500;//10*1024*1024; //10MB
-	
 	private final AtomicLong bytesWritten = new AtomicLong(0L);
 	
 	private volatile boolean initialized;
@@ -29,6 +27,8 @@ public abstract class AbstractHdfsWriter implements HdfsWriter {
 	private String baseFilename = HdfsTextFileWriterFactory.DEFAULT_BASE_FILENAME;
 	private String basePath = HdfsTextFileWriterFactory.DEFAULT_BASE_PATH;
 	private String fileSuffix = HdfsTextFileWriterFactory.DEFAULT_FILE_SUFFIX;
+	private long rolloverThresholdInBytes = HdfsTextFileWriterFactory.DEFAULT_ROLLOVER_THRESHOLD_IN_BYTES;
+
 	
 	public abstract FileSystem getFileSystem();
 	
