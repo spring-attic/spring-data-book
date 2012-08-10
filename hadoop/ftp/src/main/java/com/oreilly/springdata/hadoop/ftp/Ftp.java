@@ -23,20 +23,5 @@ public class Ftp {
 		Scanner scanIn = new Scanner(System.in);
 	    scanIn.nextLine();
 		
-		/*
-		PollableChannel ftpChannel = context.getBean("ftpChannel", PollableChannel.class);
-
-		Message<?> message1 = ftpChannel.receive(10000);
-		//Message<?> message2 = ftpChannel.receive(2000);
-		Message<?> message3 = ftpChannel.receive(1000);
-
-		log.info(String.format("Received first file message: %s.", message1));
-		//LOGGER.info(String.format("Received second file message: %s.", message2));
-		log.info(String.format("Received nothing else: %s.", message3));
-
-		Assert.notNull(message1, "Was expecting a first message");
-		//assertNotNull(message2);
-		Assert.notNull(message3,"Was NOT expecting a second message.");*/
-
 	}
 }
