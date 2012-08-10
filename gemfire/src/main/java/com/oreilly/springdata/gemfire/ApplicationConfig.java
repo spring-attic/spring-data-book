@@ -16,9 +16,13 @@
 package com.oreilly.springdata.gemfire;
 
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.gemfire.repository.config.EnableGemfireRepositories;
+
+import com.oreilly.springdata.gemfire.customer.CustomerDao;
 
 /**
  * Spring JavaConfig configuration class to setup a Spring container and infrastructure components 
@@ -27,9 +31,9 @@ import org.springframework.data.gemfire.repository.config.EnableGemfireRepositor
  * @author David Turanski
  */
 @Configuration
-@ComponentScan(basePackageClasses = ApplicationConfig.class)
+@ComponentScan(basePackageClasses = ApplicationConfig.class,
+	excludeFilters=@Filter(type=FilterType.ASSIGNABLE_TYPE,value=CustomerDao.class))
 @ImportResource("classpath:META-INF/spring/cache-config.xml")
 @EnableGemfireRepositories
 public class ApplicationConfig {
-	
 }
