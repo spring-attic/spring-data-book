@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/data/gemfire http://www.springframework.org/schema/data/gemfire/spring-data-gemfire.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="com.oreilly.springdata.gemfire.customer"/>
+	<context:component-scan base-package="com.oreilly.springdata.gemfire.core"/>
 	
 	<gfe:cache/>
 	

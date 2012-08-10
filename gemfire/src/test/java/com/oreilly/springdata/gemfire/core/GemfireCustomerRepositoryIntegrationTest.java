@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.oreilly.springdata.gemfire.customer;
+package com.oreilly.springdata.gemfire.core;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,27 +23,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.oreilly.springdata.gemfire.core.Address;
-import com.oreilly.springdata.gemfire.core.EmailAddress;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-public class CustomerDaoTest {
-  
-  @Autowired
-  CustomerDao customerDao;
-  @Test
-  public void basicDaoOperations() {
-	  Address address = new Address("Broadway","New York","United States");
-	  Customer dave = new Customer(1L,new EmailAddress("dave@dmband.com") ,"Dave", "Matthews");
-	  dave.add(address);
-	  
-	  customerDao.save(dave);
-	  assertEquals(dave, customerDao.findByLastname("Matthews").get(0));
-	  
-	  assertEquals(1,customerDao.findAll().size());
-	  
-	  customerDao.delete(dave);
-	  assertEquals(0,customerDao.findAll().size());
-  }
+public class GemfireCustomerRepositoryIntegrationTest {
+
+	@Autowired
+	CustomerRepository customerRepository;
+
+	@Test
+	public void basicRepositoryOperations() {
+
+		Address address = new Address("Broadway", "New York", "United States");
+		Customer dave = new Customer(1L, new EmailAddress("dave@dmband.com"), "Dave", "Matthews");
+		dave.add(address);
+
+		customerRepository.save(dave);
+		assertEquals(dave, customerRepository.findByLastname("Matthews").get(0));
+
+		assertEquals(1, customerRepository.findAll().size());
+
+		customerRepository.delete(dave);
+		assertEquals(0, customerRepository.findAll().size());
+	}
 }

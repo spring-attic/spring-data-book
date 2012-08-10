@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.oreilly.springdata.gemfire.product;
+package com.oreilly.springdata.gemfire.core;
 
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -24,7 +24,6 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
 
-import com.oreilly.springdata.gemfire.core.AbstractPersistentEntity;
 
 /**
  * A product.

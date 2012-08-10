@@ -13,27 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.oreilly.springdata.gemfire.customer;
+package com.oreilly.springdata.gemfire.core;
 
-import static org.junit.Assert.assertNotNull;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import com.oreilly.springdata.gemfire.AbstractIntegrationTest;
+import com.oreilly.springdata.gemfire.core.Customer;
+import com.oreilly.springdata.gemfire.core.CustomerRepository;
 import com.oreilly.springdata.gemfire.core.EmailAddress;
 
 /**
  * Integration tests for {@link CustomerRepository}
- *  
+ * 
  * @author Oliver Gierke
  * @author David Turanski
  */
-
 public class CustomerRepositoryIntegrationTest extends AbstractIntegrationTest {
-	
+
 	@Test
 	public void testFind() {
+
 		Customer result = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com"));
-		assertNotNull(result);
+		assertThat(result, is(notNullValue()));
 	}
 }

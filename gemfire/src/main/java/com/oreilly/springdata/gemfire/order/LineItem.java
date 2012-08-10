@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 
 import org.springframework.util.Assert;
 
-import com.oreilly.springdata.gemfire.product.Product;
+import com.oreilly.springdata.gemfire.core.Product;
 
 /**
  * @author Oliver Gierke

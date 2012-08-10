@@ -15,14 +15,10 @@
  */
 package com.oreilly.springdata.gemfire.order;
 
-import static com.oreilly.springdata.gemfire.core.CoreMatchers.with;
-import static com.oreilly.springdata.gemfire.order.OrderMatchers.LineItem;
-import static com.oreilly.springdata.gemfire.order.OrderMatchers.ProductId;
-import static com.oreilly.springdata.gemfire.order.OrderMatchers.containsOrder;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static com.oreilly.springdata.gemfire.core.CoreMatchers.*;
+import static com.oreilly.springdata.gemfire.order.OrderMatchers.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -30,9 +26,9 @@ import org.hamcrest.Matcher;
 import org.junit.Test;
 
 import com.oreilly.springdata.gemfire.AbstractIntegrationTest;
+import com.oreilly.springdata.gemfire.core.Customer;
 import com.oreilly.springdata.gemfire.core.EmailAddress;
-import com.oreilly.springdata.gemfire.customer.Customer;
-import com.oreilly.springdata.gemfire.product.Product;
+import com.oreilly.springdata.gemfire.core.Product;
 
 /**
  * Integration tests for {@link OrderRepository}.
@@ -41,7 +37,7 @@ import com.oreilly.springdata.gemfire.product.Product;
  * @author David Turanski
  */
 public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
- 
+
 	@Test
 	public void createOrder() {
 
@@ -57,8 +53,9 @@ public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 	@Test
 	public void readOrder() {
+
 		Product iPad = productRepository.findByName("iPad").get(0);
-		Customer dave = customerRepository.findOne(1L);
+		Customer dave = customerRepository.findByEmailAddress(new EmailAddress("dave@dmband.com"));
 		List<Order> orders = orderRepository.findByCustomerId(dave.getId());
 
 		Matcher<Iterable<? super Order>> hasOrderForiPad = containsOrder(with(LineItem(with(ProductId(equalTo(iPad.getId()))))));

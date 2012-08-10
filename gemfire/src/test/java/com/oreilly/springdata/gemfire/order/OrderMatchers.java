@@ -19,9 +19,9 @@ import static org.hamcrest.Matchers.*;
 
 import org.hamcrest.Matcher;
 
+import com.oreilly.springdata.gemfire.core.Product;
 import com.oreilly.springdata.gemfire.order.LineItem;
 import com.oreilly.springdata.gemfire.order.Order;
-import com.oreilly.springdata.gemfire.product.Product;
 
 /**
  * Matchers to ease assertions on found {@link Order}s.

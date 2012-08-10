@@ -26,7 +26,7 @@ import org.springframework.util.Assert;
 
 import com.oreilly.springdata.gemfire.core.AbstractPersistentEntity;
 import com.oreilly.springdata.gemfire.core.Address;
-import com.oreilly.springdata.gemfire.customer.Customer;
+import com.oreilly.springdata.gemfire.core.Customer;
 
 /**
  * @author Oliver Gierke

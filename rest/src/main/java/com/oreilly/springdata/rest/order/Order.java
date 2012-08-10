@@ -44,6 +44,7 @@ public class Order extends AbstractEntity {
 
 	@ManyToOne(optional = false)
 	private Customer customer;
+
 	@ManyToOne
 	private Address billingAddress;
 
@@ -58,14 +59,27 @@ public class Order extends AbstractEntity {
 	 * Creates a new {@link Order} for the given {@link Customer}.
 	 * 
 	 * @param customer must not be {@literal null}.
+	 * @param shippingAddress must not be {@literal null}.
 	 */
 	public Order(Customer customer, Address shippingAddress) {
+		this(customer, shippingAddress, null);
+	}
+
+	/**
+	 * Creates a new {@link Order} for the given customer, shipping and billing {@link Address}.
+	 * 
+	 * @param customer must not be {@literal null}.
+	 * @param shippingAddress must not be {@literal null}.
+	 * @param billingAddress can be {@@iteral null}.
+	 */
+	public Order(Customer customer, Address shippingAddress, Address billingAddress) {
 
 		Assert.notNull(customer);
 		Assert.notNull(shippingAddress);
 
 		this.customer = customer;
 		this.shippingAddress = shippingAddress.getCopy();
+		this.billingAddress = billingAddress == null ? null : billingAddress.getCopy();
 	}
 
 	protected Order() {

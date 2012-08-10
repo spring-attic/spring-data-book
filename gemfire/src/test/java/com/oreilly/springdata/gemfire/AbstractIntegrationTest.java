@@ -24,14 +24,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.oreilly.springdata.gemfire.core.Address;
+import com.oreilly.springdata.gemfire.core.Customer;
+import com.oreilly.springdata.gemfire.core.CustomerRepository;
 import com.oreilly.springdata.gemfire.core.EmailAddress;
-import com.oreilly.springdata.gemfire.customer.Customer;
-import com.oreilly.springdata.gemfire.customer.CustomerRepository;
+import com.oreilly.springdata.gemfire.core.Product;
+import com.oreilly.springdata.gemfire.core.ProductRepository;
 import com.oreilly.springdata.gemfire.order.LineItem;
 import com.oreilly.springdata.gemfire.order.Order;
 import com.oreilly.springdata.gemfire.order.OrderRepository;
-import com.oreilly.springdata.gemfire.product.Product;
-import com.oreilly.springdata.gemfire.product.ProductRepository;
 
 /**
  * Base class for integration tests adding some sample data through the vFabric GemFire Java driver.
@@ -40,14 +40,15 @@ import com.oreilly.springdata.gemfire.product.ProductRepository;
  * @author David Turanski
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class})
+@ContextConfiguration(classes = { ApplicationConfig.class })
 public abstract class AbstractIntegrationTest {
+
 	@Autowired
 	protected CustomerRepository customerRepository;
-	
+
 	@Autowired
 	protected OrderRepository orderRepository;
-	
+
 	@Autowired
 	protected ProductRepository productRepository;
 
@@ -56,16 +57,16 @@ public abstract class AbstractIntegrationTest {
 
 		// Customers
 
-		Address address = new Address("Broadway","New York","United States");
-		Customer dave = new Customer(1L,new EmailAddress("dave@dmband.com") ,"Dave", "Matthews");
+		Address address = new Address("Broadway", "New York", "United States");
+		Customer dave = new Customer(1L, new EmailAddress("dave@dmband.com"), "Dave", "Matthews");
 		dave.add(address);
 		customerRepository.save(dave);
 
 		// Products
-		
-		Product iPad = new Product(1L, "iPad", new BigDecimal(499.0),"Apple tablet device");
-		Product macBook = new Product(2L, "MacBook Pro", new BigDecimal(1299.0),"Apple notebook");
-		Product dock = new Product(3L, "Dock", new BigDecimal(49.0),"Dock for iPhone/iPad");
+
+		Product iPad = new Product(1L, "iPad", new BigDecimal(499.0), "Apple tablet device");
+		Product macBook = new Product(2L, "MacBook Pro", new BigDecimal(1299.0), "Apple notebook");
+		Product dock = new Product(3L, "Dock", new BigDecimal(49.0), "Dock for iPhone/iPad");
 		dock.setAttribute("connector", "plug");
 
 		productRepository.save(iPad);
@@ -75,7 +76,7 @@ public abstract class AbstractIntegrationTest {
 		// Orders
 
 		Order order = new Order(1L, dave.getId(), address);
-		order.add(new LineItem(iPad,2));
+		order.add(new LineItem(iPad, 2));
 		order.add(new LineItem(macBook));
 		orderRepository.save(order);
 	}

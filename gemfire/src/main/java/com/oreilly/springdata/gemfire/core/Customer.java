@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.oreilly.springdata.gemfire.customer;
+package com.oreilly.springdata.gemfire.core;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -22,9 +22,6 @@ import java.util.Set;
 import org.springframework.data.gemfire.mapping.Region;
 import org.springframework.util.Assert;
 
-import com.oreilly.springdata.gemfire.core.AbstractPersistentEntity;
-import com.oreilly.springdata.gemfire.core.Address;
-import com.oreilly.springdata.gemfire.core.EmailAddress;
 
 /**
  * A customer.
