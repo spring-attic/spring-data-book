@@ -5,24 +5,28 @@
 	xmlns:hdp="http://www.springframework.org/schema/hadoop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
-	xmlns:int-ip="http://www.springframework.org/schema/integration/ip"	
+	xmlns:int-ip="http://www.springframework.org/schema/integration/ip"
 	xmlns:int-jmx="http://www.springframework.org/schema/integration/jmx"
+	xmlns:int-http="http://www.springframework.org/schema/integration/http"
 	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
-		http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream-2.1.xsd
-		 http://www.springframework.org/schema/integration/jmx http://www.springframework.org/schema/integration/jmx/spring-integration-jmx.xsd
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http-2.2.xsd
 		http://www.springframework.org/schema/integration/ip http://www.springframework.org/schema/integration/ip/spring-integration-ip.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/integration/jmx http://www.springframework.org/schema/integration/jmx/spring-integration-jmx.xsd
+		http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream-2.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
 		http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-<!-- 
-	<int-jmx:mbean-export default-domain="demo"/>
 
-	<context:mbean-server/>
--->
+
+	<import resource="controlbus-context.xml"/>
 	
-	<context:property-placeholder location="hadoop.properties,syslog.properties"/>
+	<context:property-placeholder location="classpath:hadoop.properties,classpath:syslog.properties"/>
 	
 	<hdp:configuration register-url-handler="false">
 		fs.default.name=${hd.fs}
@@ -78,11 +82,5 @@
 								   ref="hdfsWritingMessageHandler" method="handleMessage"/>
 	
 -->
-
-     
-
-
-	
-
 
 </beans>

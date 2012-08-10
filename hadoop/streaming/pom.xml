@@ -19,9 +19,39 @@
             <spring.hadoop.version>1.0.0.BUILD-SNAPSHOT</spring.hadoop.version>
             <hadoop.version>1.0.1</hadoop.version>
             <log4j.version>1.2.17</log4j.version>
+            <jettyVersion>7.3.1.v20110307</jettyVersion>
 	</properties>
 
 	<dependencies>
+	
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${jettyVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-webapp</artifactId>
+      <version>${jettyVersion}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>${jettyVersion}</version>
+    </dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+ 
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
 			<artifactId>spring-integration-ip</artifactId>
@@ -33,6 +63,13 @@
 			<artifactId>spring-integration-stream</artifactId>
 			<version>${spring.integration.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.integration</groupId>
+			<artifactId>spring-integration-http</artifactId>
+			<version>${spring.integration.version}</version>
+		</dependency>
+				
 		
 		<dependency>
 			<groupId>org.springframework.integration</groupId>
