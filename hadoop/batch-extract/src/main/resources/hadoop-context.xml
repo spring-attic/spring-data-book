@@ -15,9 +15,11 @@
 		fs.default.name=${hd.fs}
 	</hdp:configuration>
 
+<!-- 
 	<hdp:file-system />
+-->	
 	<hdp:resource-loader />	
-	
+
 	<bean id="customRL" class="org.springframework.data.hadoop.fs.CustomResourceLoaderRegistrar" p:loader-ref="hadoopResourceLoader" />
 	
 

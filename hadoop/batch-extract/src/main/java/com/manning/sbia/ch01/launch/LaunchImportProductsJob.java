@@ -3,6 +3,8 @@
  */
 package com.manning.sbia.ch01.launch;
 
+import java.util.Date;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -31,10 +33,7 @@ public class LaunchImportProductsJob {
             Job job = ctx.getBean(Job.class);       
             
             jobLauncher.run(job, new JobParametersBuilder()
-                    .addString("inputResource", "file:./products.zip")
-                    .addString("targetDirectory", "/import/")
-                    .addString("targetFile","products.txt")
-                    .addString("date", "2010-07-14")
+                    .addDate("date", new Date())
                     .toJobParameters()
             );
     }

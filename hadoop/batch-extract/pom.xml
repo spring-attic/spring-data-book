@@ -148,6 +148,24 @@
 			<artifactId>h2</artifactId>
 			<version>${h2.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-admin-resources</artifactId>
+			<version>1.2.0.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-admin-manager</artifactId>
+			<version>1.2.0.RELEASE</version>
+		</dependency>		
+
+		<dependency>
+			 <groupId>org.springframework.data</groupId>
+			 <artifactId>spring-data-mongodb</artifactId>
+			 <version>1.1.0.BUILD-SNAPSHOT</version>
+		</dependency> 
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -182,9 +200,17 @@
 		<repositoryLayout>flat</repositoryLayout>
 		<programs>
 		  <program>
+		    <mainClass>com.manning.sbia.ch01.launch.LaunchDatabaseAndConsole</mainClass>
+		    <name>launchDatabaseAndConsole</name>
+		  </program>
+		  <program>
 		    <mainClass>com.manning.sbia.ch01.launch.LaunchImportProductsJob</mainClass>
 		    <name>export</name>
 		  </program>
+		  <program>
+		    <mainClass>com.manning.sbia.ch01.launch.LaunchSpringBatchAdmin</mainClass>
+		    <name>launchSpringBatchAdmin</name>
+		  </program>		  
 		</programs>
               </configuration>
 	    </plugin>

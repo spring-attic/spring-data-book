@@ -17,8 +17,8 @@ public class LaunchDatabaseAndConsole {
 	 */
 	public static void main(String[] args) throws Exception {
 		new ClassPathXmlApplicationContext(
-			"/com/manning/sbia/ch02/batch-infrastructure-context.xml",
-			"/com/manning/sbia/ch02/root-database-context.xml"
+			"/META-INF/spring/batch-infrastructure-context.xml",
+			"/META-INF/spring/root-database-context.xml"
 		);
 		Console.main(args);
 	}
