@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.manning.sbia.ch01.domain.Product;
+import com.oreilly.springdata.batch.domain.Product;
 
 /**
  * @author acogoluegnes

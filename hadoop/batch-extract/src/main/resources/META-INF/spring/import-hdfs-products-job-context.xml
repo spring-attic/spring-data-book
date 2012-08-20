@@ -16,24 +16,39 @@
 	<job id="exportProducts" xmlns="http://www.springframework.org/schema/batch">
 		<step id="readWriteProducts">
 			<tasklet>
-				<chunk reader="reader" writer="mongoWriter" commit-interval="3" skip-limit="5">
+				<chunk reader="reader" processor="processor" writer="jdbcWriter" commit-interval="3" skip-limit="5">
 					<skippable-exception-classes>
 						<include class="org.springframework.batch.item.file.FlatFileParseException" />
 					</skippable-exception-classes>
 				</chunk>
+				<listeners>
+					<listener ref="jdbcSkipListener" />
+				</listeners>
 			</tasklet>			
 		</step>
 	</job>
 	
-	<bean id="reader" class="org.springframework.batch.item.file.MultiResourceItemReader">
-		<property name="resources" value="/import/part-*"/>
+	
+	<bean id="jdbcSkipListener" class="com.oreilly.springdata.batch.item.DatabaseSkipListener">
+		<constructor-arg name="datasource" ref="dataSource" />
+	</bean>
+	
+	<bean id="processor" class="com.oreilly.springdata.batch.item.ProductProcessor"/>
+ 
+	<bean class="org.springframework.batch.core.scope.StepScope">
+		<property name="proxyTargetClass" value="true"/>
+	</bean>
+	
+	
+	<bean id="reader" class="org.springframework.batch.item.file.MultiResourceItemReader" scope="step" >
+		<property name="resources" value="#{jobParameters['hdfsSourceDirectory']}"/>
+		<!-- register scope step but can't proxy  org.springframework.batch.item.file.MultiResourceItemReader
+		<property name="resources" value="#{jobParameters['hdfsSourceDirectory']}"/>
+		-->
 		<property name="delegate" ref="flatFileItemReader"/>
 	</bean>
 	
 	<bean id="flatFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
-		<!-- 
-		<property name="resource" value="#{jobParameters['targetDirectory']+jobParameters['targetFile']}" />
-		-->
 		<property name="linesToSkip" value="1" />
 		<property name="lineMapper">
 			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
@@ -58,7 +73,7 @@
 		<property name="prototypeBeanName" value="product"/>	
 	</bean>
 	
-	<bean id="product" class="com.manning.sbia.ch01.domain.Product" scope="prototype"/>
+	<bean id="product" class="com.oreilly.springdata.batch.domain.Product" scope="prototype"/>
 	
 	<bean id="jdbcWriter" class="org.springframework.batch.item.database.JdbcBatchItemWriter">
 		<property name="assertUpdates" value="true"/>
@@ -72,12 +87,12 @@
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 	
-	<!-- 
+	
 	<bean id="writer" class="com.manning.sbia.ch01.batch.ProductJdbcItemWriter">
 		<constructor-arg ref="dataSource" />
 	</bean>
-	-->
 	
+	<!-- 
 	<bean id="mongoWriter" class="com.oreilly.springdata.batch.item.mongodb.MongoItemWriter">
   	  <constructor-arg ref="mongoTemplate"/>
   	  <property name="collectionName" value="products"/>
@@ -93,15 +108,13 @@
   	<mongo:db-factory dbname="test"/>
   	  	
   	<mongo:mapping-converter>
-	  <mongo:custom-converters>
-	  <!-- 
+	  <mongo:custom-converters>	  
 	    <mongo:converter>
 	      <bean class="com.oreilly.springdata.batch.item.mongodb.FieldSetConverter"/>
-	    </mongo:converter>
-	    -->
+	    </mongo:converter>	    
 	  </mongo:custom-converters>
 	</mongo:mapping-converter>
-  	
+  	-->
   
 
 </beans>

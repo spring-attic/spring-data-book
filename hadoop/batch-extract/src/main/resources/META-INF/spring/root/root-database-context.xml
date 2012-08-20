@@ -18,6 +18,7 @@
 	<jdbc:initialize-database data-source="dataSource">
 		<jdbc:script location="classpath:/org/springframework/batch/core/schema-h2.sql"/>
 		<jdbc:script location="classpath:/create-tables.sql" />
+		<jdbc:script location="classpath:/create-skip-log-table.sql" />
 	</jdbc:initialize-database>
 
 </beans>
