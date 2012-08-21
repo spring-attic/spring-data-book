@@ -9,10 +9,15 @@
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:tcp://localhost/mem:sbia_ch02" />
+		<property name="url" value="jdbc:h2:mem:sbia_ch02;DB_CLOSE_DELAY=-1" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 		<property name="suppressClose" value="true" />
 	</bean>
+
+	<jdbc:initialize-database data-source="dataSource">
+		<jdbc:script location="classpath:/org/springframework/batch/core/schema-h2.sql"/>
+		<jdbc:script location="classpath:/create-and-populate-product-table.sql" />
+	</jdbc:initialize-database>
 
 </beans>

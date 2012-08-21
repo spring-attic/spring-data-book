@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.manning.sbia.ch01.launch;
+package com.oreilly.springdata.batch.launch;
 
 import org.mortbay.jetty.Connector;
 import org.mortbay.jetty.Server;

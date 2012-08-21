@@ -12,7 +12,14 @@
 	http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 
 
-	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url" value="jdbc:h2:tcp://localhost/mem:sbia_ch02" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+		<property name="suppressClose" value="true" />
+	</bean>
+		
 	<job id="exportProducts" xmlns="http://www.springframework.org/schema/batch">
 		<step id="readWriteProducts">
 			<tasklet>

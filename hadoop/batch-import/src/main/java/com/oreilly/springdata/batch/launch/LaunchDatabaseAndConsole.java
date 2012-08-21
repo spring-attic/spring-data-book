@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.manning.sbia.ch01.launch;
+package com.oreilly.springdata.batch.launch;
 
 import org.h2.tools.Console;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -18,7 +18,7 @@ public class LaunchDatabaseAndConsole {
 	public static void main(String[] args) throws Exception {
 		new ClassPathXmlApplicationContext(
 			"/META-INF/spring/batch-infrastructure-context.xml",
-			"/META-INF/spring/root-database-context.xml"
+			"/META-INF/spring/initialize-database-context.xml"
 		);
 		Console.main(args);
 	}

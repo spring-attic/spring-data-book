@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.manning.sbia.ch01.domain;
+package com.oreilly.springdata.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

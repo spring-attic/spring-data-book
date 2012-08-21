@@ -12,8 +12,7 @@
 	
 	<batch:job-repository id="jobRepository"
 	  data-source="dataSource" 
-	  transaction-manager="transactionManager" 
-	  />
+	  transaction-manager="transactionManager"/>
 	
 	<bean id="jobLauncher"
 		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">

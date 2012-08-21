@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.manning.sbia.ch01.launch;
+package com.oreilly.springdata.batch.launch;
 
 import java.util.Date;
 
@@ -22,12 +22,8 @@ public class LaunchImportProductsJob {
      * @param args
      */
     public static void main(String[] args) throws Exception {
-            ApplicationContext ctx = new ClassPathXmlApplicationContext(
-            		"hadoop-context.xml",
-                    "/import-file-products-job-context.xml",
-                    "/META-INF/spring/batch-infrastructure-context.xml",
-        			"/META-INF/spring/connect-database-context.xml"
-            );
+            ApplicationContext ctx =
+            		new ClassPathXmlApplicationContext("classpath:/META-INF/spring/*-context.xml");
             
             JobLauncher jobLauncher = ctx.getBean(JobLauncher.class);
             Job job = ctx.getBean(Job.class);       

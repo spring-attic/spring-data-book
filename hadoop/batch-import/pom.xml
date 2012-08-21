@@ -200,15 +200,15 @@
 		<repositoryLayout>flat</repositoryLayout>
 		<programs>
 		  <program>
-		    <mainClass>com.manning.sbia.ch01.launch.LaunchDatabaseAndConsole</mainClass>
+		    <mainClass>com.oreilly.springdata.batch.launch.LaunchDatabaseAndConsole</mainClass>
 		    <name>launchDatabaseAndConsole</name>
 		  </program>
 		  <program>
-		    <mainClass>com.manning.sbia.ch01.launch.LaunchImportProductsJob</mainClass>
+		    <mainClass>com.oreilly.springdata.batch.launch.LaunchImportProductsJob</mainClass>
 		    <name>export</name>
 		  </program>
 		  <program>
-		    <mainClass>com.manning.sbia.ch01.launch.LaunchSpringBatchAdmin</mainClass>
+		    <mainClass>com.oreilly.springdata.batch.launch.LaunchSpringBatchAdmin</mainClass>
 		    <name>launchSpringBatchAdmin</name>
 		  </program>		  
 		</programs>
