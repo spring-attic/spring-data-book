@@ -25,7 +25,6 @@
 		<module>redis</module>
 		<module>gemfire</module>
 		<module>rest</module>
-	<module>gemfire</module>
 	</modules>
 	
 	<dependencies>
