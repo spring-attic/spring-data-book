@@ -17,27 +17,20 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author acogoluegnes
  * 
  */
-public class LaunchImportProductsJob {
+public class LaunchExportProductsJob {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"classpath*:/META-INF/spring/*.xml");
-		/*
-		 * "/META-INF/spring/hadoop-context.xml",
-		 * "/META-INF/spring/import-hdfs-products-job-context.xml",
-		 * "/META-INF/spring/batch-infrastructure-context.xml",
-		 * "/META-INF/spring/connect-database-context.xml" );
-		 */
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath*:/META-INF/spring/*.xml");
 
 		JobLauncher jobLauncher = ctx.getBean(JobLauncher.class);
 		Job job = ctx.getBean(Job.class);
 
 		jobLauncher.run(job,
 				new JobParametersBuilder()
-						.addString("hdfsSourceDirectory", "/import/part-*")
+						.addString("hdfsSourceDirectory", "/data/analysis/results/part-*")
 						.addDate("date", new Date()).toJobParameters());
 	}
 

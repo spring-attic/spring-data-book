@@ -11,7 +11,7 @@
 
 	<context:property-placeholder location="hadoop.properties"/>
 
-	<hdp:configuration>
+	<hdp:configuration id="hadoopConfiguration">
 		fs.default.name=${hd.fs}
 	</hdp:configuration>
 

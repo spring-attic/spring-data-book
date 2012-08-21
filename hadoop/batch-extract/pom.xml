@@ -201,10 +201,10 @@
 		<programs>
 		  <program>
 		    <mainClass>com.manning.sbia.ch01.launch.LaunchDatabaseAndConsole</mainClass>
-		    <name>launchDatabaseAndConsole</name>
+		    <name>start-database</name>
 		  </program>
 		  <program>
-		    <mainClass>com.manning.sbia.ch01.launch.LaunchImportProductsJob</mainClass>
+		    <mainClass>com.manning.sbia.ch01.launch.LaunchExportProductsJob</mainClass>
 		    <name>export</name>
 		  </program>
 		  <program>

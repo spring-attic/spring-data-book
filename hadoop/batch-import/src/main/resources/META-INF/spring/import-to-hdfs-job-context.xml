@@ -57,8 +57,7 @@
 				</property>
 			</bean>
 		</property>
-	</bean>b
-	
+	</bean>
 	
 	<!-- 
 	<bean id="productItemWriter" class="org.springframework.batch.item.file.MultiResourceItemWriter">
@@ -76,11 +75,23 @@
 		<property name="rolloverThresholdInBytes" value="100"/>
 		
 		<property name="lineAggregator">
+
+			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="fieldExtractor">
+				  <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+					<property name="names" value="id,price,name" />
+				  </bean>
+				</property>
+			</bean>
+			
+			<!--
+			<bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator" /> 
 			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
 			  <property name="fieldExtractor">
 				<bean class="org.springframework.batch.item.file.transform.PassThroughFieldExtractor" />
 			  </property>
-			</bean>		
+			</bean>
+			-->		
 		</property>
  	</bean>
 
