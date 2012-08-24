@@ -15,24 +15,26 @@
  */
 package com.oreilly.springdata.neo4j.core;
 
+import org.springframework.data.neo4j.annotation.GraphProperty;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
-import org.springframework.data.neo4j.fieldaccess.DynamicPropertiesContainer;
 import org.springframework.data.neo4j.fieldaccess.PrefixedDynamicProperties;
+import org.springframework.data.neo4j.support.index.IndexType;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @NodeEntity
 public class Product extends AbstractEntity {
     @Indexed(unique = true)
 	private String name;
+    @Indexed(indexType = IndexType.FULLTEXT,indexName = "product_search")
 	private String description;
+    @GraphProperty(propertyType = double.class)
 	private BigDecimal price;
 
     @RelatedTo
@@ -80,5 +82,10 @@ public class Product extends AbstractEntity {
     public Product withPrice(BigDecimal price) {
         this.price = price;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

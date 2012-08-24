@@ -19,7 +19,6 @@ import com.oreilly.springdata.neo4j.core.Address;
 import com.oreilly.springdata.neo4j.core.Country;
 import com.oreilly.springdata.neo4j.core.Customer;
 import com.oreilly.springdata.neo4j.core.Product;
-import com.oreilly.springdata.neo4j.order.LineItem;
 import com.oreilly.springdata.neo4j.order.Order;
 import org.junit.Before;
 import org.junit.runner.RunWith;

@@ -15,23 +15,20 @@
  */
 package com.oreilly.springdata.neo4j.order;
 
-import static com.oreilly.springdata.neo4j.core.CoreMatchers.*;
-import static com.oreilly.springdata.neo4j.order.OrderMatchers.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
-
-import java.util.List;
-
+import com.oreilly.springdata.neo4j.AbstractIntegrationTest;
+import com.oreilly.springdata.neo4j.core.*;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.oreilly.springdata.neo4j.AbstractIntegrationTest;
-import com.oreilly.springdata.neo4j.core.Customer;
-import com.oreilly.springdata.neo4j.core.CustomerRepository;
-import com.oreilly.springdata.neo4j.core.EmailAddress;
-import com.oreilly.springdata.neo4j.core.Product;
-import com.oreilly.springdata.neo4j.core.ProductRepository;
+import java.util.List;
+
+import static com.oreilly.springdata.neo4j.core.CoreMatchers.named;
+import static com.oreilly.springdata.neo4j.core.CoreMatchers.with;
+import static com.oreilly.springdata.neo4j.order.OrderMatchers.LineItem;
+import static com.oreilly.springdata.neo4j.order.OrderMatchers.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 
 public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
 

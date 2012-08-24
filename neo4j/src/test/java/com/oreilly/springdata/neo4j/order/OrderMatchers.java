@@ -15,11 +15,10 @@
  */
 package com.oreilly.springdata.neo4j.order;
 
-import static org.hamcrest.Matchers.*;
-
+import com.oreilly.springdata.neo4j.core.Product;
 import org.hamcrest.Matcher;
 
-import com.oreilly.springdata.neo4j.core.Product;
+import static org.hamcrest.Matchers.*;
 
 public class OrderMatchers {
 
