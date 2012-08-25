@@ -11,7 +11,7 @@
 
 
 	
-	<bean id="runner" class="com.oreilly.springdata.hadoop.pig.SimplePigRunner">
+	<bean id="runner" class="com.oreilly.springdata.hadoop.pig.PigRunner">
 		<property name="pigServer" ref="pigServer"/>
 	</bean>
 

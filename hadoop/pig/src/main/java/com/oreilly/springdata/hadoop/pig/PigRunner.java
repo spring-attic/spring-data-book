@@ -26,17 +26,14 @@ import org.springframework.util.Assert;
  * @author Costin Leau
  * @author Mark Pollack
  */
-public class SimplePigRunner implements InitializingBean, DisposableBean, ApplicationContextAware {
+public class PigRunner implements InitializingBean, ApplicationContextAware {
 
-	private static final Log log = LogFactory.getLog(SimplePigRunner.class);
+	private static final Log log = LogFactory.getLog(PigRunner.class);
 
 	private boolean runAtStartup = false;
 	private boolean waitForJobs = true;
-	private PigServer pigServer;
-	/*
-	private Collection<HdfsScriptFactoryBean> preJobScripts;
-	private Collection<HdfsScriptFactoryBean> postJobScripts;
-	*/
+	private String pigServerName;
+
 	private Collection<String> preJobScripts;
 	private Collection<String> postJobScripts;
 
@@ -44,21 +41,10 @@ public class SimplePigRunner implements InitializingBean, DisposableBean, Applic
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(pigServer, "at least one job needs to be specified");
+		Assert.notNull(pigServerName, "at least one job needs to be specified");
 
 		if (runAtStartup) {
 			run();
-		}
-	}
-
-	@Override
-	public void destroy() throws Exception {
-		if (!waitForJobs) {
-			try {
-				pigServer.shutdown();
-			} catch (Exception ex) {
-				log.warn("Cannot shutdown PigServer cleanly", ex);
-			}
 		}
 	}
 
@@ -70,17 +56,21 @@ public class SimplePigRunner implements InitializingBean, DisposableBean, Applic
 	 *             If an exception is thrown the simple flow will stop.
 	 */
 	public void run() throws Exception {
-		
-		
+				
 		for (String scriptFactoryBeanName : preJobScripts) {
-//			//
-			//scriptFactoryBean.getObject();
 			context.getBean(scriptFactoryBeanName); //triggers execution of script 
 		}
+		
+		// Need a new instance for each execution
+		PigServer pigServer = context.getBean(pigServerName, PigServer.class);
 		pigServer.setBatchOn();
 		pigServer.getPigContext().connect();
 		pigServer.executeBatch();
 		pigServer.shutdown();
+		
+		for (String scriptFactoryBeanName : postJobScripts) {
+			context.getBean(scriptFactoryBeanName); //triggers execution of script 
+		}
 
 	}
 
@@ -111,8 +101,8 @@ public class SimplePigRunner implements InitializingBean, DisposableBean, Applic
 	 * @param pigServer
 	 *            t
 	 */
-	public void setPigServer(PigServer pigServer) {
-		this.pigServer = pigServer;
+	public void setPigServerName(String pigServerName) {
+		this.pigServerName = pigServerName;
 	}
 
 	public void setPreJobScripts(Collection<String> preJobScripts) {

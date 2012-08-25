@@ -15,8 +15,11 @@
  */
 package com.oreilly.springdata.hadoop.pig;
 
+import java.util.Scanner;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.pig.PigServer;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -28,6 +31,24 @@ public class PigApp {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext(
 				"/META-INF/spring/pig-context.xml", PigApp.class);
 		log.info("Pig Application Running");
-		context.registerShutdownHook();		
+		context.registerShutdownHook();	
+		
+		PigServer pigServer = context.getBean(PigServer.class);
+		pigServer.setBatchOn();
+		pigServer.getPigContext().connect();
+		pigServer.executeBatch();
+		pigServer.shutdown();
+		
+		System.out.println("hit enter to run again");
+		Scanner scanIn = new Scanner(System.in);
+	    scanIn.nextLine();
+	    
+	    pigServer = context.getBean(PigServer.class);
+		pigServer.setBatchOn();
+		pigServer.getPigContext().connect();
+		pigServer.executeBatch();
+		pigServer.shutdown();
+	    
+	    
 	}
 }

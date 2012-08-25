@@ -15,12 +15,11 @@
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<script id="hdfsScript" language="groovy" location="copy-files.groovy" run-at-startup="false"/>
-	
+	<script id="hdfsScript" language="groovy" location="copy-files.groovy"/>	
 	
 	<pig id="pigServer" job-name="apacheLogAnalysis" 
 		   			 	exec-type="LOCAL"  >
-		<script location="apache-log.pig">
+		<script location="apache-log-simple.pig">
 			<arguments>
 				piggybanklib=${pig.piggybank.lib}	
 				inputFile=${pig.inputFile}		
@@ -28,11 +27,12 @@
 		</script>	
 	</pig> 
 
-	<beans:bean id="runner" class="com.oreilly.springdata.hadoop.pig.SimplePigRunner"> 
+<!-- 
+	<beans:bean id="runner" class="com.oreilly.springdata.hadoop.pig.PigRunner"> 
 		<beans:property name="preJobScripts" value="hdfsScript"/>
 		<beans:property name="pigServer" ref="pigServer"/>
 	</beans:bean>
-
+-->
 	
 	
 </beans:beans>
