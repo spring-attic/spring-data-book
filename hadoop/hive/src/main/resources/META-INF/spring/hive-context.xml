@@ -10,25 +10,33 @@
 
 	<context:property-placeholder location="hadoop.properties,hive.properties"/>
 
+	<context:component-scan base-package="com.oreilly.springdata.hadoop.hive" />
+
 	<configuration id="hadoopConfiguration">
 		fs.default.name=${hd.fs}
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<cache> 
-		<local value="/home/mpollack/software/hive-0.8.1-bin/lib/hive-contrib-0.8.1.jar"/>
-	</cache>
-	<!-- 
-	<hive-server configuration-ref="hadoopConfiguration" auto-startup="true">
+	<hive-server configuration-ref="hadoopConfiguration" auto-startup="true"
+	 			port="${hive.port}"/>
 
-	</hive-server>
+	<hive-client id="hiveClient" host="${hive.host}" port="${hive.port}">
+
+	</hive-client>		
+
+	<!-- 
+	<beans:bean id="analysisService" class="com.oreilly.springdata.hadoop.hive.AnalysisService">
+		<beans:constructor-arg name="hiveClient" ref="hiveClient"/>
+		<beans:constructor-arg name="scriptResource" value="hive-simple.hql"/>
+	</beans:bean>
 	-->
-	
-	<hive-client auto-startup="true">		
-		<script location="hive-simple.hsql"/>
-	</hive-client>
-	
-	
+	 
+	<!--  using component scanning
+	<beans:bean id="webLogRepository" class="com.oreilly.springdata.hadoop.hive.WebLogRepository">
+		<beans:constructor-arg ref="hiveClient"/>
+	</beans:bean>
+	-->
+		
 	<script id="hdfsScript" language="groovy" location="set-hive-permissions.groovy" run-at-startup="true">
 
 	</script>	

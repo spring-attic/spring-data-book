@@ -4,7 +4,7 @@
 -- SET mapred.job.tracker=local;
 -- SET mapred.local.dir=/tmp/hive;
 
--- ADD JAR /home/mpollack/software/hive-0.8.1-bin/lib/hive-contrib-0.8.1.jar
+ADD JAR /home/mpollack/software/hive-0.8.1-bin/lib/hive-contrib-0.8.1.jar
 
 DROP TABLE IF EXISTS apachelog;
 

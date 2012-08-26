@@ -30,8 +30,13 @@ public class HiveApp {
 				"/META-INF/spring/hive-context.xml", HiveApp.class);
 		log.info("Hive Application Running");
 		context.registerShutdownHook();	
-		HiveClient client = context.getBean(HiveClient.class);
 		
+		WebLogRepository repo = context.getBean(WebLogRepository.class);
+		//repo.load();
+		log.info("Count of web log = " + repo.count());
+				
+		//AnalysisService analysis = context.getBean(AnalysisService.class);
+		//analysis.performAnalysis();
 		
 		
 		/*

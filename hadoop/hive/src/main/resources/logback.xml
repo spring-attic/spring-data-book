@@ -8,6 +8,10 @@
     </encoder>
   </appender>
   
+  <!--  suppress WARNING that throw stack traces -->
+  <logger name="org.datanucleus.store" level="ERROR" />
+  <logger name="org.apache.thrift" level="ERROR" />
+  
   <root level="info">
     <appender-ref ref="STDOUT" />
   </root>
