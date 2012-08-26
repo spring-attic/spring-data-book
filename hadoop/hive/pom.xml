@@ -64,20 +64,50 @@
 		  <groupId>org.apache.hive</groupId>
                   <artifactId>hive-metastore</artifactId>
                   <version>${hive.version}</version>
+                  
+		    <exclusions>
+		      <exclusion> 
+		        <groupId>org.slf4j</groupId>
+		        <artifactId>slf4j-log4j12</artifactId>
+		      </exclusion>
+		      <exclusion> 
+		        <groupId>log4j</groupId>
+		        <artifactId>log4j</artifactId>
+		      </exclusion>
+		    </exclusions>                   
 		</dependency>			
 
 		<dependency>
 		  <groupId>org.apache.hive</groupId>
-                  <artifactId>hive-service</artifactId>
-                  <version>${hive.version}</version>
+          <artifactId>hive-service</artifactId>
+          <version>${hive.version}</version>
+          
+		    <exclusions>
+		      <exclusion> 
+		        <groupId>org.slf4j</groupId>
+		        <artifactId>slf4j-log4j12</artifactId>
+		      </exclusion>
+		      <exclusion> 
+		        <groupId>log4j</groupId>
+		        <artifactId>log4j</artifactId>
+		      </exclusion>
+		    </exclusions>           
+          
 		</dependency>			
 
 		<!-- runtime Hive deps start -->
 
 		<dependency>
 		  <groupId>org.apache.hive</groupId>
-                  <artifactId>hive-common</artifactId>
-                  <version>${hive.version}</version>
+           <artifactId>hive-common</artifactId>
+           <version>${hive.version}</version>
+		  <scope>runtime</scope>
+		</dependency>		
+		
+		<dependency>
+		  <groupId>org.apache.hive</groupId>
+           <artifactId>hive-builtins</artifactId>
+           <version>${hive.version}</version>
 		  <scope>runtime</scope>
 		</dependency>			
 
@@ -100,6 +130,17 @@
                   <artifactId>hive-serde</artifactId>
                   <version>${hive.version}</version>
 		  <scope>runtime</scope>
+		  
+		    <exclusions>
+		      <exclusion> 
+		        <groupId>org.slf4j</groupId>
+		        <artifactId>slf4j-log4j12</artifactId>
+		      </exclusion>
+		      <exclusion> 
+		        <groupId>log4j</groupId>
+		        <artifactId>log4j</artifactId>
+		      </exclusion>
+		    </exclusions>     		  
 		</dependency>			
 
 		<dependency>
@@ -114,22 +155,38 @@
                   <artifactId>libfb303</artifactId>
                   <version>${thrift.version}</version>
 		  <scope>runtime</scope>
-		</dependency>			
-
+		</dependency>		
+		
+		<dependency>
+		  <groupId>org.apache.thrift</groupId>
+                  <artifactId>libfb303</artifactId>
+                  <version>${thrift.version}</version>
+		  <scope>runtime</scope>
+		</dependency>	
+					
+		<dependency>
+		  <groupId>org.apache.hive</groupId>
+          <artifactId>hive-contrib</artifactId>
+          <version>${hive.version}</version>
+		  <scope>runtime</scope>
+		</dependency>	
 		<!-- runtime Hive deps end -->		
 
+
+		
 		<dependency>
 		  <groupId>org.codehaus.groovy</groupId>
                   <artifactId>groovy</artifactId>
                   <version>1.8.5</version>
 		  <scope>runtime</scope>
-		</dependency>			
+		</dependency>					
 		
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
+		
 	</dependencies>
 
 	<repositories>

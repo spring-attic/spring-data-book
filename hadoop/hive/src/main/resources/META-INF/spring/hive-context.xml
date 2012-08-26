@@ -8,33 +8,43 @@
 	  http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 
 
-	<context:property-placeholder location="hadoop.properties"/>
+	<context:property-placeholder location="hadoop.properties,hive.properties"/>
 
 	<configuration id="hadoopConfiguration">
 		fs.default.name=${hd.fs}
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
+
+	<cache> 
+		<local value="/home/mpollack/software/hive-0.8.1-bin/lib/hive-contrib-0.8.1.jar"/>
+	</cache>
+	<!-- 
+	<hive-server configuration-ref="hadoopConfiguration" auto-startup="true">
+
+	</hive-server>
+	-->
 	
-	<hive-server/>
-	
-	<hive-client>
+	<hive-client auto-startup="true">		
 		<script location="hive-simple.hsql"/>
 	</hive-client>
+	
+	
+	<script id="hdfsScript" language="groovy" location="set-hive-permissions.groovy" run-at-startup="true">
 
-<!-- 
+	</script>	
+	<!-- 
 	<script id="hdfsScript" language="groovy" location="copy-files.groovy">
 		<property name="localSourceFile" value="${pig.localSourceFile}"/>
 		<property name="hdfsInputDir" value="${pig.inputPath}"/>
 		<property name="hdfsOutputDir" value="${pig.outputPath}"/>
 	</script>	
--->	
 
 	<beans:bean id="runner" class="com.oreilly.springdata.hadoop.pig.PigRunner"> 
 		<beans:property name="preJobScripts" value="hdfsScript"/>
 		<beans:property name="pigServerName" value="pigServer"/>
 		<beans:property name="runAtStartup" value="true"/>
 	</beans:bean>
-
+	-->
 
 	
 	

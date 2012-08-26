@@ -1,4 +1,4 @@
-package com.oreilly.springdata.hadoop.pig;
+package com.oreilly.springdata.hadoop.hive;
 
 import java.util.Collection;
 
