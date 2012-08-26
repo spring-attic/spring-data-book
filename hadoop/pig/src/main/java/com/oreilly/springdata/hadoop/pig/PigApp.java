@@ -32,7 +32,7 @@ public class PigApp {
 
 	public static void main(String[] args) throws Exception {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext(
-				"/META-INF/spring/pig-context-password.xml", PigApp.class);
+				"/META-INF/spring/pig-context.xml", PigApp.class);
 		log.info("Pig Application Running");
 		context.registerShutdownHook();	
 		
@@ -44,12 +44,14 @@ public class PigApp {
 		pigTemplate.executeScript("apache-log-simple.pig", scriptParameters);
 		*/
 		
+		/*
 		PasswordRepository repo = context.getBean(PigPasswordRepository.class);
 		Collection<String> files = new ArrayList<String>();
 		files.add("/etc/passwd");
 		files.add("/etc/passwd");
 			
 		repo.processPasswordFiles(files, "/tmp/pwdout");
+		*/
 		//repo.processPasswordFile("/etc/passwd", "/tmp/pwdout");
 		
 		//System.out.println("hit enter to run again");

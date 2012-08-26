@@ -1,5 +1,6 @@
 package com.oreilly.springdata.hadoop.pig;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.commons.logging.Log;
@@ -30,8 +31,8 @@ public class PigRunner implements InitializingBean, ApplicationContextAware {
 	private boolean runAtStartup = false;
 	private String pigServerName;
 
-	private Collection<String> preJobScripts;
-	private Collection<String> postJobScripts;
+	private Collection<String> preJobScripts = new ArrayList<String>();
+	private Collection<String> postJobScripts = new ArrayList<String>();
 
 	private ApplicationContext context;
 

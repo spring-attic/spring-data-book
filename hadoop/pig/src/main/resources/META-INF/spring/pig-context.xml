@@ -10,29 +10,35 @@
 
 	<context:property-placeholder location="hadoop.properties,pig-analysis.properties"/>
 
-	<configuration>
+	<configuration id="hadoopConfiguration">
 		fs.default.name=${hd.fs}
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<script id="hdfsScript" language="groovy" location="copy-files.groovy"/>	
+	<script id="hdfsScript" language="groovy" location="copy-files.groovy" run-at-startup="true">
+		<property name="localSourceFile" value="${pig.localSourceFile}"/>
+		<property name="hdfsInputDir" value="${pig.inputPath}"/>
+		<property name="hdfsOutputDir" value="${pig.outputPath}"/>
+	</script>	
 	
-	<pig id="pigServer" job-name="apacheLogAnalysis" 
-		   			 	exec-type="LOCAL"  >
+	<pig id="pigServer" job-name="apacheLogAnalysis" exec-type="MAPREDUCE" configuration-ref="hadoopConfiguration" >
 		<script location="apache-log-simple.pig">
 			<arguments>
-				piggybanklib=${pig.piggybank.lib}	
-				inputFile=${pig.inputFile}		
+				piggybanklib=${pig.piggybanklib}	
+				inputPath=${pig.inputPath}	
+				outputPath=${pig.outputPath}	
 			</arguments>
 		</script>	
 	</pig> 
 
-<!-- 
-	<beans:bean id="runner" class="com.oreilly.springdata.hadoop.pig.PigTemplate"> 
+
+	<beans:bean id="runner" class="com.oreilly.springdata.hadoop.pig.PigRunner"> 
 		<beans:property name="preJobScripts" value="hdfsScript"/>
-		<beans:property name="pigServer" ref="pigServer"/>
+		<beans:property name="pigServerName" value="pigServer"/>
+		<beans:property name="runAtStartup" value="true"/>
 	</beans:bean>
--->
+
+
 	
 	
 </beans:beans>
