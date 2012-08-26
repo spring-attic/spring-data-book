@@ -16,7 +16,7 @@
 	
 	<batch:job id="job1">
 		<batch:step id="import" next="wordcount">
-			<batch:tasklet ref="script-tasklet"/>
+			<batch:tasklet ref="scriptTasklet"/>
 		</batch:step>
 			
 		<batch:step id="wordcount">
@@ -28,9 +28,9 @@
 	
 	</hive-tasklet>
 	
-	<job-tasklet id="wordcount-tasklet" job-ref="wordcount-job"/>
+	<job-tasklet id="wordcount-tasklet" job-ref="wordcountJob"/>
 
-	<job id="wordcount-job"
+	<job id="wordcountJob"
 	     input-path="#{jobParameters['mr.input']}" 
          output-path="#{jobParameters['mr.output']}"  
 		 mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
@@ -38,8 +38,13 @@
 		 validate-paths="false"
 		 scope="step" />
 
+	<pig-tasklet id="asdf" pig-server-ref="pig">	
+	<script location="">
+		<arguments></arguments>
+	</script>
+	</pig-tasklet>
 
-    <script-tasklet id="script-tasklet" script-ref="hdfsScript" scope="step">
+    <script-tasklet id="scriptTasklet" script-ref="hdfsScript" scope="step">
 
     </script-tasklet>
     
