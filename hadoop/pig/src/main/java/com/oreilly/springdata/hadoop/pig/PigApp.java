@@ -15,6 +15,9 @@
  */
 package com.oreilly.springdata.hadoop.pig;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Properties;
 import java.util.Scanner;
 
 import org.apache.commons.logging.Log;
@@ -29,10 +32,33 @@ public class PigApp {
 
 	public static void main(String[] args) throws Exception {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext(
-				"/META-INF/spring/pig-context.xml", PigApp.class);
+				"/META-INF/spring/pig-context-password.xml", PigApp.class);
 		log.info("Pig Application Running");
 		context.registerShutdownHook();	
 		
+		/*
+		PigTemplate pigTemplate = context.getBean(PigTemplate.class);
+		Properties scriptParameters = new Properties();
+		scriptParameters.put("piggybanklib","./lib/piggybank-0.9.2.jar");
+		scriptParameters.put("inputFile","./data/apache.log");
+		pigTemplate.executeScript("apache-log-simple.pig", scriptParameters);
+		*/
+		
+		PasswordRepository repo = context.getBean(PigPasswordRepository.class);
+		Collection<String> files = new ArrayList<String>();
+		files.add("/etc/passwd");
+		files.add("/etc/passwd");
+			
+		repo.processPasswordFiles(files, "/tmp/pwdout");
+		//repo.processPasswordFile("/etc/passwd", "/tmp/pwdout");
+		
+		//System.out.println("hit enter to run again");
+		//Scanner scanIn = new Scanner(System.in);
+	    //scanIn.nextLine();
+	    
+		
+	    
+		/*
 		PigServer pigServer = context.getBean(PigServer.class);
 		pigServer.setBatchOn();
 		pigServer.getPigContext().connect();
@@ -48,7 +74,7 @@ public class PigApp {
 		pigServer.getPigContext().connect();
 		pigServer.executeBatch();
 		pigServer.shutdown();
-	    
+	    */
 	    
 	}
 }

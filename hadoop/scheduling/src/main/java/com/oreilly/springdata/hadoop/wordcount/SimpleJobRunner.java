@@ -112,7 +112,7 @@ public class SimpleJobRunner implements InitializingBean, DisposableBean {
 		this.preJobScripts = preJobScripts;
 	}
 	
-	public void setPostScripts(Collection<HdfsScriptFactoryBean> postJobScripts) {
+	public void setPostJobScripts(Collection<HdfsScriptFactoryBean> postJobScripts) {
 		this.postJobScripts = postJobScripts;
 	}
 }

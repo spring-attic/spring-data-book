@@ -4,14 +4,11 @@ import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.mapreduce.Job;
 import org.apache.pig.PigServer;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.data.hadoop.scripting.HdfsScriptFactoryBean;
 import org.springframework.util.Assert;
 
 /**
@@ -31,7 +28,6 @@ public class PigRunner implements InitializingBean, ApplicationContextAware {
 	private static final Log log = LogFactory.getLog(PigRunner.class);
 
 	private boolean runAtStartup = false;
-	private boolean waitForJobs = true;
 	private String pigServerName;
 
 	private Collection<String> preJobScripts;
@@ -85,17 +81,6 @@ public class PigRunner implements InitializingBean, ApplicationContextAware {
 	}
 
 	/**
-	 * Indicates whether the runner should wait for the jobs to finish (the
-	 * default) or not.
-	 * 
-	 * @param waitForJobs
-	 *            The waitForJobs to set.
-	 */
-	public void setWaitForJobs(boolean waitForJobs) {
-		this.waitForJobs = waitForJobs;
-	}
-
-	/**
 	 * Sets the PigServer to run scripts with
 	 * 
 	 * @param pigServer
@@ -109,7 +94,7 @@ public class PigRunner implements InitializingBean, ApplicationContextAware {
 		this.preJobScripts = preJobScripts;
 	}
 
-	public void setPostScripts(Collection<String> postJobScripts) {
+	public void setPostJobScripts(Collection<String> postJobScripts) {
 		this.postJobScripts = postJobScripts;
 	}
 
