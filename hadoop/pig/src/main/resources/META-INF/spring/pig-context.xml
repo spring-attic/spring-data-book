@@ -15,12 +15,6 @@
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<script id="hdfsScript" language="groovy" location="copy-files.groovy">
-		<property name="localSourceFile" value="${pig.localSourceFile}"/>
-		<property name="hdfsInputDir" value="${pig.inputPath}"/>
-		<property name="hdfsOutputDir" value="${pig.outputPath}"/>
-	</script>	
-	
 	<pig id="pigServer" job-name="apacheLogAnalysis" exec-type="MAPREDUCE" configuration-ref="hadoopConfiguration" >
 		<script location="apache-log-simple.pig">
 			<arguments>
@@ -31,6 +25,12 @@
 		</script>	
 	</pig> 
 
+	<script id="hdfsScript" language="groovy" location="copy-files.groovy">
+		<property name="localSourceFile" value="${pig.localSourceFile}"/>
+		<property name="hdfsInputDir" value="${pig.inputPath}"/>
+		<property name="hdfsOutputDir" value="${pig.outputPath}"/>
+	</script>	
+	
 
 	<beans:bean id="runner" class="com.oreilly.springdata.hadoop.pig.PigRunner"> 
 		<beans:property name="preJobScripts" value="hdfsScript"/>
