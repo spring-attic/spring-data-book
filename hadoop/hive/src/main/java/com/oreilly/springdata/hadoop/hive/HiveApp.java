@@ -31,16 +31,16 @@ public class HiveApp {
 		log.info("Hive Application Running");
 		context.registerShutdownHook();	
 		
-		WebLogRepository repo = context.getBean(WebLogRepository.class);
-		//repo.load();
-		log.info("Count of web log = " + repo.count());
+		HivePasswordRepository repo = context.getBean(HivePasswordRepository.class);		
+		repo.processPasswordFile("password-analysis.hql");	
+		log.info("Count of password entrires = " + repo.count());
 				
 		//AnalysisService analysis = context.getBean(AnalysisService.class);
 		//analysis.performAnalysis();
 		
 		
 		/*
-		PigTemplate pigTemplate = context.getBean(PigTemplate.class);
+		HiveTemplate pigTemplate = context.getBean(HiveTemplate.class);
 		Properties scriptParameters = new Properties();
 		scriptParameters.put("piggybanklib","./lib/piggybank-0.9.2.jar");
 		scriptParameters.put("inputFile","./data/apache.log");

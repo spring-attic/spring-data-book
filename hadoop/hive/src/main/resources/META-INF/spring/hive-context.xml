@@ -32,7 +32,7 @@
 	-->
 	 
 	<!--  using component scanning
-	<beans:bean id="webLogRepository" class="com.oreilly.springdata.hadoop.hive.WebLogRepository">
+	<beans:bean id="webLogRepository" class="com.oreilly.springdata.hadoop.hive.HivePasswordRepository">
 		<beans:constructor-arg ref="hiveClient"/>
 	</beans:bean>
 	-->

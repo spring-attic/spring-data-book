@@ -4,45 +4,55 @@ import org.apache.hadoop.hive.service.HiveClient;
 import org.apache.hadoop.hive.service.HiveServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ResourceLoaderAware;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.hadoop.hive.HiveScriptRunner;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 @Repository
-public class WebLogRepository {
+public class HivePasswordRepository implements PasswordRepository, ResourceLoaderAware {
 
+	  private ResourceLoader resourceLoader;
+	
 	  private final HiveClient hiveClient;
 	   
 	  private @Value("${hive.table}") String tableName;
 
 	  @Autowired
-	  public WebLogRepository(HiveClient hiveClient) {
+	  public HivePasswordRepository(HiveClient hiveClient) {
 	    Assert.notNull(hiveClient);
 	    this.hiveClient = hiveClient;
 	  }
-
-	  public void load() throws Exception {
-		  hiveClient.execute("drop table passwords");
-		  hiveClient.execute("create table passwords (user string, passwd string, uid int, gid int, userinfo string, home string, shell string)");
-		  hiveClient.execute("load data local inpath '/etc/passwd' into table passwords");
-	  }
-	  
 	  
 	  public long count() {
 	    
 	    try {
 
-	      hiveClient.execute("select count(1) from passwords");
+	      hiveClient.execute("select count(*) from " + tableName);
 	      return Long.parseLong(hiveClient.fetchOne());
 
+	      // checked exceptions
 	    } catch (HiveServerException ex) {
 	      throw translateExcpetion(ex);
-	    } catch (org.apache.thrift.TException tex) { // checked exception
+	    } catch (org.apache.thrift.TException tex) { 
 	      throw translateExcpetion(tex);
 	    }
 	  }
 
 	private RuntimeException translateExcpetion(Exception ex) {
 		return new RuntimeException(ex);
+	}
+
+	@Override
+	public void processPasswordFile(String inputFile) throws Exception {
+		HiveScriptRunner.run(hiveClient, resourceLoader.getResource(inputFile));
+	}
+
+
+	@Override
+	public void setResourceLoader(ResourceLoader resourceLoader) {
+		this.resourceLoader = resourceLoader;
 	}
 	  
 }
