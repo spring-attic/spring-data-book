@@ -5,9 +5,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 
-	<configuration>
-	    <!-- The value after the question mark is the default value if another value for hd.fs is not provided -->
-		fs.default.name=${hd.fs:hdfs://localhost:9000}
+ 
+	<configuration> 
+		fs.default.name=${hd.fs}
 	</configuration>
+
 
 </beans:beans>

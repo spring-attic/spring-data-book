@@ -4,10 +4,16 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 
+	<context:property-placeholder location="classpath:batch.properties,classpath:hadoop.properties"
+			ignore-resource-not-found="true" ignore-unresolvable="true" />
+	
+	
 	<batch:job id="job1">
 		<batch:step id="import" next="wordcount">
 			<batch:tasklet ref="script-tasklet"/>
@@ -18,21 +24,61 @@
 		</batch:step>
 	</batch:job>
 	
+	<hive-tasklet id="hiveTasklet" hive-client-ref="hiveClient">
+	
+	</hive-tasklet>
 	
 	<job-tasklet id="wordcount-tasklet" job-ref="wordcount-job"/>
 
-	<job id="wordcount-job" input-path="${wordcount.input.path:/user/gutenberg/input/word/}"
-		output-path="${wordcount.output.path:/user/gutenberg/output/word/}" 
-		mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
-		reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"
-		validate-paths="false" />
+	<job id="wordcount-job"
+	     input-path="#{jobParameters['mr.input']}" 
+         output-path="#{jobParameters['mr.output']}"  
+		 mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
+		 reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"
+		 validate-paths="false"
+		 scope="step" />
 
-    <script-tasklet id="script-tasklet">
-        <script location="cp-data.js">
-            <property name="inputPath" value="${wordcount.input.path}" />
-            <property name="outputPath" value="${wordcount.output.path}" />
-            <property name="localResource" value="${local.data}" />
-        </script>
+
+    <script-tasklet id="script-tasklet" script-ref="hdfsScript" scope="step">
+
     </script-tasklet>
+    
 
+	
+    <script id="hdfsScript" location="copy-files.groovy">
+		<property name="localSourceFile" value="./data/nietzsche-chapter-1.txt"/>
+		<property name="hdfsInputDir" value="/user/gutenberg/input/word/"/>
+		<property name="hdfsOutputDir" value="/user/gutenberg/output/word/"/>
+	</script>	
+<!-- 
+    
+    <script id="hdfsScript" location="copy-files.groovy" scope="step">
+		<property name="localSourceFile" value="#{jobParameters['localData']}"/>
+		<property name="hdfsInputDir" value="#{jobParameters['mr.input']}"/>
+		<property name="hdfsOutputDir" value="#{jobParameters['mr.output']}"/>
+	</script>	
+	     
+ 	<script id="script" location="cp-data.js" scope="step">
+            <property name="inputPath" value="#{jobParameters['mr.input']}" />
+            <property name="outputPath" value="#{jobParameters['mr.output']}" />
+            <property name="localResource" value="data/nietzsche-chapter-1.txt" />
+    </script>
+
+        <script language="javascript" id="script" scope="step">
+if (fsh.test(input)) fsh.rmr(input)
+if (fsh.test(output)) fsh.rmr(output)
+fsh.mkdir(input);
+fsh.put("data/nietzsche-chapter-1.txt", input)
+		<property name="input" value="#{jobParameters['mr.input']}"/>			
+		<property name="output" value="#{jobParameters['mr.output']}"/>
+	</script>        
+
+	
+ 
+    <script id="hdfsScript" language="javascript" location="cp-data.js" scope="step">
+            <property name="inputPath" value="#{jobParameters['mr.input']}" />
+            <property name="outputPath" value="#{jobParameters['mr.output']}" />
+            <property name="localResource" value="#{jobParameters['localData']}" />
+    </script>
+-->    
 </beans:beans>
