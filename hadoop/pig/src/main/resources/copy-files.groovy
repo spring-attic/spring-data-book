@@ -9,6 +9,6 @@ if (!fsh.test(hdfsInputDir)) {
    fsh.copyFromLocal(localSourceFile, hdfsInputDir); 
    fsh.chmod(700, hdfsInputDir)
 }
-if (fsh.test(hdfsOutputDir) {
+if (fsh.test(hdfsOutputDir)) {
    fsh.rmr(hdfsOutputDir)
 }
