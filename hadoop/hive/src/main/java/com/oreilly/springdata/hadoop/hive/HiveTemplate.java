@@ -1,7 +1,5 @@
 package com.oreilly.springdata.hadoop.hive;
 
-import java.util.Properties;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hive.service.HiveClient;
@@ -88,15 +86,28 @@ public class HiveTemplate implements HiveOperations, ApplicationContextAware {
 	}
 
 	@Override
-	public int queryForInt(String hql) throws DataAccessException {
+	public int queryForInt(final String hql) throws DataAccessException {
 		return execute(new HiveClientCallback<Integer>() {
 
 			public Integer doInHive(HiveClient hiveClient)
 					throws DataAccessException, Exception {
-				// TODO Auto-generated method stub
-				return 0;
+				hiveClient.execute(hql);
+				return Integer.parseInt(hiveClient.fetchOne());
 			}
 		});
 	}
+	
+	@Override
+	public long queryForLong(final String hql) throws DataAccessException {
+		return execute(new HiveClientCallback<Long>() {
+
+			public Long doInHive(HiveClient hiveClient)
+					throws DataAccessException, Exception {
+				hiveClient.execute(hql);
+				return Long.parseLong(hiveClient.fetchOne());
+			}
+		});
+	}
+
 
 }

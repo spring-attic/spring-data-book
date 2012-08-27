@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS apachelog;
 
 CREATE TABLE apachelog(remoteHost STRING, remoteLogname STRING, user STRING, time STRING, method STRING, uri STRING, proto STRING, status STRING, bytes STRING, referer STRING,  userAgent STRING) ROW FORMAT SERDE 'org.apache.hadoop.hive.contrib.serde2.RegexSerDe' WITH SERDEPROPERTIES (  "input.regex" = "^([^ ]*) +([^ ]*) +([^ ]*) +\\[([^]]*)\\] +\\\"([^ ]*) ([^ ]*) ([^ ]*)\\\" ([^ ]*) ([^ ]*) (?:\\\"-\\\")*\\\"(.*)\\\" (.*)$", "output.format.string" = "%1$s %2$s %3$s %4$s %5$s %6$s %7$s %8$s %9$s %10$s %11$s" ) STORED AS TEXTFILE;
 
-LOAD DATA LOCAL INPATH "/home/mpollack/projects/pig-play/apache.log" INTO TABLE apachelog;
+LOAD DATA LOCAL INPATH "./data/apache.log" INTO TABLE apachelog;
 
 -- basic filtering
 -- SELECT a.uri FROM apachelog a WHERE a.method='GET' AND a.status='200';

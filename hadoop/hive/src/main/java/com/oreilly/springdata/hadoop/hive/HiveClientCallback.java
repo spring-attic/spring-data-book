@@ -5,5 +5,5 @@ import org.springframework.dao.DataAccessException;
 
 public interface HiveClientCallback<T> {
 
-	T doInHive(HiveClient hiveClient) throws DataAccessException, Exception;
+	T doInHive(HiveClient hiveClient) throws Exception, DataAccessException;
 }
