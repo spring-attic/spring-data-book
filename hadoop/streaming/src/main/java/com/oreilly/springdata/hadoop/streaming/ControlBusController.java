@@ -22,11 +22,7 @@ public class ControlBusController {
 		Message<String> operation = MessageBuilder.withPayload(message).build();
 		MessagingTemplate template = new MessagingTemplate();
 		Message response = template.sendAndReceive(inOperationChannel, operation);
-
-		if (response != null) {
-			return response.getPayload().toString();
-		} else {
-			return null;
-		}
+		return response != null ? response.getPayload().toString() : null;
+		
 	}
 }
