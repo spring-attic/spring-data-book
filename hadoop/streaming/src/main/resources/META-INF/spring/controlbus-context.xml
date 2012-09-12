@@ -11,11 +11,13 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:int-groovy="http://www.springframework.org/schema/integration/groovy"
 	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http-2.2.xsd
 		http://www.springframework.org/schema/integration/ip http://www.springframework.org/schema/integration/ip/spring-integration-ip.xsd
 		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
 		http://www.springframework.org/schema/integration/jmx http://www.springframework.org/schema/integration/jmx/spring-integration-jmx.xsd
+		http://www.springframework.org/schema/integration/groovy http://www.springframework.org/schema/integration/groovy/spring-integration-groovy-2.2.xsd
 		http://www.springframework.org/schema/integration/stream http://www.springframework.org/schema/integration/stream/spring-integration-stream-2.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
@@ -34,11 +36,12 @@
 
  
 	<int:channel id="inOperationChannel"/>
-	<int:channel id="outOperationChannel">
-		<int:queue/>
-	</int:channel>
 	
-	<int:control-bus input-channel="inOperationChannel" output-channel="outOperationChannel"/>
+	<int-groovy:control-bus input-channel="inOperationChannel"/>
+	<!-- 
+	<int:control-bus input-channel="inOperationChannel"/>
+	
+	-->
 <!-- 
 	<int-http:inbound-gateway request-channel="inOperationChannel" reply-channel="outOperationChannel" path="/admin">
 	</int-http:inbound-gateway>
