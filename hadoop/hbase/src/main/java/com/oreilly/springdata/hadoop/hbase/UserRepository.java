@@ -20,14 +20,14 @@ public class UserRepository {
 
 	private String tableName = "users";
 
-	public static byte[] CF_INFO = Bytes.toBytes("info");
+	public static byte[] CF_INFO = Bytes.toBytes("cfInfo");
 
 	private byte[] qUser = Bytes.toBytes("user");
 	private byte[] qEmail = Bytes.toBytes("email");
 	private byte[] qPassword = Bytes.toBytes("password");
 
 	public List<User> findAll() {
-		return hbaseTemplate.find(tableName, "info", new RowMapper<User>() {
+		return hbaseTemplate.find(tableName, "cfInfo", new RowMapper<User>() {
 			@Override
 			public User mapRow(Result result, int rowNum) throws Exception {
 				return new User(Bytes.toString(result.getValue(CF_INFO, qUser)), 

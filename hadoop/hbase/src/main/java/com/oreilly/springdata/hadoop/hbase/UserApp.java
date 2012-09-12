@@ -19,6 +19,10 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -35,12 +39,23 @@ public class UserApp {
 		UserUtils userUtils = context.getBean(UserUtils.class);
 		
 		userUtils.initialize();
-		userUtils.addUsers();
+
+		Configuration configuration = context.getBean("hadoopConfiguration", Configuration.class);
+		HTable table = new HTable(configuration, "users");
+
+		Put p = new Put(Bytes.toBytes("user10"));
+		p.add(Bytes.toBytes("cfInfo"), Bytes.toBytes("qUser"), Bytes.toBytes("user10"));
+		p.add(Bytes.toBytes("cfInfo"), Bytes.toBytes("qEmail"), Bytes.toBytes("user10@yahoo.com"));
+		p.add(Bytes.toBytes("cfInfo"), Bytes.toBytes("qPassword"), Bytes.toBytes("user10pwd"));		
+		table.put(p);
 		
+		/*
+		userUtils.addUsers();
+		*/
 		UserRepository userRepository = context.getBean(UserRepository.class);
 		List<User> users = userRepository.findAll();
 		System.out.println("Number of users = " + users.size());
 		System.out.println(users);
-		
+	
 	}
 }
