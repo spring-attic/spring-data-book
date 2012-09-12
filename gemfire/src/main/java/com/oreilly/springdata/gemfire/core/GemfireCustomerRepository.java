@@ -27,11 +27,9 @@ import org.springframework.util.Assert;
 import com.gemstone.gemfire.cache.query.SelectResults;
 
 /**
- * A Data access object using a native Gemfire interfaces for data access.
- * 
- * NOTE: This implementation demonstrates the use of {@link GemfireTemplate} however it's essentially 
- * identical to what Gemfire Repository support gives you out of the box. In other words it
- * is not really required.
+ * A Data access object using a native Gemfire interfaces for data access. NOTE: This implementation demonstrates the
+ * use of {@link GemfireTemplate} however it's essentially identical to what Gemfire Repository support gives you out of
+ * the box. In other words it is not really required.
  * 
  * @author David Turanski
  * @author Oliver Gierke

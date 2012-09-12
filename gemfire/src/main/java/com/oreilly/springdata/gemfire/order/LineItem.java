@@ -35,7 +35,7 @@ public class LineItem {
 	 * @param product must not be {@literal null}.
 	 */
 	public LineItem(Product product) {
-		this(product,1);
+		this(product, 1);
 	}
 
 	/**

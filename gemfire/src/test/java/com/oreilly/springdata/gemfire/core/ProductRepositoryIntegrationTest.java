@@ -38,7 +38,7 @@ public class ProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 	@Test
 	public void createProduct() {
 
-		Product product = new Product(4L,"Camera bag", new BigDecimal(49.99));
+		Product product = new Product(4L, "Camera bag", new BigDecimal(49.99));
 		product = productRepository.save(product);
 	}
 
