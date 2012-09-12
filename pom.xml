@@ -10,7 +10,7 @@
 	<name>Spring Data Book</name>
 
 	<properties>
-		<spring.version>3.1.2.RELEASE</spring.version>
+		<spring.version>3.2.0.M2</spring.version>
 		<slf4j.version>1.6.6</slf4j.version>
 		<logback.version>1.0.6</logback.version>
 		<querydsl.version>2.7.2</querydsl.version>
@@ -53,12 +53,11 @@
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
+		
 		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.2.2</version>
-			<scope>runtime</scope>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<!-- Logging -->

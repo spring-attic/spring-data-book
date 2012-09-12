@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * Spring JavaConfig configuration class to setup a Spring container and infrastructure components.
  */
 @Configuration
-@ComponentScan(basePackageClasses = ApplicationConfig.class)
+@ComponentScan
 @ImportResource("classpath:META-INF/spring/spring-data-context.xml")
 @EnableTransactionManagement
 class ApplicationConfig {

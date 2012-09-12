@@ -38,9 +38,9 @@ import com.mongodb.WriteConcern;
  * @author Oliver Gierke
  */
 @Configuration
-@ComponentScan(basePackageClasses = ApplicationConfig.class)
+@ComponentScan
 @EnableMongoRepositories
-public class ApplicationConfig extends AbstractMongoConfiguration {
+class ApplicationConfig extends AbstractMongoConfiguration {
 
 	@Autowired
 	private List<Converter<?, ?>> converters;

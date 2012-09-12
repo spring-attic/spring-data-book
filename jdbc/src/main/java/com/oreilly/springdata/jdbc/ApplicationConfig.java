@@ -13,16 +13,14 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.oreilly.springdata.jdbc.repository.CustomerRepository;
-
 /**
  * @author Thomas Risberg
  */
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackageClasses = CustomerRepository.class)
+@ComponentScan
 @PropertySource("classpath:jdbc.properties")
-public class ApplicationConfig {
+class ApplicationConfig {
 
 	@Autowired
 	Environment env;
