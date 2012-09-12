@@ -29,23 +29,13 @@
 
 	<build>
 		<plugins>
-		
 			<plugin>
 				<groupId>com.mysema.maven</groupId>
 				<artifactId>maven-apt-plugin</artifactId>
-				<version>1.0.2</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/generated-sources/queries</outputDirectory>
-							<processor>com.mysema.query.apt.QuerydslAnnotationProcessor</processor>
-						</configuration>
-					</execution>
-				</executions>
+				<version>1.0.4</version>
+				<configuration>
+					<processor>com.mysema.query.apt.QuerydslAnnotationProcessor</processor>
+				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>com.mysema.querydsl</groupId>
@@ -53,6 +43,17 @@
 						<version>${querydsl.version}</version>
 					</dependency>
 				</dependencies>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/generated-sources/java</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

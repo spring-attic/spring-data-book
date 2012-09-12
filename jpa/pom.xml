@@ -57,7 +57,7 @@
 			<artifactId>querydsl-jpa</artifactId>
 			<version>${querydsl.version}</version>
 		</dependency>
-		
+
 		<!-- HSQL -->
 
 		<dependency>
@@ -74,7 +74,7 @@
 			<plugin>
 				<groupId>com.mysema.maven</groupId>
 				<artifactId>maven-apt-plugin</artifactId>
-				<version>1.0.2</version>
+				<version>1.0.4</version>
 				<configuration>
 					<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
 				</configuration>
@@ -87,7 +87,6 @@
 				</dependencies>
 				<executions>
 					<execution>
-						<id>sources</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>process</goal>

@@ -74,13 +74,17 @@
             <plugin>
                 <groupId>com.mysema.maven</groupId>
                 <artifactId>maven-apt-plugin</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.4</version>
+                <configuration>
+                    <outputDirectory>target/generated-sources/java</outputDirectory>
+                    <processor>org.springframework.data.neo4j.querydsl.SDNAnnotationProcessor</processor>
+                </configuration>
                 <dependencies>
-                    <dependency>
-                        <groupId>com.mysema.querydsl</groupId>
-                        <artifactId>querydsl-apt</artifactId>
-                        <version>${querydsl.version}</version>
-                    </dependency>
+                	<dependency>
+                		<groupId>com.mysema.querydsl</groupId>
+                		<artifactId>querydsl-apt</artifactId>
+                		<version>${querydsl.version}</version>
+                	</dependency>
                 </dependencies>
                 <executions>
                     <execution>
@@ -88,11 +92,6 @@
                         <goals>
                             <goal>process</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>target/generated-sources</outputDirectory>
-                            <processor>org.springframework.data.neo4j.querydsl.SDNAnnotationProcessor
-                            </processor>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

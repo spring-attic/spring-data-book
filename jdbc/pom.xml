@@ -12,10 +12,6 @@
 		<version>1.0.0.BUILD-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	
-	<properties>
-		<querydsl.version>2.7.0</querydsl.version>
-	</properties>
 
 	<dependencies>
 	
