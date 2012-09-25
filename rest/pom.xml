@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>org.springframework.hateoas</groupId>
 			<artifactId>spring-hateoas</artifactId>
-			<version>0.2.0.BUILD-SNAPSHOT</version>
+			<version>0.3.0.BUILD-SNAPSHOT</version>
 		</dependency>
 		
 		<!-- Spring -->
