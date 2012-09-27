@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-	<!-- <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"> 
-		<resetJUL>true</resetJUL> </contextListener> -->
-
 	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>%d %5p %40.40c:%4L - %m%n</pattern>
@@ -11,8 +8,7 @@
 	</appender>
 
 	<logger name="com.oreilly.springdata" level="info" />
-	<logger name="org.springframework.data" level="info" />
-
+	<logger name="org.springframework.data" level="debug" />
 	<root level="warn">
 		<appender-ref ref="console" />
 	</root>
