@@ -17,6 +17,8 @@ package com.oreilly.springdata.rest.util;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -41,6 +43,9 @@ import org.springframework.util.Assert;
 @Profile("with-data")
 class SampleDataProvider implements ApplicationListener<ContextRefreshedEvent>, ApplicationContextAware {
 
+	private static final Logger LOG = LoggerFactory.getLogger(SampleDataProvider.class);
+	private static final String SQL_FILE = "data.sql";
+
 	private final DataSource dataSource;
 	private ApplicationContext applicationContext;
 
@@ -51,6 +56,8 @@ class SampleDataProvider implements ApplicationListener<ContextRefreshedEvent>, 
 	 */
 	@Autowired
 	public SampleDataProvider(DataSource dataSource) {
+
+		LOG.info("SampleDataProvider activated!");
 
 		Assert.notNull(dataSource, "DataSource must not be null!");
 		this.dataSource = dataSource;
@@ -76,8 +83,10 @@ class SampleDataProvider implements ApplicationListener<ContextRefreshedEvent>, 
 			return;
 		}
 
+		LOG.info("Populating datasource using SQL file {}!", SQL_FILE);
+
 		ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-		populator.setScripts(new Resource[] { new ClassPathResource("data.sql") });
+		populator.setScripts(new Resource[] { new ClassPathResource(SQL_FILE) });
 		DatabasePopulatorUtils.execute(populator, dataSource);
 	}
 }
