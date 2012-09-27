@@ -20,10 +20,10 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.oreilly.springdata.jpa.AbstractIntegrationTest;
+import com.oreilly.springdata.jpa.PlainJpaConfig;
 
 /**
  * Integration test for the manual implementation ({@link JpaCustomerRepository}) of the {@link CustomerRepository}
@@ -31,11 +31,10 @@ import com.oreilly.springdata.jpa.AbstractIntegrationTest;
  * 
  * @author Oliver Gierke
  */
-@ActiveProfiles("jpa")
+@ContextConfiguration(classes = PlainJpaConfig.class)
 public class JpaCustomerRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired
-	@Qualifier("jpaCustomerRepository")
 	CustomerRepository repository;
 
 	@Test

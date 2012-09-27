@@ -19,7 +19,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Repository;
  * @author Oliver Gierke
  */
 @Repository
-@Profile("jpa")
 class JpaCustomerRepository implements CustomerRepository {
 
 	@PersistenceContext

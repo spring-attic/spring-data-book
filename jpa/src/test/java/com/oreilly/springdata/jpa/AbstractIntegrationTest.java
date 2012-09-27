@@ -26,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oliver Gierke
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ApplicationConfig.class)
 @Transactional
 public abstract class AbstractIntegrationTest {
 

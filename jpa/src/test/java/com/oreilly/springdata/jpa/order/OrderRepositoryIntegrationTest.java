@@ -25,8 +25,10 @@ import java.util.List;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.oreilly.springdata.jpa.AbstractIntegrationTest;
+import com.oreilly.springdata.jpa.ApplicationConfig;
 import com.oreilly.springdata.jpa.core.Customer;
 import com.oreilly.springdata.jpa.core.CustomerRepository;
 import com.oreilly.springdata.jpa.core.EmailAddress;
@@ -38,6 +40,7 @@ import com.oreilly.springdata.jpa.core.ProductRepository;
  * 
  * @author Oliver Gierke
  */
+@ContextConfiguration(classes = ApplicationConfig.class)
 public class OrderRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired

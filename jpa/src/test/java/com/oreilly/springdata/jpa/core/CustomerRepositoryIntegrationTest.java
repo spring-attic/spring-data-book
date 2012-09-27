@@ -20,14 +20,17 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.oreilly.springdata.jpa.AbstractIntegrationTest;
+import com.oreilly.springdata.jpa.ApplicationConfig;
 
 /**
  * Integration tests for {@link CustomerRepository}.
  * 
  * @author Oliver Gierke
  */
+@ContextConfiguration(classes = ApplicationConfig.class)
 public class CustomerRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired

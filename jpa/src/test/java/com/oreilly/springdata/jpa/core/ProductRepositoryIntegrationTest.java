@@ -29,14 +29,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.oreilly.springdata.jpa.AbstractIntegrationTest;
+import com.oreilly.springdata.jpa.ApplicationConfig;
 
 /**
  * Integration tests for {@link ProductRepository}.
  * 
  * @author Oliver Gierke
  */
+@ContextConfiguration(classes = ApplicationConfig.class)
 public class ProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 	@Autowired

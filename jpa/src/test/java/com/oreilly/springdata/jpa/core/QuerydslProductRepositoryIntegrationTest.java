@@ -22,9 +22,11 @@ import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.test.context.ContextConfiguration;
 
 import com.mysema.query.types.Predicate;
 import com.oreilly.springdata.jpa.AbstractIntegrationTest;
+import com.oreilly.springdata.jpa.ApplicationConfig;
 
 /**
  * Integration test showing the usage of Querydsl {@link Predicate} to query repositories implementing
@@ -32,6 +34,7 @@ import com.oreilly.springdata.jpa.AbstractIntegrationTest;
  * 
  * @author Oliver Gierke
  */
+@ContextConfiguration(classes = ApplicationConfig.class)
 public class QuerydslProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 
 	static final QProduct product = QProduct.product;
