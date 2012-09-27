@@ -45,14 +45,14 @@ public final class EmailAddress {
 	}
 
 	/**
-	 * Returns whether the given value is a valid {@link EmailAddress}.
+	 * Returns whether the given {@link String} is a valid {@link EmailAddress} which means you can safely instantiate the
+	 * class.
 	 * 
-	 * @param source must not be {@literal null} or empty.
+	 * @param candidate
 	 * @return
 	 */
-	public static boolean isValid(String source) {
-		Assert.hasText(source);
-		return PATTERN.matcher(source).matches();
+	public static boolean isValid(String candidate) {
+		return candidate == null ? false : PATTERN.matcher(candidate).matches();
 	}
 
 	/* 

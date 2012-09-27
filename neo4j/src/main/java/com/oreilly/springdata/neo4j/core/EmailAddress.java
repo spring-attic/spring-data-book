@@ -31,8 +31,8 @@ public class EmailAddress {
 		this.email = emailAddress;
 	}
 
-	public static boolean isValid(String email) {
-		return PATTERN.matcher(email).matches();
+	public static boolean isValid(String candidate) {
+		return candidate == null ? false : PATTERN.matcher(candidate).matches();
 	}
 
 	@Override

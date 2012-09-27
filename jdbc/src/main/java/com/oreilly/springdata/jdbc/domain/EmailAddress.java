@@ -21,8 +21,8 @@ public class EmailAddress {
 		this.value = emailAddress;
 	}
 
-	public static boolean isValid(String source) {
-		return PATTERN.matcher(source).matches();
+	public static boolean isValid(String candidate) {
+		return candidate == null ? false : PATTERN.matcher(candidate).matches();
 	}
 
 	@Override

@@ -54,11 +54,11 @@ public class EmailAddress {
 	 * Returns whether the given {@link String} is a valid {@link EmailAddress} which means you can safely instantiate the
 	 * class.
 	 * 
-	 * @param source
+	 * @param candidate
 	 * @return
 	 */
-	public static boolean isValid(String source) {
-		return PATTERN.matcher(source).matches();
+	public static boolean isValid(String candidate) {
+		return candidate == null ? false : PATTERN.matcher(candidate).matches();
 	}
 
 	/* 
