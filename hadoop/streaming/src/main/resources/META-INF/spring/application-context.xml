@@ -66,21 +66,4 @@
 		<property name="rolloverThresholdInBytes" value="${syslog.hdfs.rolloverThresholdInBytes}"/>
 	</bean>
 
-<!-- 
-     <int-ip:udp-inbound-channel-adapter id="udpAdapter" channel="syslogChannel" port="${syslog.udp.port}" />
- 
-     <int:transformer input-channel="udpInput" output-channel="sysLogData">
-     	<bean class="com.oreilly.springdata.integration.ip.syslog.SyslogTransformer" />
-     </int:transformer>
-	     
-     <int:channel id="sysLogData" />
-
-	<int:object-to-string-transformer input-channel="sysLogData" output-channel="hfdsOutput"/>
-
-     
-     <int:outbound-channel-adapter id="hfdsOutput" 
-								   ref="hdfsWritingMessageHandler" method="handleMessage"/>
-	
--->
-
 </beans>
