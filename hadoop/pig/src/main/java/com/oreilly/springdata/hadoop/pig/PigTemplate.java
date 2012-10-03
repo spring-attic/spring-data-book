@@ -2,7 +2,6 @@ package com.oreilly.springdata.hadoop.pig;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collection;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -12,7 +11,6 @@ import org.apache.pig.PigServer;
 import org.apache.pig.tools.pigstats.PigStats;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanInitializationException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;

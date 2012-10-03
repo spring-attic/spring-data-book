@@ -12,6 +12,8 @@ public class PigPasswordRepository implements PasswordRepository {
 	private PigOperations pigOperations;
 	
 	private String pigScript = "password-analysis.pig";
+		
+	private String baseOutputDir = "/data/password-repo/output";
 	
 	private AtomicInteger counter = new AtomicInteger();
 	
@@ -24,22 +26,24 @@ public class PigPasswordRepository implements PasswordRepository {
 		this.pigScript = pigScript;
 	}
 	
+	public void setBaseOutputDir(String baseOutputDir) {
+		this.baseOutputDir = baseOutputDir;
+	}
+	
 	@Override
-	public void processPasswordFile(String inputFile, String baseOutputDir) {
+	public void processPasswordFile(String inputFile) {
 		Assert.notNull(inputFile);
-		Assert.notNull(baseOutputDir);
 		String outputDir = baseOutputDir + File.separator + counter.incrementAndGet();
 		Properties scriptParameters = new Properties();
-		scriptParameters.put("inputFile", inputFile);
+		scriptParameters.put("inputDir", inputFile);
 		scriptParameters.put("outputDir", outputDir);
 		pigOperations.executeScript(pigScript, scriptParameters);
 	}
 	
 	@Override
-	public void processPasswordFiles(Collection<String> inputFiles, String baseOutputDir) {
+	public void processPasswordFiles(Collection<String> inputFiles) {
 		for (String inputFile : inputFiles) {
-			String outputDirectory = baseOutputDir + File.separator + counter.incrementAndGet();
-			processPasswordFile(inputFile, outputDirectory);
+			processPasswordFile(inputFile);
 		}
 	}
 }

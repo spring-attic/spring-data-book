@@ -8,27 +8,27 @@
 	  http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 
 
-	<context:property-placeholder location="hadoop.properties"/>
+	<context:property-placeholder location="hadoop.properties,pig-analysis.properties"/>
 
 	<configuration id="hadoopConfiguration">
 		fs.default.name=${hd.fs}
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<pig id="pigServer" job-name="passwdAnalysis" exec-type="MAPREDUCE" 
-	                    configuration-ref="hadoopConfiguration" >
-		<script location="password-analysis.pig">
+	<pig id="pigServer" job-name="apacheLogAnalysis" configuration-ref="hadoopConfiguration" >
+		<script location="apache-log-simple.pig">
 			<arguments>
-				inputDir=${inputDir}
-				outputDir=${outputDir}		
+				piggybanklib=${pig.piggybanklib}	
+				inputPath=${pig.inputPath}	
+				outputPath=${pig.outputPath}	
 			</arguments>
 		</script>	
 	</pig> 
 
 	<script id="hdfsScript" language="groovy" location="copy-files.groovy">
-		<property name="localSourceFile" value="${localSourceFile}"/>
-		<property name="inputDir" value="${inputDir}"/>
-		<property name="outputDir" value="${outputDir}"/>
+		<property name="localSourceFile" value="${pig.localSourceFile}"/>
+		<property name="inputDir" value="${pig.inputPath}"/>
+		<property name="outputDir" value="${pig.outputPath}"/>
 	</script>	
 	
 
@@ -38,4 +38,7 @@
 		<beans:property name="runAtStartup" value="true"/>
 	</beans:bean>
 
+
+	
+	
 </beans:beans>

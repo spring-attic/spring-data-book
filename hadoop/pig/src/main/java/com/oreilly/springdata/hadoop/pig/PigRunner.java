@@ -1,7 +1,6 @@
 package com.oreilly.springdata.hadoop.pig;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Simple runner for submitting Pig jobs sequentially. By default, the runner
@@ -31,8 +31,8 @@ public class PigRunner implements InitializingBean, ApplicationContextAware {
 	private boolean runAtStartup = false;
 	private String pigServerName;
 
-	private Collection<String> preJobScripts = new ArrayList<String>();
-	private Collection<String> postJobScripts = new ArrayList<String>();
+	private List<String> preActions;
+	private List<String> postActions;
 
 	private ApplicationContext context;
 
@@ -53,10 +53,8 @@ public class PigRunner implements InitializingBean, ApplicationContextAware {
 	 *             If an exception is thrown the simple flow will stop.
 	 */
 	public void run() throws Exception {
-				
-		for (String scriptFactoryBeanName : preJobScripts) {
-			context.getBean(scriptFactoryBeanName); //triggers execution of script 
-		}
+		
+		invoke(preActions);
 		
 		// Need a new instance for each execution
 		PigServer pigServer = context.getBean(pigServerName, PigServer.class);
@@ -65,12 +63,22 @@ public class PigRunner implements InitializingBean, ApplicationContextAware {
 		pigServer.executeBatch();
 		pigServer.shutdown();
 		
-		for (String scriptFactoryBeanName : postJobScripts) {
-			context.getBean(scriptFactoryBeanName); //triggers execution of script 
-		}
+		invoke(postActions);
 
 	}
 
+	private void invoke(List<String> beans) {
+		if (context != null) {
+			if (!CollectionUtils.isEmpty(beans)) {
+				for (String bean : beans) {
+					context.getBean(bean);
+				}
+			}
+		}
+		else {
+			log.warn("No beanFactory set - cannot invoke pre/post actions [" + beans + "]");
+		}
+	}
 	/**
 	 * Indicates whether the jobs should be submitted at startup or not.
 	 * 
@@ -91,12 +99,22 @@ public class PigRunner implements InitializingBean, ApplicationContextAware {
 		this.pigServerName = pigServerName;
 	}
 
-	public void setPreJobScripts(Collection<String> preJobScripts) {
-		this.preJobScripts = preJobScripts;
+	/**
+	 * Beans to be invoked before running the action.
+	 * 
+	 * @param beans
+	 */
+	public void setPreAction(String... beans) {
+		this.preActions = CollectionUtils.arrayToList(beans);
 	}
 
-	public void setPostJobScripts(Collection<String> postJobScripts) {
-		this.postJobScripts = postJobScripts;
+	/**
+	 * Beans to be invoked after running the action.
+	 * 
+	 * @param beans
+	 */
+	public void setPostAction(String... beans) {
+		this.postActions = CollectionUtils.arrayToList(beans);
 	}
 
 	@Override

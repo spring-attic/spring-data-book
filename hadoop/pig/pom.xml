@@ -131,8 +131,12 @@
 		<programs>
 		  <program>
 		    <mainClass>com.oreilly.springdata.hadoop.pig.PigApp</mainClass>
-		    <name>pigapp</name>
+		    <name>pigApp</name>
 		  </program>
+		  <program>
+		    <mainClass>com.oreilly.springdata.hadoop.pig.PigApp</mainClass>
+		    <name>pigAppWithRepository</name>
+		  </program>		  
 		</programs>
               </configuration>
 	    </plugin>

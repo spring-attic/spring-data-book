@@ -1,14 +1,12 @@
-//requires three variables, localSourceFile and hdfsInputDir, hdfsOutputDir 
-
-//remoteHdfsDir = "/data/apache/logs/"
-//localSourceFile = "./data/apache.log"
+//requires three variables, localSourceFile and inputDir, outputDir 
 
 // use the shell (made available under variable fsh)
-if (!fsh.test(hdfsInputDir)) {
-   fsh.mkdir(hdfsInputDir); 
-   fsh.copyFromLocal(localSourceFile, hdfsInputDir); 
-   fsh.chmod(700, hdfsInputDir)
+
+if (!fsh.test(inputDir)) {
+   fsh.mkdir(inputDir); 
+   fsh.copyFromLocal(localSourceFile, inputDir); 
+   fsh.chmod(700, inputDir)
 }
-if (fsh.test(hdfsOutputDir)) {
-   fsh.rmr(hdfsOutputDir)
+if (fsh.test(outputDir)) {
+   fsh.rmr(outputDir)
 }

@@ -19,16 +19,28 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.hadoop.fs.FsShell;
 
-public class PigApp {
+public class PigAppWithRepository {
 
-	private static final Log log = LogFactory.getLog(PigApp.class);
+	private static final Log log = LogFactory.getLog(PigAppWithRepository.class);
 
 	public static void main(String[] args) throws Exception {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext(
-				"/META-INF/spring/pig-context.xml", PigApp.class);
+				"/META-INF/spring/pig-context-password-repository.xml", PigAppWithRepository.class);
 		log.info("Pig Application Running");
 		context.registerShutdownHook();	
-    
+
+		String outputDir = "/data/password-repo/output";		
+		FsShell fsShell = context.getBean(FsShell.class);
+		if (fsShell.test(outputDir)) {
+			fsShell.rmr(outputDir);
+		}
+		
+		PasswordRepository repo = context.getBean(PigPasswordRepository.class);
+		repo.processPasswordFile("/data/passwd/input/passwd");
+
+
+	    
 	}
 }
