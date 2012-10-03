@@ -19,8 +19,11 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.hive.service.HiveClient;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.hadoop.hive.HiveClientCallback;
 import org.springframework.data.hadoop.hive.HiveOperations;
 import org.springframework.data.hadoop.hive.HiveTemplate;
 
@@ -34,12 +37,29 @@ public class HiveApp {
 		log.info("Hive Application Running");
 		context.registerShutdownHook();	
 		
-		HiveOperations hiveOps = context.getBean(HiveTemplate.class);
-		List<String> results = hiveOps.query("show tables");
-		log.info("tables = " + results.toString());
-		
+
+		/*
 		PasswordRepository repository = context.getBean(HiveTemplatePasswordRepository.class);
-		log.info("Count of password entries = " + repository.count());
+		log.info("Count of password entries = " + repository.count());		
+		*/
+
+		HiveOperations hiveOps = context.getBean(HiveTemplate.class);
+		/*
+		Long count = hiveOps.execute(new HiveClientCallback<Long>() {
+			@Override
+			public Long doInHive(HiveClient hiveClient) throws Exception,
+					DataAccessException {
+				hiveClient.execute("select count(*) from passwords");
+				List<String> list = hiveClient.fetchAll();
+				return Long.parseLong(list.get(0));
+			}
+		});
+		log.info("Count of password entries from exec callback = " + count);
+		*/
+
+		Long count2 = hiveOps.queryForLong("select count(*) from passwords");
+		log.info("Count of password entries from spring-hadoop template = " + count2);	
+		
 		/*
 		JdbcPasswordRepository repo = context.getBean(JdbcPasswordRepository.class);		
 		repo.processPasswordFile("password-analysis.hql");	

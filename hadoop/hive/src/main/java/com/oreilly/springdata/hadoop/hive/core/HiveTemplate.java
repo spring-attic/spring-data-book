@@ -13,7 +13,6 @@ import org.springframework.data.hadoop.hive.HiveClientFactoryBean;
 import org.springframework.util.Assert;
 
 import com.oreilly.springdata.hadoop.hive.HiveClientCallback;
-import com.oreilly.springdata.hadoop.hive.HiveExceptionTranslator;
 
 public class HiveTemplate implements HiveOperations, ApplicationContextAware {
 
@@ -91,7 +90,15 @@ public class HiveTemplate implements HiveOperations, ApplicationContextAware {
 
 	@Override
 	public int queryForInt(final String hql) throws DataAccessException {
-		return execute(new HiveClientCallback<Integer>() {
+		/* compile error now - te.java:[98,14] cannot access com.facebook.fb303.FacebookService
+[ERROR] class file for com.facebook.fb303.FacebookService not found
+[ERROR] hiveClient.execute(hql);
+[ERROR] -> [Help 1]
+
+		 */
+
+		/*
+		 	return execute(new HiveClientCallback<Integer>() {
 
 			public Integer doInHive(HiveClient hiveClient)
 					throws DataAccessException, Exception {
@@ -99,6 +106,8 @@ public class HiveTemplate implements HiveOperations, ApplicationContextAware {
 				return Integer.parseInt(hiveClient.fetchOne());
 			}
 		});
+		*/
+		return 0;
 	}
 	
 	@Override

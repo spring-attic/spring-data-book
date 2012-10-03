@@ -21,21 +21,22 @@ public class HivePasswordRepository implements PasswordRepository,
 	private ResourceLoader resourceLoader;
 
 	// private final HiveClient hiveClient;
-	private ObjectFactory<HiveClient> hiveClientFactory;
+	private ObjectFactory<Object> hiveClientFactory;
 
 	private @Value("${hive.table}")
 	String tableName;
 
 	@Autowired
-	public HivePasswordRepository(ObjectFactory<HiveClient> hiveClientFactory) {
+	public HivePasswordRepository(ObjectFactory<Object> hiveClientFactory) {
 		Assert.notNull(hiveClientFactory);
 		this.hiveClientFactory = hiveClientFactory;
 	}
 
 	public long count() {
 
-		Object object = hiveClientFactory.getObject();
-		HiveClient hiveClient = (HiveClient)object;
+		/* this isn't compiling using mvn/javac and also fails at runtime in eclispe*/
+		/*
+		HiveClient hiveClient = hiveClientFactory.getObject();
 		try {
 			hiveClient.execute("select count(*) from " + tableName);
 			return Long.parseLong(hiveClient.fetchOne());
@@ -52,6 +53,8 @@ public class HivePasswordRepository implements PasswordRepository,
 				logger.debug("Unexpected exception on shutting down HiveClient", tex);
 			}
 		}
+		*/
+		return -1;
 	}
 
 	private RuntimeException translateExcpetion(Exception ex) {

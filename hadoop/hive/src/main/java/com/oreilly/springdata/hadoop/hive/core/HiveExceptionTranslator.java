@@ -1,6 +1,7 @@
-package com.oreilly.springdata.hadoop.hive;
+package com.oreilly.springdata.hadoop.hive.core;
 
 import org.springframework.dao.DataAccessException;
+
 
 public class HiveExceptionTranslator {
 
