@@ -2,6 +2,7 @@ package com.oreilly.springdata.hadoop.pig;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -9,15 +10,15 @@ import org.springframework.util.Assert;
 
 public class PigPasswordRepository implements PasswordRepository {
 
-	private PigOperations pigOperations;
+	private org.springframework.data.hadoop.pig.PigOperations pigOperations;
 	
-	private String pigScript = "password-analysis.pig";
+	private String pigScript = "classpath:password-analysis.pig";
 		
 	private String baseOutputDir = "/data/password-repo/output";
 	
 	private AtomicInteger counter = new AtomicInteger();
 	
-	public PigPasswordRepository(PigOperations pigOperations) {
+	public PigPasswordRepository(org.springframework.data.hadoop.pig.PigOperations pigOperations) {
 		Assert.notNull(pigOperations);
 		this.pigOperations = pigOperations;
 	}
@@ -36,7 +37,7 @@ public class PigPasswordRepository implements PasswordRepository {
 		String outputDir = baseOutputDir + File.separator + counter.incrementAndGet();
 		Properties scriptParameters = new Properties();
 		scriptParameters.put("inputDir", inputFile);
-		scriptParameters.put("outputDir", outputDir);
+		scriptParameters.put("outputDir", outputDir);		
 		pigOperations.executeScript(pigScript, scriptParameters);
 	}
 	

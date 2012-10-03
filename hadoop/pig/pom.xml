@@ -113,6 +113,14 @@
 
 	<repositories>
 		<repository>
+	    <id>spring-snapshot</id>
+	    <snapshots>
+	      <enabled>true</enabled>
+	    </snapshots>
+	    <name>Spring Maven SNAPSHOT Repository</name>
+	    <url>http://repo.springframework.org/libs-snapshot</url>
+	  </repository>
+		<repository>
 			<id>spring-milestone</id>
 			<url>http://repo.springsource.org/libs-milestone</url>
 		</repository>
@@ -134,9 +142,13 @@
 		    <name>pigApp</name>
 		  </program>
 		  <program>
-		    <mainClass>com.oreilly.springdata.hadoop.pig.PigApp</mainClass>
+		    <mainClass>com.oreilly.springdata.hadoop.pig.PigAppWithRepository</mainClass>
 		    <name>pigAppWithRepository</name>
-		  </program>		  
+		  </program>		
+		  <program>
+		    <mainClass>com.oreilly.springdata.hadoop.pig.PigAppWithApacheLogs</mainClass>
+		    <name>pigAppWithApacheLogs</name>
+		  </program>		    
 		</programs>
               </configuration>
 	    </plugin>

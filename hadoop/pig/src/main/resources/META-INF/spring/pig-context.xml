@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/hadoop"
 	xmlns:beans="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-	  http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
+		http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
 	<context:property-placeholder location="hadoop.properties"/>
@@ -15,27 +15,43 @@
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<pig id="pigServer" job-name="passwdAnalysis" exec-type="MAPREDUCE" 
-	                    configuration-ref="hadoopConfiguration" >
+	<pig id="pigServer" job-name="passwdAnalysis" configuration-ref="hadoopConfiguration" 
+					    exec-type="MAPREDUCE"
+					    properties-location="pig-server.properties"/>
+	    <!-- 	                    
 		<script location="password-analysis.pig">
 			<arguments>
 				inputDir=${inputDir}
 				outputDir=${outputDir}		
 			</arguments>
-		</script>	
-	</pig> 
+		</script>
+		-->	
 
+
+
+	
 	<script id="hdfsScript" language="groovy" location="copy-files.groovy">
 		<property name="localSourceFile" value="${localSourceFile}"/>
 		<property name="inputDir" value="${inputDir}"/>
 		<property name="outputDir" value="${outputDir}"/>
 	</script>	
 	
+	<pig-runner id="pigRunner" pig-server-ref="pigServer"
+				pre-action="hdfsScript"
+				run-at-startup="true" >
+		<script location="password-analysis.pig">
+				<arguments>
+					inputDir=${inputDir}
+					outputDir=${outputDir}		
+				</arguments>
+		</script>					
+	</pig-runner>
 
-	<beans:bean id="runner" class="com.oreilly.springdata.hadoop.pig.PigRunner"> 
+<!-- 
+	<beans:bean id="runner" class="org.springframework.data.hadoop.pig.PigRunner"> 
 		<beans:property name="preAction" value="hdfsScript"/>
-		<beans:property name="pigServerName" value="pigServer"/>
+		<beans:property name="pigServer" ref="pigServer"/>
 		<beans:property name="runAtStartup" value="true"/>
 	</beans:bean>
-
+-->
 </beans:beans>
