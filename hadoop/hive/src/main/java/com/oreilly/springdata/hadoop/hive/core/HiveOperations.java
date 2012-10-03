@@ -1,6 +1,8 @@
-package com.oreilly.springdata.hadoop.hive;
+package com.oreilly.springdata.hadoop.hive.core;
 
 import org.springframework.dao.DataAccessException;
+
+import com.oreilly.springdata.hadoop.hive.HiveClientCallback;
 
 
 public interface HiveOperations {

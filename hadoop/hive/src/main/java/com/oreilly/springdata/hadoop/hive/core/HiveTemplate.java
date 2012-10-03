@@ -1,4 +1,4 @@
-package com.oreilly.springdata.hadoop.hive;
+package com.oreilly.springdata.hadoop.hive.core;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,8 +10,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.hadoop.hive.HiveClientFactoryBean;
-import org.springframework.data.hadoop.hive.HiveScriptRunner;
 import org.springframework.util.Assert;
+
+import com.oreilly.springdata.hadoop.hive.HiveClientCallback;
+import com.oreilly.springdata.hadoop.hive.HiveExceptionTranslator;
 
 public class HiveTemplate implements HiveOperations, ApplicationContextAware {
 
@@ -41,7 +43,7 @@ public class HiveTemplate implements HiveOperations, ApplicationContextAware {
 			@Override
 			public Void doInHive(HiveClient hiveClient)
 					throws DataAccessException, Exception {
-				HiveScriptRunner.run(hiveClient, resource);
+				//HiveScriptRunner.run(hiveClient, resource);
 				return null;
 			}
 		});
@@ -55,7 +57,7 @@ public class HiveTemplate implements HiveOperations, ApplicationContextAware {
 		newCfb.setHost(cfb.getHost());
 		newCfb.setPort(cfb.getPort());
 		newCfb.setTimeout(cfb.getTimeout());
-		newCfb.afterPropertiesSet();
+		//newCfb.afterPropertiesSet();
 		return newCfb;
 	}
 
@@ -70,6 +72,7 @@ public class HiveTemplate implements HiveOperations, ApplicationContextAware {
 	public <T> T execute(HiveClientCallback<T> action) {
 		Assert.notNull(action);
 		HiveClientFactoryBean cfb = this.getNewHiveClientFactoryBean();
+		/*
 		HiveClient hiveClient = cfb.getObject();
 		try {
 			cfb.start();
@@ -78,7 +81,8 @@ public class HiveTemplate implements HiveOperations, ApplicationContextAware {
 			throw translateException(e);
 		} finally {
 			cfb.destroy();
-		}
+		}*/
+		return null;
 	}
 
 	private RuntimeException translateException(Exception ex) {

@@ -1,58 +1,73 @@
 package com.oreilly.springdata.hadoop.hive;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hive.service.HiveClient;
 import org.apache.hadoop.hive.service.HiveServerException;
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.hadoop.hive.HiveScriptRunner;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 @Repository
-public class HivePasswordRepository implements PasswordRepository, ResourceLoaderAware {
+public class HivePasswordRepository implements PasswordRepository,
+		ResourceLoaderAware {
 
-	  private ResourceLoader resourceLoader;
+	private static final Log logger = LogFactory.getLog(HivePasswordRepository.class);
 	
-	  private final HiveClient hiveClient;
-	   
-	  private @Value("${hive.table}") String tableName;
+	private ResourceLoader resourceLoader;
 
-	  @Autowired
-	  public HivePasswordRepository(HiveClient hiveClient) {
-	    Assert.notNull(hiveClient);
-	    this.hiveClient = hiveClient;
-	  }
-	  
-	  public long count() {
-	    
-	    try {
+	// private final HiveClient hiveClient;
+	private ObjectFactory<HiveClient> hiveClientFactory;
 
-	      hiveClient.execute("select count(*) from " + tableName);
-	      return Long.parseLong(hiveClient.fetchOne());
+	private @Value("${hive.table}")
+	String tableName;
 
-	      // checked exceptions
-	    } catch (HiveServerException ex) {
-	      throw translateExcpetion(ex);
-	    } catch (org.apache.thrift.TException tex) { 
-	      throw translateExcpetion(tex);
-	    }
-	  }
+	@Autowired
+	public HivePasswordRepository(ObjectFactory<HiveClient> hiveClientFactory) {
+		Assert.notNull(hiveClientFactory);
+		this.hiveClientFactory = hiveClientFactory;
+	}
+
+	public long count() {
+
+		Object object = hiveClientFactory.getObject();
+		HiveClient hiveClient = (HiveClient)object;
+		try {
+			hiveClient.execute("select count(*) from " + tableName);
+			return Long.parseLong(hiveClient.fetchOne());
+
+			// checked exceptions
+		} catch (HiveServerException ex) {
+			throw translateExcpetion(ex);
+		} catch (org.apache.thrift.TException tex) {
+			throw translateExcpetion(tex);
+		} finally {
+			try {
+				hiveClient.shutdown();
+			} catch (org.apache.thrift.TException tex) {
+				logger.debug("Unexpected exception on shutting down HiveClient", tex);
+			}
+		}
+	}
 
 	private RuntimeException translateExcpetion(Exception ex) {
 		return new RuntimeException(ex);
 	}
 
-	@Override
-	public void processPasswordFile(String inputFile) throws Exception {
-		HiveScriptRunner.run(hiveClient, resourceLoader.getResource(inputFile));
-	}
-
+	/*
+	 * @Override public void processPasswordFile(String inputFile) throws
+	 * Exception { HiveUtils.run(createHiveClient(), scripts, true)
+	 * //HiveScriptRunner.run(hiveClient,
+	 * resourceLoader.getResource(inputFile)); }
+	 */
 
 	@Override
 	public void setResourceLoader(ResourceLoader resourceLoader) {
 		this.resourceLoader = resourceLoader;
 	}
-	  
+
 }

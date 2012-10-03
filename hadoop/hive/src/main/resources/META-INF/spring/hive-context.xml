@@ -10,24 +10,28 @@
 	<beans:import resource="jdbc-context.xml"/>
 
 	<context:property-placeholder location="hadoop.properties,hive.properties"/>
-
+	 
 	<context:component-scan base-package="com.oreilly.springdata.hadoop.hive" />
-
+	
 	<configuration id="hadoopConfiguration">
 		fs.default.name=${hd.fs}
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
 	<hive-server configuration-ref="hadoopConfiguration" auto-startup="true"
-	 			port="${hive.port}"/>
+	 			 port="${hive.port}"/>
 
-	<hive-client id="hiveClient" host="${hive.host}" port="${hive.port}">
-
-	</hive-client>		
-
-	<beans:bean id="hiveTemplate" class="com.oreilly.springdata.hadoop.hive.HiveTemplate">
-		<beans:constructor-arg value="hiveClient"/>
-	</beans:bean>
+     
+	<hive-client id="hiveClient" host="${hive.host}" port="${hive.port}"/>	
+	<hive-template id="hiveTemplate" hive-client-ref="hiveClient"/>
+	
+	<!-- 
+	<hive-runner id="hiveRunner" hive-client-ref="hiveClient" run-at-startup="true"
+	            >
+		<script location="password-analysis.hql"/>
+	</hive-runner>
+	-->
+	
 	<!-- 
 	<beans:bean id="analysisService" class="com.oreilly.springdata.hadoop.hive.AnalysisService">
 		<beans:constructor-arg name="hiveClient" ref="hiveClient"/>
@@ -35,22 +39,9 @@
 	</beans:bean>
 	-->
 		
-	<script id="hdfsScript" language="groovy" location="set-hive-permissions.groovy" run-at-startup="true">
+	<script id="hdfsScript" language="groovy" location="set-hive-permissions.groovy"/>
 
-	</script>	
-	<!-- 
-	<script id="hdfsScript" language="groovy" location="copy-files.groovy">
-		<property name="localSourceFile" value="${pig.localSourceFile}"/>
-		<property name="hdfsInputDir" value="${pig.inputPath}"/>
-		<property name="hdfsOutputDir" value="${pig.outputPath}"/>
-	</script>	
 
-	<beans:bean id="runner" class="com.oreilly.springdata.hadoop.pig.PigRunner"> 
-		<beans:property name="preJobScripts" value="hdfsScript"/>
-		<beans:property name="pigServerName" value="pigServer"/>
-		<beans:property name="runAtStartup" value="true"/>
-	</beans:bean>
-	-->
 
 	
 	

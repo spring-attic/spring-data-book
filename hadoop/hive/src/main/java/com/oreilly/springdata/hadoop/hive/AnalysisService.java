@@ -1,23 +1,23 @@
 package com.oreilly.springdata.hadoop.hive;
 
-import org.apache.hadoop.hive.service.HiveClient;
 import org.springframework.core.io.Resource;
-import org.springframework.data.hadoop.hive.HiveScriptRunner;
+import org.springframework.data.hadoop.hive.HiveOperations;
+import org.springframework.data.hadoop.hive.HiveScript;
 import org.springframework.util.Assert;
 
 public class AnalysisService {
 
-	private HiveClient hiveClient;
+	private HiveOperations hiveOperations;
 	private Resource scriptResource;
 	
-	public AnalysisService(HiveClient hiveClient, Resource scriptResource) {
-		Assert.notNull(hiveClient);
+	public AnalysisService(HiveOperations hiveOperations, Resource scriptResource) {
+		Assert.notNull(hiveOperations);
 		Assert.notNull(scriptResource);
-		this.hiveClient = hiveClient;
+		this.hiveOperations = hiveOperations;
 		this.scriptResource = scriptResource;
 	}
 	
 	public void performAnalysis() throws Exception {
-		HiveScriptRunner.run(hiveClient, scriptResource);
+		hiveOperations.executeScript(new HiveScript((scriptResource)));
 	}
 }

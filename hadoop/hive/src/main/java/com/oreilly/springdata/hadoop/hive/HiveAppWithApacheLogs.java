@@ -15,47 +15,73 @@
  */
 package com.oreilly.springdata.hadoop.hive;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.hive.service.HiveClient;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.hadoop.hive.HiveOperations;
-import org.springframework.data.hadoop.hive.HiveTemplate;
 
-public class HiveApp {
+public class HiveAppWithApacheLogs {
 
-	private static final Log log = LogFactory.getLog(HiveApp.class);
+	private static final Log log = LogFactory.getLog(HiveAppWithApacheLogs.class);
 
 	public static void main(String[] args) throws Exception {
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext(
-				"/META-INF/spring/hive-context.xml", HiveApp.class);
+				"/META-INF/spring/hive-apache-log-context.xml", HiveAppWithApacheLogs.class);
 		log.info("Hive Application Running");
 		context.registerShutdownHook();	
 		
-		HiveOperations hiveOps = context.getBean(HiveTemplate.class);
-		List<String> results = hiveOps.query("show tables");
-		log.info("tables = " + results.toString());
-		
-		PasswordRepository repository = context.getBean(HiveTemplatePasswordRepository.class);
-		log.info("Count of password entries = " + repository.count());
 		/*
 		JdbcPasswordRepository repo = context.getBean(JdbcPasswordRepository.class);		
 		repo.processPasswordFile("password-analysis.hql");	
 		log.info("Count of password entrires = " + repo.count());
 		*/		
 		
-		/*
 		AnalysisService analysis = context.getBean(AnalysisService.class);
 		analysis.performAnalysis();
-		*/	
-
+		
+		
+		/*
+		HiveTemplate pigTemplate = context.getBean(HiveTemplate.class);
+		Properties scriptParameters = new Properties();
+		scriptParameters.put("piggybanklib","./lib/piggybank-0.9.2.jar");
+		scriptParameters.put("inputFile","./data/apache.log");
+		pigTemplate.executeScript("apache-log-simple.pig", scriptParameters);
+		*/
+		
+		/*
+		PasswordRepository repo = context.getBean(PigPasswordRepository.class);
+		Collection<String> files = new ArrayList<String>();
+		files.add("/etc/passwd");
+		files.add("/etc/passwd");
+			
+		repo.processPasswordFiles(files, "/tmp/pwdout");
+		*/
+		//repo.processPasswordFile("/etc/passwd", "/tmp/pwdout");
+		
 		//System.out.println("hit enter to run again");
 		//Scanner scanIn = new Scanner(System.in);
 	    //scanIn.nextLine();
 	    
 		
-
+	    
+		/*
+		PigServer pigServer = context.getBean(PigServer.class);
+		pigServer.setBatchOn();
+		pigServer.getPigContext().connect();
+		pigServer.executeBatch();
+		pigServer.shutdown();
+		
+		System.out.println("hit enter to run again");
+		Scanner scanIn = new Scanner(System.in);
+	    scanIn.nextLine();
+	    
+	    pigServer = context.getBean(PigServer.class);
+		pigServer.setBatchOn();
+		pigServer.getPigContext().connect();
+		pigServer.executeBatch();
+		pigServer.shutdown();
+	    */
+	    
 	}
 }

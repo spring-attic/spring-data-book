@@ -29,12 +29,13 @@ public class JdbcPasswordRepository implements PasswordRepository, ResourceLoade
 		return jdbcOperations.queryForLong("select count(*) from " + tableName);
 	}
 
+	/*
 	@Override
 	public void processPasswordFile(String inputFile) throws Exception {
 		SimpleJdbcTestUtils.executeSqlScript(new SimpleJdbcTemplate(jdbcOperations), 
 											 resourceLoader.getResource(inputFile),
 											 true);
-	}
+	}*/
 
 	@Override
 	public void setResourceLoader(ResourceLoader resourceLoader) {

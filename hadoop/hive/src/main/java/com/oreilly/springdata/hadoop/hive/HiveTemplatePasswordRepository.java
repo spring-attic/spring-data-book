@@ -2,6 +2,7 @@ package com.oreilly.springdata.hadoop.hive;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.hadoop.hive.HiveOperations;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,12 +19,8 @@ public class HiveTemplatePasswordRepository implements PasswordRepository {
 	
 	@Override
 	public long count() {
-		return hiveOperations.queryForLong("select count(*) from " + tableName);
-	}
-
-	@Override
-	public void processPasswordFile(String inputFile) throws Exception {
-		hiveOperations.executeScript(inputFile);
+		Long number = hiveOperations.queryForLong("select count(*) from " + tableName + ";");
+		return (number != null ? number.longValue() : 0);
 	}
 
 }
