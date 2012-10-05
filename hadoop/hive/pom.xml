@@ -103,7 +103,20 @@
 		      </exclusion>
 		    </exclusions>           
           
+		</dependency>	
+				
+		<!--  thift only needed as compile time to support 'native' implementation of HivePasswordRepository -->
+		<dependency>
+		  <groupId>org.apache.thrift</groupId>
+          <artifactId>libthrift</artifactId>
+          <version>${thrift.version}</version>
 		</dependency>			
+
+		<dependency>
+		  <groupId>org.apache.thrift</groupId>
+          <artifactId>libfb303</artifactId>
+          <version>${thrift.version}</version>
+		</dependency>				
 
 		<!-- runtime Hive deps start -->
 
@@ -151,28 +164,7 @@
 		        <artifactId>log4j</artifactId>
 		      </exclusion>
 		    </exclusions>     		  
-		</dependency>			
-
-		<dependency>
-		  <groupId>org.apache.thrift</groupId>
-                  <artifactId>libthrift</artifactId>
-                  <version>${thrift.version}</version>
-		  <scope>runtime</scope>
-		</dependency>			
-
-		<dependency>
-		  <groupId>org.apache.thrift</groupId>
-                  <artifactId>libfb303</artifactId>
-                  <version>${thrift.version}</version>
-		  <scope>runtime</scope>
-		</dependency>		
-		
-		<dependency>
-		  <groupId>org.apache.thrift</groupId>
-                  <artifactId>libfb303</artifactId>
-                  <version>${thrift.version}</version>
-		  <scope>runtime</scope>
-		</dependency>	
+		</dependency>				
 					
 		<dependency>
 		  <groupId>org.apache.hive</groupId>

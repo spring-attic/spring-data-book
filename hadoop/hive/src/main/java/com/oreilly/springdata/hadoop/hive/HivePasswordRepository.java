@@ -2,45 +2,31 @@ package com.oreilly.springdata.hadoop.hive;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.apache.hadoop.hive.service.HiveClient;
 import org.apache.hadoop.hive.service.HiveServerException;
-import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransportException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ResourceLoaderAware;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
 
 @Repository
-public class HivePasswordRepository implements PasswordRepository,
-		ResourceLoaderAware {
+public class HivePasswordRepository implements PasswordRepository {
 
 	private static final Log logger = LogFactory.getLog(HivePasswordRepository.class);
+
+	private @Value("${hive.table}")	String tableName;
 	
-	private ResourceLoader resourceLoader;
+	private @Value("${hive.host}")	String host;
+	
+	private @Value("${hive.port}")	int port;
 
-	// private final HiveClient hiveClient;
-	private ObjectFactory<Object> hiveClientFactory;
-
-	private @Value("${hive.table}")
-	String tableName;
-
-	@Autowired
-	public HivePasswordRepository(ObjectFactory<Object> hiveClientFactory) {
-		Assert.notNull(hiveClientFactory);
-		this.hiveClientFactory = hiveClientFactory;
-	}
-
-	public long count() {
-
-		/* this isn't compiling using mvn/javac and also fails at runtime in eclispe*/
-		/*
-		HiveClient hiveClient = hiveClientFactory.getObject();
+	public Long count() {	
+		HiveClient hiveClient = createHiveClient();		
 		try {
 			hiveClient.execute("select count(*) from " + tableName);
 			return Long.parseLong(hiveClient.fetchOne());
-
 			// checked exceptions
 		} catch (HiveServerException ex) {
 			throw translateExcpetion(ex);
@@ -53,24 +39,21 @@ public class HivePasswordRepository implements PasswordRepository,
 				logger.debug("Unexpected exception on shutting down HiveClient", tex);
 			}
 		}
-		*/
-		return -1;
+	}
+
+	protected HiveClient createHiveClient()  {
+		TSocket transport = new TSocket(host, port);
+		HiveClient hive = new HiveClient(new TBinaryProtocol(transport));
+		try {
+			transport.open();
+		} catch (TTransportException e) {
+			throw translateExcpetion(e);
+		}
+		return hive;
 	}
 
 	private RuntimeException translateExcpetion(Exception ex) {
 		return new RuntimeException(ex);
-	}
-
-	/*
-	 * @Override public void processPasswordFile(String inputFile) throws
-	 * Exception { HiveUtils.run(createHiveClient(), scripts, true)
-	 * //HiveScriptRunner.run(hiveClient,
-	 * resourceLoader.getResource(inputFile)); }
-	 */
-
-	@Override
-	public void setResourceLoader(ResourceLoader resourceLoader) {
-		this.resourceLoader = resourceLoader;
 	}
 
 }

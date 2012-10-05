@@ -38,10 +38,10 @@ public class HiveApp {
 		context.registerShutdownHook();	
 		
 
-		/*
-		PasswordRepository repository = context.getBean(HiveTemplatePasswordRepository.class);
+		
+		PasswordRepository repository = context.getBean(HivePasswordRepository.class);
 		log.info("Count of password entries = " + repository.count());		
-		*/
+		
 
 		HiveOperations hiveOps = context.getBean(HiveTemplate.class);
 		/*
@@ -57,8 +57,8 @@ public class HiveApp {
 		log.info("Count of password entries from exec callback = " + count);
 		*/
 
-		Long count2 = hiveOps.queryForLong("select count(*) from passwords");
-		log.info("Count of password entries from spring-hadoop template = " + count2);	
+		//Long count2 = hiveOps.queryForLong("select count(*) from passwords;");
+		//log.info("Count of password entries from spring-hadoop template = " + count2);	
 		
 		/*
 		JdbcPasswordRepository repo = context.getBean(JdbcPasswordRepository.class);		
