@@ -10,13 +10,12 @@
 
 	<context:property-placeholder location="hadoop.properties"/>
 
-	<configuration id="hadoopConfiguration">
+	<configuration>
 		fs.default.name=${hd.fs}
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<pig id="pigServer" job-name="passwdAnalysis" configuration-ref="hadoopConfiguration" 
-					    exec-type="MAPREDUCE"
+	<pig id="pigServer" job-name="passwdAnalysis"  exec-type="MAPREDUCE"
 					    properties-location="pig-server.properties"/>
 	    <!-- 	                    
 		<script location="password-analysis.pig">
@@ -47,11 +46,4 @@
 		</script>					
 	</pig-runner>
 
-<!-- 
-	<beans:bean id="runner" class="org.springframework.data.hadoop.pig.PigRunner"> 
-		<beans:property name="preAction" value="hdfsScript"/>
-		<beans:property name="pigServer" ref="pigServer"/>
-		<beans:property name="runAtStartup" value="true"/>
-	</beans:bean>
--->
 </beans:beans>
