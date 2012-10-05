@@ -28,6 +28,14 @@
   	</hdp:script>
 	
 	<!-- simple job runner -->
-	<bean id="runner" class="org.springframework.data.hadoop.mapreduce.JobRunner" depends-on="setup-script" p:jobs-ref="wordcount-job"/>
+	<bean id="runner" class="org.springframework.data.hadoop.mapreduce.JobRunner" 
+		  depends-on="setup-script" 
+		  p:jobs-ref="wordcount-job"
+		  p:runAtStartup="true"/>
 	
+	<!-- 
+	<hdp:job-runner id="runner" run-at-startup="true"
+	 			    pre-action="setup-script"
+				    job="wordcount-job" />	  
+	-->
 </beans>

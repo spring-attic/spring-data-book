@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans:beans xmlns="http://www.springframework.org/schema/hadoop"
+	xmlns:beans="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:hdp="http://www.springframework.org/schema/hadoop"
-	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 
-
-
-<hdp:configuration>
-  fs.default.name=hdfs://localhost:9000
-</hdp:configuration>
-
-<hdp:job id="wordcountJob" 
-         input-path="/user/mpollack/gutenberg-input" 
-         output-path="/user/mpollack/gutenberg-output" 
-         mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
-         reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"/>
-
-<bean class="org.springframework.data.hadoop.mapreduce.JobRunner"
-      p:jobs-ref="wordcountJob"/>	
-</beans>
+	<configuration>
+	  fs.default.name=hdfs://localhost:9000
+	</configuration>
+	
+	<job id="wordcountJob" 
+	     input-path="/user/gutenberg/input" 
+	     output-path="/user/gutenberg/output" 
+	     mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
+	     reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"/>
+	
+	<job-runner id="runner" job="wordcountJob" run-at-startup="true"/>
+   
+</beans:beans>

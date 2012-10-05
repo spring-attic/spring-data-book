@@ -22,6 +22,6 @@
 		     reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"/>
 	
 	<!-- simple job runner -->
-	<bean id="runner" class="org.springframework.data.hadoop.mapreduce.JobRunner" p:jobs-ref="wordcount-job"/>
-	
+	<hdp:job-runner id="runner" job="wordcount-job" run-at-startup="true"/>
+
 </beans>
