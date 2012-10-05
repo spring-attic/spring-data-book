@@ -13,36 +13,22 @@
 	 
 	<context:component-scan base-package="com.oreilly.springdata.hadoop.hive" />
 	
-	<configuration id="hadoopConfiguration">
+	<configuration>
 		fs.default.name=${hd.fs}
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<hive-server configuration-ref="hadoopConfiguration" auto-startup="true"
-	 			 port="${hive.port}"/>
-
+	<hive-server port="${hive.port}" auto-startup="true"/>
      
 	<hive-client id="hiveClient" host="${hive.host}" port="${hive.port}"/>	
-	<hive-template id="hiveTemplate" hive-client-ref="hiveClient"/>
 	
-	<!-- 
-	<hive-runner id="hiveRunner" hive-client-ref="hiveClient" run-at-startup="true"
-	            >
+	<hive-template id="hiveTemplate" hive-client-ref="hiveClient"/>	
+ 
+	<hive-runner id="hiveRunner" hive-client-ref="hiveClient" run-at-startup="false"
+			     pre-action="hdfsScript">
 		<script location="password-analysis.hql"/>
 	</hive-runner>
-	-->
-	
-	<!-- 
-	<beans:bean id="analysisService" class="com.oreilly.springdata.hadoop.hive.AnalysisService">
-		<beans:constructor-arg name="hiveClient" ref="hiveClient"/>
-		<beans:constructor-arg name="scriptResource" value="hive-simple.hql"/>
-	</beans:bean>
-	-->
 		
 	<script id="hdfsScript" language="groovy" location="set-hive-permissions.groovy"/>
-
-
-
-	
 	
 </beans:beans>

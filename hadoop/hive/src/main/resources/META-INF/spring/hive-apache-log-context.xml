@@ -17,9 +17,11 @@
 	<hive-server configuration-ref="hadoopConfiguration" auto-startup="true" port="${hive.port}"/>
 
 	<hive-client id="hiveClient" host="${hive.host}" port="${hive.port}"/>
+	
+	<hive-template id="hiveTemplate" hive-client-ref="hiveClient"/>
 
 	<beans:bean id="analysisService" class="com.oreilly.springdata.hadoop.hive.AnalysisService">
-		<beans:constructor-arg name="hiveClient" ref="hiveClient"/>
+		<beans:constructor-arg name="hiveOperations" ref="hiveTemplate"/>
 		<beans:constructor-arg name="scriptResource" value="apache-log.hql"/>
 	</beans:bean>	
 	

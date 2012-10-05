@@ -15,16 +15,12 @@
  */
 package com.oreilly.springdata.hadoop.hive;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.hive.service.HiveClient;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.hadoop.hive.HiveClientCallback;
 import org.springframework.data.hadoop.hive.HiveOperations;
+import org.springframework.data.hadoop.hive.HiveRunner;
 import org.springframework.data.hadoop.hive.HiveTemplate;
 
 public class HiveApp {
@@ -37,7 +33,11 @@ public class HiveApp {
 		log.info("Hive Application Running");
 		context.registerShutdownHook();	
 		
-
+		HiveTemplate template = context.getBean(HiveTemplate.class);
+		template.query("show tables;");
+		
+		HiveRunner runner = context.getBean(HiveRunner.class);
+		runner.call();	
 		
 		PasswordRepository repository = context.getBean(HivePasswordRepository.class);
 		log.info("Count of password entries = " + repository.count());		
