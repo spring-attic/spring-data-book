@@ -10,17 +10,14 @@
 
 	<context:property-placeholder location="hadoop.properties,pig-analysis.properties"/>
 
-	<configuration id="hadoopConfiguration">
+	<configuration>
 		fs.default.name=${hd.fs}
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<pig id="pigServer" job-name="apacheLogAnalysis" configuration-ref="hadoopConfiguration">
-	</pig>
+	<pig id="pigServer" job-name="apacheLogAnalysis"/>
 
-
-
-	<script id="hdfsScript" language="groovy" location="copy-files.groovy">
+	<script id="hdfsScript" location="copy-files.groovy">
 		<property name="localSourceFile" value="${pig.localSourceFile}"/>
 		<property name="inputDir" value="${pig.inputPath}"/>
 		<property name="outputDir" value="${pig.outputPath}"/>

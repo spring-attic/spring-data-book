@@ -99,8 +99,8 @@
 
 		<dependency>
 		  <groupId>org.codehaus.groovy</groupId>
-                  <artifactId>groovy</artifactId>
-                  <version>1.8.5</version>
+          <artifactId>groovy</artifactId>
+          <version>1.8.5</version>
 		  <scope>runtime</scope>
 		</dependency>			
 		

@@ -15,6 +15,9 @@
  */
 package com.oreilly.springdata.hadoop.pig;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -38,7 +41,14 @@ public class PigAppWithRepository {
 		}
 		
 		PasswordRepository repo = context.getBean(PigPasswordRepository.class);
-		repo.processPasswordFile("/data/passwd/input/passwd");
+		repo.processPasswordFile("/data/passwd/input");
+		
+		/*
+		Collection<String> files = new ArrayList<String>();
+		files.add("/data/passwd/input");
+		files.add("/data/passwd/input2");
+		repo.processPasswordFiles(files);
+		*/
 
 
 	    

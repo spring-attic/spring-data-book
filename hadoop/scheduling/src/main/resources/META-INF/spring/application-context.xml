@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans:beans xmlns="http://www.springframework.org/schema/hadoop"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:beans="http://www.springframework.org/schema/beans"	
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:hdp="http://www.springframework.org/schema/hadoop"
-	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.1.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -13,29 +12,29 @@
 
 	<context:property-placeholder location="hadoop.properties"/>
 
-	<hdp:configuration>
+	<configuration>
 		fs.default.name=${hd.fs}
-	</hdp:configuration>
+	</configuration>
 
-	<hdp:job id="wordcountJob" validate-paths="false"
-	    input-path="${wordcount.input.path}" 
-	    output-path="${wordcount.output.path}" 
-		mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
-		reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"/>
+	<job id="wordcountJob" validate-paths="false"
+	     input-path="${wordcount.input.path}" 
+	     output-path="${wordcount.output.path}" 
+		 mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
+		 reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"/>
 
 
-  	<hdp:script id="setupScript" location="copy-data.js">
-        <hdp:property name="inputPath" value="${wordcount.input.path}" />
-        <hdp:property name="outputPath" value="${wordcount.output.path}" />
-        <hdp:property name="localResource" value="${local.data}" />
-  	</hdp:script>
+  	<script id="setupScript" location="copy-data.js">
+        <property name="inputPath" value="${wordcount.input.path}" />
+        <property name="outputPath" value="${wordcount.output.path}" />
+        <property name="localResource" value="${local.data}" />
+  	</script>
 	
-	<hdp:job-runner id="runner"
-	 			    pre-action="setupScript"
-				    job="wordcountJob" />	 	
+	<job-runner id="runner"
+	   	    	pre-action="setupScript"
+				job="wordcountJob" />	 	
  
 	<task:scheduled-tasks>
 		<task:scheduled ref="runner" method="call" cron="3/30 * * * * ?"/>
 	</task:scheduled-tasks>	
 	
-</beans>
+</beans:beans>

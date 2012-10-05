@@ -1,24 +1,19 @@
 package com.oreilly.springdata.hadoop.pig;
 
-import java.io.File;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Properties;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.data.hadoop.pig.PigOperations;
+import org.springframework.data.hadoop.util.PathUtils;
 import org.springframework.util.Assert;
 
 public class PigPasswordRepository implements PasswordRepository {
 
-	private org.springframework.data.hadoop.pig.PigOperations pigOperations;
+	private PigOperations pigOperations;
 	
 	private String pigScript = "classpath:password-analysis.pig";
-		
-	private String baseOutputDir = "/data/password-repo/output";
 	
-	private AtomicInteger counter = new AtomicInteger();
-	
-	public PigPasswordRepository(org.springframework.data.hadoop.pig.PigOperations pigOperations) {
+	public PigPasswordRepository(PigOperations pigOperations) {
 		Assert.notNull(pigOperations);
 		this.pigOperations = pigOperations;
 	}
@@ -27,14 +22,11 @@ public class PigPasswordRepository implements PasswordRepository {
 		this.pigScript = pigScript;
 	}
 	
-	public void setBaseOutputDir(String baseOutputDir) {
-		this.baseOutputDir = baseOutputDir;
-	}
-	
 	@Override
 	public void processPasswordFile(String inputFile) {
 		Assert.notNull(inputFile);
-		String outputDir = baseOutputDir + File.separator + counter.incrementAndGet();
+		String outputDir = 
+				PathUtils.format("/data/password-repo/output/%1$tY/%1$tm/%1$td/%1$tH/%1$tM/%1$tS");
 		Properties scriptParameters = new Properties();
 		scriptParameters.put("inputDir", inputFile);
 		scriptParameters.put("outputDir", outputDir);		

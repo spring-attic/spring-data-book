@@ -51,6 +51,13 @@
 		</dependency>
 
 		<dependency>
+		  <groupId>org.codehaus.groovy</groupId>
+          <artifactId>groovy</artifactId>
+          <version>1.8.5</version>
+		  <scope>runtime</scope>
+		</dependency>			
+		
+		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
