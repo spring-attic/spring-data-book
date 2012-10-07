@@ -15,6 +15,9 @@
  */
 package com.oreilly.springdata.hadoop.hive;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -36,10 +39,17 @@ public class HiveApp {
 		HiveTemplate template = context.getBean(HiveTemplate.class);
 		template.query("show tables;");
 		
-		HiveRunner runner = context.getBean(HiveRunner.class);
-		runner.call();	
+		/*
+		Map parameters = new HashMap();
+		parameters.put("inpath", "/etc/passwd");
+		template.query("classpath:password-analysis.hql", parameters);	
+		*/
 		
-		PasswordRepository repository = context.getBean(HivePasswordRepository.class);
+		//HiveRunner runner = context.getBean(HiveRunner.class);
+		//runner.call();	
+		
+		PasswordRepository repository = context.getBean(JdbcPasswordRepository.class);
+		repository.processPasswordFile("/etc/passwd");
 		log.info("Count of password entries = " + repository.count());		
 		
 

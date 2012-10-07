@@ -20,15 +20,17 @@
 
 	<hive-server port="${hive.port}" auto-startup="true"/>
      
-	<hive-client id="hiveClient" host="${hive.host}" port="${hive.port}"/>	
+	<hive-client id="hiveClientFactory" host="${hive.host}" port="${hive.port}"/>	
 	
-	<hive-template id="hiveTemplate" hive-client-ref="hiveClient"/>	
+	<hive-template id="hiveTemplate" hive-client-ref="hiveClientFactory"/>	
  
-	<hive-runner id="hiveRunner" hive-client-ref="hiveClient" run-at-startup="false"
+ 	<!-- 
+	<hive-runner id="hiveRunner" hive-client-ref="hiveClientFactory" run-at-startup="false"
 			     pre-action="hdfsScript">
 		<script location="password-analysis.hql"/>
 	</hive-runner>
+	-->
 		
-	<script id="hdfsScript" language="groovy" location="set-hive-permissions.groovy"/>
+	<script id="hdfsScript" language="groovy" location="set-hive-permissions.groovy" run-at-startup="true"/>
 	
 </beans:beans>

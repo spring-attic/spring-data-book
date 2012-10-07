@@ -1,5 +1,7 @@
 package com.oreilly.springdata.hadoop.hive;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hive.service.HiveClient;
@@ -7,7 +9,10 @@ import org.apache.hadoop.hive.service.HiveServerException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransportException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.hadoop.hive.HiveClientFactory;
+import org.springframework.data.hadoop.hive.HiveClientFactoryBean;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -15,6 +20,8 @@ public class HivePasswordRepository implements PasswordRepository {
 
 	private static final Log logger = LogFactory
 			.getLog(HivePasswordRepository.class);
+
+	private @Resource HiveClientFactory hiveClientFactory;
 
 	private @Value("${hive.table}")
 	String tableName;
@@ -25,6 +32,7 @@ public class HivePasswordRepository implements PasswordRepository {
 	private @Value("${hive.port}")
 	int port;
 
+	@Override
 	public Long count() {
 		HiveClient hiveClient = createHiveClient();
 		try {
@@ -44,20 +52,19 @@ public class HivePasswordRepository implements PasswordRepository {
 			}
 		}
 	}
+	
+	@Override
+	public void processPasswordFile(String inputFile) {
+		//
+	}
 
 	protected HiveClient createHiveClient() {
-		TSocket transport = new TSocket(host, port);
-		HiveClient hive = new HiveClient(new TBinaryProtocol(transport));
-		try {
-			transport.open();
-		} catch (TTransportException e) {
-			throw translateExcpetion(e);
-		}
-		return hive;
+		return hiveClientFactory.getHiveClient();
 	}
 
 	private RuntimeException translateExcpetion(Exception ex) {
 		return new RuntimeException(ex);
 	}
+
 
 }

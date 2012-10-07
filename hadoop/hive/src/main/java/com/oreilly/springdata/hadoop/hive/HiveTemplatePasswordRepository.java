@@ -1,5 +1,8 @@
 package com.oreilly.springdata.hadoop.hive;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.hadoop.hive.HiveOperations;
@@ -20,6 +23,13 @@ public class HiveTemplatePasswordRepository implements PasswordRepository {
 	@Override
 	public Long count() {
 		return hiveOperations.queryForLong("select count(*) from " + tableName);
+	}
+
+	@Override
+	public void processPasswordFile(String inputFile) {
+		Map parameters = new HashMap();
+		parameters.put("inputFile", inputFile);
+		hiveOperations.query("classpath:password-analysis.hql", parameters);		
 	}
 
 }
