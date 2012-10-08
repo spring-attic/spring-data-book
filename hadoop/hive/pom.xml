@@ -217,6 +217,10 @@
 		    <mainClass>com.oreilly.springdata.hadoop.Hive.HiveApp</mainClass>
 		    <name>hiveApp</name>
 		  </program>
+		  <program>
+		    <mainClass>com.oreilly.springdata.hadoop.Hive.HiveAppWithApacheLogs</mainClass>
+		    <name>hiveAppWithApacheLogs</name>
+		  </program>		  
 		</programs>
               </configuration>
 	    </plugin>
