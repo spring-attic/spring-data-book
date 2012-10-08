@@ -214,11 +214,11 @@
 		<extraJvmArguments>-Xms512m -Xmx1024m</extraJvmArguments>
 		<programs>
 		  <program>
-		    <mainClass>com.oreilly.springdata.hadoop.Hive.HiveApp</mainClass>
+		    <mainClass>com.oreilly.springdata.hadoop.hive.HiveApp</mainClass>
 		    <name>hiveApp</name>
 		  </program>
 		  <program>
-		    <mainClass>com.oreilly.springdata.hadoop.Hive.HiveAppWithApacheLogs</mainClass>
+		    <mainClass>com.oreilly.springdata.hadoop.hive.HiveAppWithApacheLogs</mainClass>
 		    <name>hiveAppWithApacheLogs</name>
 		  </program>		  
 		</programs>
