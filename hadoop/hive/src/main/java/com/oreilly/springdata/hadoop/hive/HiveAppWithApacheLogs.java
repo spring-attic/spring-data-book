@@ -33,9 +33,9 @@ public class HiveAppWithApacheLogs {
 				"/META-INF/spring/hive-apache-log-context.xml", HiveAppWithApacheLogs.class);
 		log.info("Hive Application Running");
 		context.registerShutdownHook();	
-		//HiveRunner runner = context.getBean(HiveRunner.class);
+		HiveRunner runner = context.getBean(HiveRunner.class);		
+		runner.call();
 		
-		//runner.call();
 		/*
 		JdbcPasswordRepository repo = context.getBean(JdbcPasswordRepository.class);		
 		repo.processPasswordFile("password-analysis.hql");	
@@ -44,16 +44,6 @@ public class HiveAppWithApacheLogs {
 		
 		AnalysisService analysis = context.getBean(AnalysisService.class);
 		analysis.performAnalysis();
-		
-		
-		/*
-		HiveTemplate pigTemplate = context.getBean(HiveTemplate.class);
-		Properties scriptParameters = new Properties();
-		scriptParameters.put("piggybanklib","./lib/piggybank-0.9.2.jar");
-		scriptParameters.put("inputFile","./data/apache.log");
-		pigTemplate.executeScript("apache-log-simple.pig", scriptParameters);
-		*/
-		
 	
 		System.out.println("hit enter to run again");
 		Scanner scanIn = new Scanner(System.in);

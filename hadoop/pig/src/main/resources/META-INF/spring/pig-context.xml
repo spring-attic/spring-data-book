@@ -15,8 +15,7 @@
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<pig-factory id="pigFactory" job-name="passwdAnalysis"  exec-type="MAPREDUCE"
-				 properties-location="pig-server.properties"/>
+	<pig-factory properties-location="pig-server.properties"/>
 	    <!-- 	                    
 		<script location="password-analysis.pig">
 			<arguments>
@@ -35,7 +34,7 @@
 		<property name="outputDir" value="${outputDir}"/>
 	</script>	
 	
-	<pig-runner id="pigRunner" pig-factory-ref="pigFactory"
+	<pig-runner id="pigRunner"
 				pre-action="hdfsScript"
 				run-at-startup="true" >
 		<script location="password-analysis.pig">
