@@ -40,9 +40,9 @@ public class AnalysisService implements ResourceLoaderAware {
 		Map parameters = new HashMap();
 		parameters.put("hiveContribJar", hiveContribJar);
 		parameters.put("localInPath", localInPath);
-		//hiveOperations.query(scriptResource, parameters);
-		Resource res = resourceLoader.getResource(scriptResource);
-		hiveOperations.executeScript(new HiveScript(res,parameters)  );
+		hiveOperations.query(scriptResource, parameters);
+		//Resource res = resourceLoader.getResource(scriptResource);
+		//hiveOperations.executeScript(new HiveScript(res,parameters)  );
 	}
 
 	@Override
