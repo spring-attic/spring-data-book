@@ -15,11 +15,14 @@
  */
 package com.oreilly.springdata.hadoop.hive;
 
+import java.util.Scanner;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hive.service.HiveClient;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.hadoop.hive.HiveRunner;
 
 public class HiveAppWithApacheLogs {
 
@@ -30,7 +33,9 @@ public class HiveAppWithApacheLogs {
 				"/META-INF/spring/hive-apache-log-context.xml", HiveAppWithApacheLogs.class);
 		log.info("Hive Application Running");
 		context.registerShutdownHook();	
+		//HiveRunner runner = context.getBean(HiveRunner.class);
 		
+		//runner.call();
 		/*
 		JdbcPasswordRepository repo = context.getBean(JdbcPasswordRepository.class);		
 		repo.processPasswordFile("password-analysis.hql");	
@@ -49,39 +54,10 @@ public class HiveAppWithApacheLogs {
 		pigTemplate.executeScript("apache-log-simple.pig", scriptParameters);
 		*/
 		
-		/*
-		PasswordRepository repo = context.getBean(PigPasswordRepository.class);
-		Collection<String> files = new ArrayList<String>();
-		files.add("/etc/passwd");
-		files.add("/etc/passwd");
-			
-		repo.processPasswordFiles(files, "/tmp/pwdout");
-		*/
-		//repo.processPasswordFile("/etc/passwd", "/tmp/pwdout");
-		
-		//System.out.println("hit enter to run again");
-		//Scanner scanIn = new Scanner(System.in);
-	    //scanIn.nextLine();
-	    
-		
-	    
-		/*
-		PigServer pigServer = context.getBean(PigServer.class);
-		pigServer.setBatchOn();
-		pigServer.getPigContext().connect();
-		pigServer.executeBatch();
-		pigServer.shutdown();
-		
+	
 		System.out.println("hit enter to run again");
 		Scanner scanIn = new Scanner(System.in);
 	    scanIn.nextLine();
-	    
-	    pigServer = context.getBean(PigServer.class);
-		pigServer.setBatchOn();
-		pigServer.getPigContext().connect();
-		pigServer.executeBatch();
-		pigServer.shutdown();
-	    */
 	    
 	}
 }

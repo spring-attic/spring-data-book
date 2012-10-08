@@ -15,7 +15,7 @@
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<pig id="pigServer" job-name="apacheLogAnalysis"/>
+	<pig-factory id="pigFactory" job-name="apacheLogAnalysis"/>
 
 	<script id="hdfsScript" location="copy-files.groovy">
 		<property name="localSourceFile" value="${pig.localSourceFile}"/>
@@ -23,7 +23,7 @@
 		<property name="outputDir" value="${pig.outputPath}"/>
 	</script>	
 	
-	<pig-runner id="pigRunner" pig-server-ref="pigServer"
+	<pig-runner id="pigRunner" pig-factory-ref="pigFactory"
 				pre-action="hdfsScript"
 				run-at-startup="true" >
 		<script location="apache-log-simple.pig">

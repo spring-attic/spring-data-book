@@ -14,15 +14,34 @@
 		mapred.job.tracker=${mapred.job.tracker}
 	</configuration>
 
-	<hive-server configuration-ref="hadoopConfiguration" auto-startup="true" port="${hive.port}"/>
+	<hive-server configuration-ref="hadoopConfiguration" auto-startup="true" port="${hive.port}"
+				 properties-location="hive-server.properties"/>
 
-	<hive-client id="hiveClient" host="${hive.host}" port="${hive.port}"/>
+	<hive-client-factory id="hiveClientFactory" host="${hive.host}" port="${hive.port}"/>
+	 
+	<hive-template id="hiveTemplate" hive-client-factory-ref="hiveClientFactory"/>
 	
-	<hive-template id="hiveTemplate" hive-client-ref="hiveClient"/>
-
+	
+	<!--  not working now -->
+	<!-- 
+	<hive-runner id="hiveRunner" hive-client-factory-ref="hiveClientFactory"
+				 run-at-startup="false" >
+		<script location="apache-log-simple.hql">
+				<arguments>
+					hiveContribJar=/home/mpollack/software/hive-0.8.1-bin/lib/hive-contrib-0.8.1.jar
+					localInPath="./data/apache.log"		
+				</arguments>
+		</script>			
+	</hive-runner>
+	-->
+	
+	
 	<beans:bean id="analysisService" class="com.oreilly.springdata.hadoop.hive.AnalysisService">
 		<beans:constructor-arg name="hiveOperations" ref="hiveTemplate"/>
-		<beans:constructor-arg name="scriptResource" value="apache-log.hql"/>
+		<beans:property name="hiveContribJar" value="/home/mpollack/software/hive-0.8.1-bin/lib/hive-contrib-0.8.1.jar"/>
+		<beans:property name="scriptResource" value="classpath:apache-log-simple.hql"/>
+		<beans:property name="localInPath" value="./data/apache.log"/>
 	</beans:bean>	
+	
 	
 </beans:beans>

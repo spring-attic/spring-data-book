@@ -1,18 +1,12 @@
 package com.oreilly.springdata.hadoop.hive;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hive.service.HiveClient;
 import org.apache.hadoop.hive.service.HiveServerException;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransportException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.hadoop.hive.HiveClientFactory;
-import org.springframework.data.hadoop.hive.HiveClientFactoryBean;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,7 +15,7 @@ public class HivePasswordRepository implements PasswordRepository {
 	private static final Log logger = LogFactory
 			.getLog(HivePasswordRepository.class);
 
-	private @Resource HiveClientFactory hiveClientFactory;
+	private HiveClientFactory hiveClientFactory;
 
 	private @Value("${hive.table}")
 	String tableName;
@@ -32,6 +26,11 @@ public class HivePasswordRepository implements PasswordRepository {
 	private @Value("${hive.port}")
 	int port;
 
+	@Autowired
+	public HivePasswordRepository(HiveClientFactory hiveClientFactory) {
+		this.hiveClientFactory = hiveClientFactory;
+	}
+	
 	@Override
 	public Long count() {
 		HiveClient hiveClient = createHiveClient();

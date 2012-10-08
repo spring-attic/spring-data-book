@@ -38,34 +38,22 @@ public class HiveApp {
 		
 		HiveTemplate template = context.getBean(HiveTemplate.class);
 		template.query("show tables;");
-		
-		/*
-		Map parameters = new HashMap();
-		parameters.put("inpath", "/etc/passwd");
-		template.query("classpath:password-analysis.hql", parameters);	
-		*/
-		
+			
 		//HiveRunner runner = context.getBean(HiveRunner.class);
 		//runner.call();	
 		
-		PasswordRepository repository = context.getBean(JdbcPasswordRepository.class);
+		/*
+		PasswordRepository repository = context.getBean(HiveTemplatePasswordRepository.class);
 		repository.processPasswordFile("/etc/passwd");
 		log.info("Count of password entries = " + repository.count());		
-		
-
-		HiveOperations hiveOps = context.getBean(HiveTemplate.class);
-		/*
-		Long count = hiveOps.execute(new HiveClientCallback<Long>() {
-			@Override
-			public Long doInHive(HiveClient hiveClient) throws Exception,
-					DataAccessException {
-				hiveClient.execute("select count(*) from passwords");
-				List<String> list = hiveClient.fetchAll();
-				return Long.parseLong(list.get(0));
-			}
-		});
-		log.info("Count of password entries from exec callback = " + count);
 		*/
+		
+		HivePasswordRepository hivePwdRepository = context.getBean(HivePasswordRepository.class);
+		log.info("Count of password entries (HivePasswordRepository) = " + hivePwdRepository.count());	
+		
+/*
+		HiveOperations hiveOps = context.getBean(HiveTemplate.class);
+*/
 
 		//Long count2 = hiveOps.queryForLong("select count(*) from passwords;");
 		//log.info("Count of password entries from spring-hadoop template = " + count2);	
