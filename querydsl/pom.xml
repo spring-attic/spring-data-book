@@ -33,9 +33,6 @@
 				<groupId>com.mysema.maven</groupId>
 				<artifactId>maven-apt-plugin</artifactId>
 				<version>1.0.4</version>
-				<configuration>
-					<processor>com.mysema.query.apt.QuerydslAnnotationProcessor</processor>
-				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>com.mysema.querydsl</groupId>
@@ -51,6 +48,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>target/generated-sources/java</outputDirectory>
+							<processor>com.mysema.query.apt.QuerydslAnnotationProcessor</processor>
 						</configuration>
 					</execution>
 				</executions>

@@ -13,10 +13,6 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<properties>
-		<neo4j.version>1.8.M07</neo4j.version>
-	</properties>
-
 	<dependencies>
 
 		<dependency>
@@ -45,9 +41,9 @@
 		</dependency>
 
         <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>3.5.0</version>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-cypher-dsl</artifactId>
+            <version>1.8</version>
         </dependency>
 
         <dependency>
@@ -70,16 +66,12 @@
                 <groupId>com.mysema.maven</groupId>
                 <artifactId>maven-apt-plugin</artifactId>
                 <version>1.0.4</version>
-                <configuration>
-                    <outputDirectory>target/generated-sources/java</outputDirectory>
-                    <processor>org.springframework.data.neo4j.querydsl.SDNAnnotationProcessor</processor>
-                </configuration>
                 <dependencies>
-                	<dependency>
-                		<groupId>com.mysema.querydsl</groupId>
-                		<artifactId>querydsl-apt</artifactId>
-                		<version>${querydsl.version}</version>
-                	</dependency>
+                    <dependency>
+                        <groupId>com.mysema.querydsl</groupId>
+                        <artifactId>querydsl-apt</artifactId>
+                        <version>${querydsl.version}</version>
+                    </dependency>
                 </dependencies>
                 <executions>
                     <execution>
@@ -87,6 +79,11 @@
                         <goals>
                             <goal>process</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>target/generated-sources</outputDirectory>
+                            <processor>org.springframework.data.neo4j.querydsl.SDNAnnotationProcessor
+                            </processor>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

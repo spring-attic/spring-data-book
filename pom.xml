@@ -140,18 +140,7 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
 		</repository>
-		<repository>
-			<id>spring-snapshots</id>
-			<url>http://repo.springsource.org/libs-snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-
 	</repositories>
 
 </project>
