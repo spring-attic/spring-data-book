@@ -36,8 +36,8 @@ public class QAddress extends com.mysema.query.sql.RelationalPathBase<QAddress> 
         super(QAddress.class, forVariable(variable), "PUBLIC", "ADDRESS");
     }
 
-    public QAddress(Path<? extends QAddress> entity) {
-        super(entity.getType(), entity.getMetadata(), "PUBLIC", "ADDRESS");
+    public QAddress(Path<? extends QAddress> path) {
+        super(path.getType(), path.getMetadata(), "PUBLIC", "ADDRESS");
     }
 
     public QAddress(PathMetadata<?> metadata) {

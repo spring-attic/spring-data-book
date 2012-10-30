@@ -34,8 +34,8 @@ public class QCustomer extends com.mysema.query.sql.RelationalPathBase<QCustomer
         super(QCustomer.class, forVariable(variable), "PUBLIC", "CUSTOMER");
     }
 
-    public QCustomer(Path<? extends QCustomer> entity) {
-        super(entity.getType(), entity.getMetadata(), "PUBLIC", "CUSTOMER");
+    public QCustomer(Path<? extends QCustomer> path) {
+        super(path.getType(), path.getMetadata(), "PUBLIC", "CUSTOMER");
     }
 
     public QCustomer(PathMetadata<?> metadata) {
