@@ -2,10 +2,11 @@ package com.oreilly.springdata.jdbc.domain;
 
 import static com.mysema.query.types.PathMetadataFactory.*;
 
-import com.mysema.query.types.*;
 import com.mysema.query.types.path.*;
 
+import com.mysema.query.types.PathMetadata;
 import javax.annotation.Generated;
+import com.mysema.query.types.Path;
 
 
 /**
@@ -34,8 +35,9 @@ public class QCustomer extends com.mysema.query.sql.RelationalPathBase<QCustomer
         super(QCustomer.class, forVariable(variable), "PUBLIC", "CUSTOMER");
     }
 
+    @SuppressWarnings("all")
     public QCustomer(Path<? extends QCustomer> path) {
-        super(path.getType(), path.getMetadata(), "PUBLIC", "CUSTOMER");
+        super((Class)path.getType(), path.getMetadata(), "PUBLIC", "CUSTOMER");
     }
 
     public QCustomer(PathMetadata<?> metadata) {

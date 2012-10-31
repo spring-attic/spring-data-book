@@ -2,10 +2,11 @@ package com.oreilly.springdata.jdbc.domain;
 
 import static com.mysema.query.types.PathMetadataFactory.*;
 
-import com.mysema.query.types.*;
 import com.mysema.query.types.path.*;
 
+import com.mysema.query.types.PathMetadata;
 import javax.annotation.Generated;
+import com.mysema.query.types.Path;
 
 
 /**
@@ -36,8 +37,9 @@ public class QAddress extends com.mysema.query.sql.RelationalPathBase<QAddress> 
         super(QAddress.class, forVariable(variable), "PUBLIC", "ADDRESS");
     }
 
+    @SuppressWarnings("all")
     public QAddress(Path<? extends QAddress> path) {
-        super(path.getType(), path.getMetadata(), "PUBLIC", "ADDRESS");
+        super((Class)path.getType(), path.getMetadata(), "PUBLIC", "ADDRESS");
     }
 
     public QAddress(PathMetadata<?> metadata) {
