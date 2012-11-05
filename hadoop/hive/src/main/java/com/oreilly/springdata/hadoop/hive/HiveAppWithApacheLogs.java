@@ -33,6 +33,8 @@ public class HiveAppWithApacheLogs {
 				"/META-INF/spring/hive-apache-log-context.xml", HiveAppWithApacheLogs.class);
 		log.info("Hive Application Running");
 		context.registerShutdownHook();	
+		
+		
 		HiveRunner runner = context.getBean(HiveRunner.class);		
 		runner.call();
 		
@@ -41,13 +43,15 @@ public class HiveAppWithApacheLogs {
 		repo.processPasswordFile("password-analysis.hql");	
 		log.info("Count of password entrires = " + repo.count());
 		*/		
-		
+		/*
 		AnalysisService analysis = context.getBean(AnalysisService.class);
 		analysis.performAnalysis();
-	
+		*/
+		/*
 		System.out.println("hit enter to run again");
 		Scanner scanIn = new Scanner(System.in);
 	    scanIn.nextLine();
+	    */
 	    
 	}
 }
