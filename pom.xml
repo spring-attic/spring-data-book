@@ -10,7 +10,7 @@
 	<name>Spring Data Book</name>
 
 	<properties>
-		<spring.version>3.2.0.M2</spring.version>
+		<spring.version>3.2.0.RC1</spring.version>
 		<slf4j.version>1.7.1</slf4j.version>
 		<logback.version>1.0.6</logback.version>
 		<querydsl.version>2.8.2</querydsl.version>
