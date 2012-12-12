@@ -14,7 +14,7 @@
 	  fs.default.name=${hd.fs}
 	</configuration>
 
-	<job id="wordcountJob" validate-paths="false"
+	<job id="wordcountJob"
 	     input-path="${wordcount.input.path}" 
 	     output-path="${wordcount.output.path}" 
 		 mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
@@ -28,6 +28,6 @@
  
 	<job-runner id="runner" run-at-startup="true"
 	    	    pre-action="setupScript"
-			    job="wordcountJob" />	  
+			    job-ref="wordcountJob" />	  
 	
 </beans:beans>

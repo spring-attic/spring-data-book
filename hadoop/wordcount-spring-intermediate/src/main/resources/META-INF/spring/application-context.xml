@@ -20,6 +20,6 @@
 	     mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
 	     reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"/>
 
-	<job-runner id="runner" job="wordcountJob" run-at-startup="true"/>
+	<job-runner id="runner" job-ref="wordcountJob" run-at-startup="true"/>
 
 </beans:beans>
