@@ -201,11 +201,11 @@
 		<programs>
 		  <program>
 		    <mainClass>com.oreilly.springdata.batch.launch.LaunchDatabaseAndConsole</mainClass>
-		    <name>launchDatabaseAndConsole</name>
+		    <name>start-database</name>
 		  </program>
 		  <program>
 		    <mainClass>com.oreilly.springdata.batch.launch.LaunchImportProductsJob</mainClass>
-		    <name>export</name>
+		    <name>import</name>
 		  </program>
 		  <program>
 		    <mainClass>com.oreilly.springdata.batch.launch.LaunchSpringBatchAdmin</mainClass>
