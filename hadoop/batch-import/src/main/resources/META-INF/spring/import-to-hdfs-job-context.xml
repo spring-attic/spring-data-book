@@ -25,8 +25,7 @@
 		<property name="rowMapper" ref="productRowMapper"/>
 	</bean>
 
-	<bean id="productRowMapper" class="com.oreilly.springdata.domain.ProductRowMapper"/>	
-	
+
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
@@ -36,8 +35,26 @@
 		<property name="suppressClose" value="true" />
 	</bean>
 	
-	<!-- For reading from flat files and doing some processing -->
+	<bean id="hdfsWriter" class="com.oreilly.springdata.batch.item.HdfsTextItemWriter">
+		<constructor-arg ref="hadoopFs"/>
+	    <property name="basePath" value="/import/data/products/"/>
+		<property name="baseFilename" value="product"/>
+		<property name="fileSuffix" value="txt"/>
+		<property name="rolloverThresholdInBytes" value="100"/>
+		
+		<property name="lineAggregator">
+			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="fieldExtractor">
+				  <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+					<property name="names" value="id,price,name" />
+				  </bean>
+				</property>
+			</bean>			
+		</property>
+ 	</bean>
 	
+	<!-- For reading from flat files and doing some processing -->
+	<!-- 
 	<bean id="reader" class="org.springframework.batch.item.file.MultiResourceItemReader">
 		<property name="resources" value="file:/tmp/import/products-*"/>
 		<property name="delegate" ref="flatFileItemReader"/>
@@ -58,7 +75,7 @@
 			</bean>
 		</property>
 	</bean>
-	
+	-->
 	<!-- 
 	<bean id="productItemWriter" class="org.springframework.batch.item.file.MultiResourceItemWriter">
 		<property name="resource" value="file:target/outputs/products-multi.xml" />
@@ -67,32 +84,9 @@
 	</bean>
 	-->
 	
-	<bean id="hdfsWriter" class="com.oreilly.springdata.batch.item.HdfsTextItemWriter">
-		<constructor-arg ref="hadoopFs"/>
-	    <property name="basePath" value="/import/data/products/"/>
-		<property name="baseFilename" value="product"/>
-		<property name="fileSuffix" value="txt"/>
-		<property name="rolloverThresholdInBytes" value="100"/>
-		
-		<property name="lineAggregator">
 
-			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
-				<property name="fieldExtractor">
-				  <bean class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
-					<property name="names" value="id,price,name" />
-				  </bean>
-				</property>
-			</bean>
-			
-			<!--
-			<bean class="org.springframework.batch.item.file.transform.PassThroughLineAggregator" /> 
-			<bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
-			  <property name="fieldExtractor">
-				<bean class="org.springframework.batch.item.file.transform.PassThroughFieldExtractor" />
-			  </property>
-			</bean>
-			-->		
-		</property>
- 	</bean>
+ 	
+ 	<bean id="productRowMapper" class="com.oreilly.springdata.domain.ProductRowMapper"/>	
+	
 
 </beans>
