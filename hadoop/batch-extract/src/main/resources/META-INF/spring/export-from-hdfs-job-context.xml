@@ -17,7 +17,7 @@
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:tcp://localhost/mem:hadoop_export" />
+		<property name="url" value="jdbc:h2:tcp://localhost/mem:sbia_ch02" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 		<property name="suppressClose" value="true" />
