@@ -23,7 +23,7 @@ public class LaunchImportProductsJob {
      */
     public static void main(String[] args) throws Exception {
             ApplicationContext ctx =
-            		new ClassPathXmlApplicationContext("classpath:/META-INF/spring/*-context.xml");
+            		new ClassPathXmlApplicationContext("classpath*:/META-INF/spring/*-context.xml");
             
             JobLauncher jobLauncher = ctx.getBean(JobLauncher.class);
             Job job = ctx.getBean(Job.class);       
