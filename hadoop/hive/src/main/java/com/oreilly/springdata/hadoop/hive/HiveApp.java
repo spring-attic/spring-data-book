@@ -15,15 +15,10 @@
  */
 package com.oreilly.springdata.hadoop.hive;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.hadoop.hive.HiveOperations;
-import org.springframework.data.hadoop.hive.HiveRunner;
 import org.springframework.data.hadoop.hive.HiveTemplate;
 
 public class HiveApp {
@@ -35,44 +30,13 @@ public class HiveApp {
 				"/META-INF/spring/hive-context.xml", HiveApp.class);
 		log.info("Hive Application Running");
 		context.registerShutdownHook();	
-		
+					
 		HiveTemplate template = context.getBean(HiveTemplate.class);
-		template.query("show tables;");
-			
-		//HiveRunner runner = context.getBean(HiveRunner.class);
-		//runner.call();	
+		log.info(template.query("show tables;"));	
 		
-		/*
 		PasswordRepository repository = context.getBean(HiveTemplatePasswordRepository.class);
 		repository.processPasswordFile("/etc/passwd");
-		log.info("Count of password entries = " + repository.count());		
-		*/
-		
-		HivePasswordRepository hivePwdRepository = context.getBean(HivePasswordRepository.class);
-		log.info("Count of password entries (HivePasswordRepository) = " + hivePwdRepository.count());	
-		
-/*
-		HiveOperations hiveOps = context.getBean(HiveTemplate.class);
-*/
-
-		//Long count2 = hiveOps.queryForLong("select count(*) from passwords;");
-		//log.info("Count of password entries from spring-hadoop template = " + count2);	
-		
-		/*
-		JdbcPasswordRepository repo = context.getBean(JdbcPasswordRepository.class);		
-		repo.processPasswordFile("password-analysis.hql");	
-		log.info("Count of password entrires = " + repo.count());
-		*/		
-		
-		/*
-		AnalysisService analysis = context.getBean(AnalysisService.class);
-		analysis.performAnalysis();
-		*/	
-
-		//System.out.println("hit enter to run again");
-		//Scanner scanIn = new Scanner(System.in);
-	    //scanIn.nextLine();
-	    
+		log.info("Count of password entries = " + repository.count());		    
 		
 
 	}

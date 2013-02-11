@@ -29,7 +29,7 @@ public class HiveTemplatePasswordRepository implements PasswordRepository {
 	public void processPasswordFile(String inputFile) {
 		Map parameters = new HashMap();
 		parameters.put("inputFile", inputFile);
-		hiveOperations.query("classpath:password-analysis.hql", parameters);		
+		hiveOperations.query("classpath:password-analysis.hql", parameters);	
 	}
 
 }

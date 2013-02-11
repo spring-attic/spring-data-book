@@ -27,7 +27,7 @@
 					hiveContribJar=/home/mpollack/software/hive-0.8.1-bin/lib/hive-contrib-0.8.1.jar
 					localInPath="./data/apache.log"		
 				</arguments>
-		</script>			
+		</script>
 	</hive-runner>
 	
 	
