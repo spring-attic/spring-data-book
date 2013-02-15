@@ -23,10 +23,7 @@
 			<batch:tasklet ref="wordcount-tasklet" />
 		</batch:step>
 	</batch:job>
-	
-	<hive-tasklet id="hiveTasklet" hive-client-ref="hiveClient">
-	
-	</hive-tasklet>
+
 	
 	<job-tasklet id="wordcount-tasklet" job-ref="wordcountJob"/>
 
@@ -35,14 +32,8 @@
          output-path="#{jobParameters['mr.output']}"  
 		 mapper="org.apache.hadoop.examples.WordCount.TokenizerMapper"
 		 reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"
-		 validate-paths="false"
 		 scope="step" />
 
-	<pig-tasklet id="asdf" pig-server-ref="pig">	
-	<script location="">
-		<arguments></arguments>
-	</script>
-	</pig-tasklet>
 
     <script-tasklet id="scriptTasklet" script-ref="hdfsScript" scope="step">
 
