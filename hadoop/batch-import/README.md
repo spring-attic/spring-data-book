@@ -1,6 +1,5 @@
 # Building and running
 
-    $ cd hadoop/batch-import
     $ mvn clean package appassembler:assemble
 
 # Start the database

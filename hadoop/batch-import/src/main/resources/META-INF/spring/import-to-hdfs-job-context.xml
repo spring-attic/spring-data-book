@@ -8,8 +8,6 @@
 	http://www.springframework.org/schema/batch 
 	http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
 	http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
-
-
 	
 	<job id="importProducts" xmlns="http://www.springframework.org/schema/batch">
 		<step id="readWriteProducts">
@@ -25,11 +23,11 @@
 		<property name="rowMapper" ref="productRowMapper"/>
 	</bean>
 
-
-	
+ 	<bean id="productRowMapper" class="com.oreilly.springdata.domain.ProductRowMapper"/>	
+		
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
 		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:tcp://localhost/mem:sbia_ch02" />
+		<property name="url" value="jdbc:h2:tcp://localhost/mem:productdb" />
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 		<property name="suppressClose" value="true" />
@@ -52,41 +50,5 @@
 			</bean>			
 		</property>
  	</bean>
-	
-	<!-- For reading from flat files and doing some processing -->
-	<!-- 
-	<bean id="reader" class="org.springframework.batch.item.file.MultiResourceItemReader">
-		<property name="resources" value="file:/tmp/import/products-*"/>
-		<property name="delegate" ref="flatFileItemReader"/>
-	</bean>
-	
-	<bean id="flatFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
-		<property name="linesToSkip" value="1" />
-		<property name="lineMapper">
-			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
-				<property name="lineTokenizer">
-					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
-						<property name="names" value="ID,NAME,DESCRIPTION,PRICE" />
-					</bean>
-				</property>
-				<property name="fieldSetMapper">
-					<bean class="com.oreilly.springdata.batch.ProductFieldSetMapper"/>
-				</property>
-			</bean>
-		</property>
-	</bean>
-	-->
-	<!-- 
-	<bean id="productItemWriter" class="org.springframework.batch.item.file.MultiResourceItemWriter">
-		<property name="resource" value="file:target/outputs/products-multi.xml" />
-		<property name="itemCountLimitPerResource" value="10000" />
-		<property name="delegate" ref="delegateWriter" />
-	</bean>
-	-->
-	
-
- 	
- 	<bean id="productRowMapper" class="com.oreilly.springdata.domain.ProductRowMapper"/>	
-	
 
 </beans>
