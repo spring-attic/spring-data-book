@@ -17,8 +17,9 @@ package com.oreilly.springdata.rest.core;
 
 import javax.persistence.Entity;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.util.Assert;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * An address.

@@ -23,7 +23,8 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.web.client.RestOperations;
 
-import com.oreilly.springdata.rest.client.CustomerClient.Customer;
+import com.oreilly.springdata.rest.client.OrderClient.Order;
+import com.oreilly.springdata.rest.client.OrderClient.Orders;
 
 /**
  * Sample client to access {@link Orders} exposed by the REST exporter.
@@ -68,7 +69,7 @@ class OrderClient {
 
 			// Follow link to access customer of the order
 			Link link = order.getLink(ClientConfiguration.ORDER_CUSTOMER_REL);
-			Customer customer = operations.getForObject(link.getHref(), CustomerClient.Customer.class);
+			CustomerClient.Customer customer = operations.getForObject(link.getHref(), CustomerClient.Customer.class);
 			com.oreilly.springdata.rest.core.Customer domainObject = customer.getContent();
 			System.out.println("Order for customer: " + domainObject.getFirstname() + " " + domainObject.getLastname());
 		}
