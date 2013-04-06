@@ -9,8 +9,8 @@
 
 	<dependencies>
 
-	        <dependency>
-		        <groupId>org.apache.hadoop</groupId>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-core</artifactId>
 			<version>1.0.1</version>
 			<scope>compile</scope>
@@ -19,22 +19,23 @@
 	</dependencies>
 
 	<build>
-	  <plugins>
-	    <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>appassembler-maven-plugin</artifactId>
-              <version>1.2.2</version>
-              <configuration>
-		<repositoryLayout>flat</repositoryLayout>
-		<programs>
-		  <program>
-		    <mainClass>com.oreilly.springdata.hadoop.wordcount.WordCount</mainClass>
-		    <name>wordcount</name>
-		  </program>
-		</programs>
-              </configuration>
-	    </plugin>
-	  </plugins>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<configuration>
+					<repositoryLayout>flat</repositoryLayout>
+					<programs>
+						<program>
+							<mainClass>com.oreilly.springdata.hadoop.wordcount.WordCount</mainClass>
+							<name>wordcount</name>
+						</program>
+					</programs>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 </project>
+

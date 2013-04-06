@@ -21,13 +21,13 @@
 		 reducer="org.apache.hadoop.examples.WordCount.IntSumReducer"/>
 
 	<script id="setupScript" location="copy-files.groovy">
-		<property name="localSourceFile" value="${localSourceFile}"/>
+		<property name="localSourceFile" value="${app.home}/${localSourceFile}"/>
 		<property name="inputDir" value="${wordcount.input.path}"/>
 		<property name="outputDir" value="${wordcount.output.path}"/>
 	</script>	
  
 	<job-runner id="runner" run-at-startup="true"
-	    	    pre-action="setupScript"
-			    job-ref="wordcountJob" />	  
+		pre-action="setupScript"
+		job-ref="wordcountJob" />	  
 	
 </beans:beans>
