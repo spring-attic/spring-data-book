@@ -23,22 +23,21 @@
 	
 	<hive-runner id="hiveRunner" run-at-startup="false" >
 		<script location="apache-log-simple.hql">
-				<arguments>
-					hiveContribJar=/home/mpollack/software/hive-0.8.1-bin/lib/hive-contrib-0.8.1.jar
-					localInPath="./data/apache.log"		
-				</arguments>
+			<arguments>
+				hiveContribJar=${app.repo}/hive-contrib-0.8.1.jar
+				localInPath="${app.home}/data/apache.log"		
+			</arguments>
 		</script>
 	</hive-runner>
-	
 	
 	<!-- 
 	<hive-template id="hiveTemplate"/>	
 	 
 	<beans:bean id="analysisService" class="com.oreilly.springdata.hadoop.hive.AnalysisService">
 		<beans:constructor-arg name="hiveOperations" ref="hiveTemplate"/>
-		<beans:property name="hiveContribJar" value="/home/mpollack/software/hive-0.8.1-bin/lib/hive-contrib-0.8.1.jar"/>
+		<beans:property name="hiveContribJar" value="${app.repo}/hive-contrib-0.8.1.jar"/>
 		<beans:property name="scriptResource" value="classpath:apache-log-simple.hql"/>
-		<beans:property name="localInPath" value="file:///home/mpollack/projects/spring-data-book/hadoop/hive/data/apache.log"/>
+		<beans:property name="localInPath" value="file://${app.home}/data/apache.log"/>
 	</beans:bean>	
 	-->
 	
