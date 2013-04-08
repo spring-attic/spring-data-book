@@ -38,9 +38,11 @@ public class UserUtils implements InitializingBean {
 	public void initialize() throws IOException {
 
 		if (admin.tableExists(tableNameAsBytes)) {
-			System.out.printf("Deleting %s\n", tableName);
-			if (admin.isTableEnabled(tableNameAsBytes))
+			if (!admin.isTableDisabled(tableNameAsBytes)) {
+				System.out.printf("Disabling %s\n", tableName);
 				admin.disableTable(tableNameAsBytes);
+			}
+			System.out.printf("Deleting %s\n", tableName);
 			admin.deleteTable(tableNameAsBytes);
 		}
 
