@@ -1,5 +1,6 @@
 # Building and running
 
+    $ cd hadoop/batch-wordcount
     $ mvn clean package appassembler:assemble
     $ sh ./target/appassembler/bin/batch-wordcount
 
