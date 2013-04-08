@@ -6,3 +6,4 @@
     $ mvn clean package appassembler:assemble
     $ export ENV=qa
     $ sh ./target/appassembler/bin/wordcount
+

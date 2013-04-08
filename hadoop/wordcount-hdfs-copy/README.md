@@ -2,9 +2,9 @@
 
     $ hadoop fs -rmr /user/gutenberg/output
     $ hadoop fs -rmr /user/gutenberg/input
+    $ cd hadoop/wordcount-hdfs-copy
     $ mvn clean package appassembler:assemble
-    $ cd ./target/appassembler/bin
-    $ sh wordcount
+    $ sh ./target/appassembler/bin/wordcount
 
 You should see the input file copied into the HDFS directory
   /user/gutenberg/input/word
