@@ -16,11 +16,12 @@
 package com.oreilly.springdata.neo4j;
 
 import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.kernel.EmbeddedGraphDatabase;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.data.neo4j.config.EnableNeo4jRepositories;
+import org.springframework.data.neo4j.config.Neo4jConfiguration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -28,12 +29,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @ComponentScan
-@ImportResource("classpath:META-INF/spring/spring-data-context.xml")
+@EnableNeo4jRepositories
 @EnableTransactionManagement
-class ApplicationConfig {
+class ApplicationConfig extends Neo4jConfiguration {
 
 	@Bean(destroyMethod = "shutdown")
 	public GraphDatabaseService graphDatabaseService() {
-		return new EmbeddedGraphDatabase("target/graph.db");
+		return new GraphDatabaseFactory().newEmbeddedDatabase("target/graph.db");
 	}
 }

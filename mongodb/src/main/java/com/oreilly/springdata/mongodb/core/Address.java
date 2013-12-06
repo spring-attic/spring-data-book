@@ -15,6 +15,7 @@
  */
 package com.oreilly.springdata.mongodb.core;
 
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.util.Assert;
 
 /**
@@ -24,7 +25,9 @@ import org.springframework.util.Assert;
  */
 public class Address {
 
-	private final String street, city, country;
+	@Field("city")
+	private final String city;
+	private final String street, country;
 
 	/**
 	 * Creates a new {@link Address} from the given street, city and country.

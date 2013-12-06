@@ -15,7 +15,7 @@
  */
 package com.oreilly.springdata.querydsl.core;
 
-import static com.mysema.query.collections.MiniApi.*;
+import static com.mysema.query.collections.CollQueryFactory.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -32,10 +32,9 @@ import org.junit.Test;
  */
 public class ProductUnitTest {
 
-	private static final QProduct $ = QProduct.product;
+	private static final QProduct product = QProduct.product;
 
 	Product macBook, iPad, iPod, turntable;
-
 	List<Product> products;
 
 	@Before
@@ -52,7 +51,7 @@ public class ProductUnitTest {
 	@Test
 	public void findsAllAppleProducts() {
 
-		List<Product> result = from($, products).where($.description.contains("Apple")).list($);
+		List<Product> result = from(product, products).where(product.description.contains("Apple")).list(product);
 
 		assertThat(result, hasSize(3));
 		assertThat(result, hasItems(macBook, iPad, iPod));
@@ -61,7 +60,7 @@ public class ProductUnitTest {
 	@Test
 	public void findsAllAppleProductNames() {
 
-		List<String> result = from($, products).where($.description.contains("Apple")).list($.name);
+		List<String> result = from(product, products).where(product.description.contains("Apple")).list(product.name);
 
 		assertThat(result, hasSize(3));
 		assertThat(result, hasItems(macBook.getName(), iPad.getName(), iPod.getName()));
@@ -70,7 +69,7 @@ public class ProductUnitTest {
 	@Test
 	public void findsPlayers() {
 
-		List<Product> result = from($, products).where($.description.contains("player")).list($);
+		List<Product> result = from(product, products).where(product.description.contains("player")).list(product);
 
 		assertThat(result, hasSize(2));
 		assertThat(result, hasItems(iPod, turntable));

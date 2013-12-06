@@ -18,6 +18,7 @@ package com.oreilly.springdata.mongodb;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapping.CamelCaseAbbreviatingFieldNamingStrategy;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -38,9 +39,13 @@ import com.mongodb.Mongo;
 @ContextConfiguration(classes = { ApplicationConfig.class })
 public abstract class AbstractIntegrationTest {
 
-	@Autowired
-	Mongo mongo;
+	@Autowired Mongo mongo;
 
+	/**
+	 * Setting up sample data according to the {@link CamelCaseAbbreviatingFieldNamingStrategy} configured by returning
+	 * {@literal true} from {@link ApplicationConfig#abbreviateFieldNames()}. Use custom field names in cases the mapping
+	 * manually configures them.
+	 */
 	@Before
 	public void setUp() {
 
@@ -53,16 +58,16 @@ public abstract class AbstractIntegrationTest {
 
 		BasicDBObject address = new BasicDBObject();
 		address.put("city", "New York");
-		address.put("street", "Broadway");
-		address.put("country", "United States");
+		address.put("s", "Broadway");
+		address.put("c", "United States");
 
 		BasicDBList addresses = new BasicDBList();
 		addresses.add(address);
 
-		DBObject dave = new BasicDBObject("firstname", "Dave");
-		dave.put("lastname", "Matthews");
+		DBObject dave = new BasicDBObject("f", "Dave");
+		dave.put("l", "Matthews");
 		dave.put("email", "dave@dmband.com");
-		dave.put("addresses", addresses);
+		dave.put("a", addresses);
 
 		customers.insert(dave);
 
@@ -71,19 +76,19 @@ public abstract class AbstractIntegrationTest {
 		DBCollection products = database.getCollection("product");
 		products.drop();
 
-		DBObject iPad = new BasicDBObject("name", "iPad");
-		iPad.put("description", "Apple tablet device");
-		iPad.put("price", 499.0);
-		iPad.put("attributes", new BasicDBObject("connector", "plug"));
+		DBObject iPad = new BasicDBObject("n", "iPad");
+		iPad.put("d", "Apple tablet device");
+		iPad.put("p", 499.0);
+		iPad.put("a", new BasicDBObject("connector", "plug"));
 
-		DBObject macBook = new BasicDBObject("name", "MacBook Pro");
-		macBook.put("description", "Apple notebook");
-		macBook.put("price", 1299.0);
+		DBObject macBook = new BasicDBObject("n", "MacBook Pro");
+		macBook.put("d", "Apple notebook");
+		macBook.put("p", 1299.0);
 
-		BasicDBObject dock = new BasicDBObject("name", "Dock");
-		dock.put("description", "Dock for iPhone/iPad");
-		dock.put("price", 49.0);
-		dock.put("attributes", new BasicDBObject("connector", "plug"));
+		BasicDBObject dock = new BasicDBObject("n", "Dock");
+		dock.put("d", "Dock for iPhone/iPad");
+		dock.put("p", 49.0);
+		dock.put("a", new BasicDBObject("connector", "plug"));
 
 		products.insert(iPad, macBook, dock);
 
@@ -94,19 +99,19 @@ public abstract class AbstractIntegrationTest {
 
 		// Line items
 
-		DBObject iPadLineItem = new BasicDBObject("product", iPad);
-		iPadLineItem.put("amount", 2);
+		DBObject iPadLineItem = new BasicDBObject("p", iPad);
+		iPadLineItem.put("a", 2);
 
-		DBObject macBookLineItem = new BasicDBObject("product", macBook);
-		macBookLineItem.put("amount", 1);
+		DBObject macBookLineItem = new BasicDBObject("p", macBook);
+		macBookLineItem.put("a", 1);
 
 		BasicDBList lineItems = new BasicDBList();
 		lineItems.add(iPadLineItem);
 		lineItems.add(macBookLineItem);
 
-		DBObject order = new BasicDBObject("customer", new DBRef(database, "customer", dave.get("_id")));
-		order.put("lineItems", lineItems);
-		order.put("shippingAddress", address);
+		DBObject order = new BasicDBObject("c", new DBRef(database, "customer", dave.get("_id")));
+		order.put("li", lineItems);
+		order.put("sa", address);
 
 		orders.insert(order);
 	}

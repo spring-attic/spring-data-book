@@ -39,8 +39,7 @@ import com.oreilly.springdata.mongodb.AbstractIntegrationTest;
  */
 public class ProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 
-	@Autowired
-	ProductRepository repository;
+	@Autowired ProductRepository repository;
 
 	@Test
 	public void createProduct() {
@@ -67,7 +66,7 @@ public class ProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 	@SuppressWarnings("unchecked")
 	public void findsProductsByAttributes() {
 
-		List<Product> products = repository.findByAttributes("attributes.connector", "plug");
+		List<Product> products = repository.findByAttributes("a.connector", "plug");
 
 		assertThat(products, Matchers.<Product> hasItems(named("Dock")));
 	}

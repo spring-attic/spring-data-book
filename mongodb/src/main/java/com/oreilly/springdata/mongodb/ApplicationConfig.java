@@ -20,6 +20,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -42,8 +43,7 @@ import com.mongodb.WriteConcern;
 @EnableMongoRepositories
 class ApplicationConfig extends AbstractMongoConfiguration {
 
-	@Autowired
-	private List<Converter<?, ?>> converters;
+	@Autowired private List<Converter<?, ?>> converters;
 
 	/* 
 	 * (non-Javadoc)
@@ -58,6 +58,7 @@ class ApplicationConfig extends AbstractMongoConfiguration {
 	 * (non-Javadoc)
 	 * @see org.springframework.data.mongodb.config.AbstractMongoConfiguration#mongo()
 	 */
+	@Bean
 	@Override
 	public Mongo mongo() throws Exception {
 
@@ -74,5 +75,14 @@ class ApplicationConfig extends AbstractMongoConfiguration {
 	@Override
 	public CustomConversions customConversions() {
 		return new CustomConversions(converters);
+	}
+
+	/* 
+	 * (non-Javadoc)
+	 * @see org.springframework.data.mongodb.config.AbstractMongoConfiguration#abbreviateFieldNames()
+	 */
+	@Override
+	protected boolean abbreviateFieldNames() {
+		return true;
 	}
 }

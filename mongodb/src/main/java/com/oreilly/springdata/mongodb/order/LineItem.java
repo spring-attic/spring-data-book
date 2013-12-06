@@ -18,6 +18,7 @@ package com.oreilly.springdata.mongodb.order;
 import java.math.BigDecimal;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.util.Assert;
 
 import com.oreilly.springdata.mongodb.core.AbstractDocument;
@@ -30,6 +31,7 @@ public class LineItem extends AbstractDocument {
 
 	@DBRef
 	private Product product;
+	@Field("price")
 	private BigDecimal price;
 	private int amount;
 
