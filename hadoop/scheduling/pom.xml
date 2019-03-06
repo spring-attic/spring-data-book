@@ -62,7 +62,7 @@
 	<repositories>
 		<repository>
 			<id>spring-milestone</id>
-			<url>http://repo.springsource.org/libs-milestone</url>
+			<url>https://repo.springsource.org/libs-milestone</url>
 		</repository>
 	</repositories>
 

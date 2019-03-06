@@ -49,7 +49,7 @@
 	<repositories>
 		<repository>
 			<id>spring-milestones</id>
-			<url>http://repo.springsource.org/libs-milestone</url>
+			<url>https://repo.springsource.org/libs-milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>

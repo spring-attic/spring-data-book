@@ -100,7 +100,7 @@
 	<repositories>
 		<repository>
 			<id>neo4j-public-release-repository</id>
-			<url>http://m2.neo4j.org/releases</url>
+			<url>https://m2.neo4j.org/releases</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
