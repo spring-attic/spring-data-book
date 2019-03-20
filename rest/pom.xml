@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	
@@ -120,7 +120,7 @@
 	<repositories>
 		<repository>
 			<id>spring-libs-milestone</id>
-			<url>http://repo.springsource.org/libs-milestone</url>
+			<url>https://repo.springsource.org/libs-milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
