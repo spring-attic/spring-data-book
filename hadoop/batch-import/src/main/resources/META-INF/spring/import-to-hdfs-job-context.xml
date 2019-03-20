@@ -4,10 +4,10 @@
 	xmlns:batch="http://www.springframework.org/schema/batch"
 	xmlns:hdp="http://www.springframework.org/schema/hadoop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	https://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/batch 
-	http://www.springframework.org/schema/batch/spring-batch-2.1.xsd
-	http://www.springframework.org/schema/hadoop http://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
+	https://www.springframework.org/schema/batch/spring-batch-2.1.xsd
+	http://www.springframework.org/schema/hadoop https://www.springframework.org/schema/hadoop/spring-hadoop.xsd">
 	
 	<job id="importProducts" xmlns="http://www.springframework.org/schema/batch">
 		<step id="readWriteProducts">
