@@ -37,13 +37,13 @@ public class Customer extends AbstractEntity {
 
 	public Customer(String firstName, String lastName, String emailAddress) {
 
-        Assert.hasText(firstName);
+		Assert.hasText(firstName);
 		Assert.hasText(lastName);
 		Assert.hasText(emailAddress);
 
 		this.firstName = firstName;
 		this.lastName = lastName;
-        this.emailAddress = emailAddress;
+		this.emailAddress = emailAddress;
 	}
 
 	protected Customer() {
@@ -78,12 +78,12 @@ public class Customer extends AbstractEntity {
 		return Collections.unmodifiableSet(addresses);
 	}
 
-    public boolean hasAddress(Address address) {
-        return addresses.contains(address);
-    }
+	public boolean hasAddress(Address address) {
+		return addresses.contains(address);
+	}
 
-    @Override
-    public String toString() {
-        return String.format("%s %s <%s>",firstName,lastName,emailAddress);
-    }
+	@Override
+	public String toString() {
+		return String.format("%s %s <%s>", firstName, lastName, emailAddress);
+	}
 }
