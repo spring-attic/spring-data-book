@@ -18,7 +18,6 @@ package com.oreilly.springdata.mongodb.core;
 import static org.springframework.data.mongodb.core.query.Criteria.*;
 import static org.springframework.data.mongodb.core.query.Query.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
@@ -41,7 +40,6 @@ class MongoDbCustomerRepository implements CustomerRepository {
 	 * 
 	 * @param operations must not be {@literal null}.
 	 */
-	@Autowired
 	public MongoDbCustomerRepository(MongoOperations operations) {
 
 		Assert.notNull(operations);

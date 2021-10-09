@@ -3,7 +3,6 @@ package com.oreilly.springdata.hadoop.hive;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.hadoop.hive.HiveOperations;
 import org.springframework.stereotype.Repository;
@@ -15,7 +14,6 @@ public class HiveTemplatePasswordRepository implements PasswordRepository {
 	
 	private HiveOperations hiveOperations;
 	
-	@Autowired
 	public HiveTemplatePasswordRepository(HiveOperations hiveOperations) {
 		this.hiveOperations = hiveOperations;
 	}

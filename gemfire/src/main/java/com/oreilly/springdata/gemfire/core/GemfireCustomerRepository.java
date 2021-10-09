@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.gemfire.GemfireTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -44,7 +43,6 @@ class GemfireCustomerRepository implements CustomerRepository {
 	 * 
 	 * @param template must not be {@literal null}.
 	 */
-	@Autowired
 	public GemfireCustomerRepository(GemfireTemplate template) {
 
 		Assert.notNull(template);
