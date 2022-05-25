@@ -11,7 +11,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>3.2.1.RELEASE</spring.version>
+		<spring.version>5.2.22.RELEASE</spring.version>
 		<slf4j.version>1.7.1</slf4j.version>
 		<logback.version>1.0.6</logback.version>
 		<querydsl.version>2.9.0</querydsl.version>
